@@ -6,12 +6,18 @@ set -euo pipefail
 # publication, but for a small blog it's a bit of a pain. This script automatically sets up the
 # current repo for theme development, pulls data from a production environment and starts the
 # server.
+#
+# This script relies on the following environment variables
+#
+# * GHOST_NAME: The name of the Ghost user.
+# * GHOST_EMAIL: The email of the Ghost user.
+# * GHOST_PASSWORD: The password of the Ghost user.
 
 PACKAGE_NAME=$(jq -r .name package.json)
 
 # Tear down and wipe out an old installation of Ghost
 # TODO: Determine if this step is necessary.
-ghost stop --dir ghost &>/dev/null
+ghost stop --dir ghost &>/dev/null || true
 rm -rf ghost
 
 # Install Ghost
@@ -30,3 +36,36 @@ echo "🎬 Staring Local Ghost Server"
 echo
 
 ghost start --dir ghost
+sleep 5
+
+# HACK: This is a hack to set up the Ghost site for local development so I don't have to every time.
+# This is reliant on internal Ghost APIs, so it could break at any time.
+echo
+echo "👩 Create the Admin User"
+echo
+
+curl http://localhost:2368/ghost/api/v2/admin/authentication/setup/ \
+  --silent \
+  --header "Content-Type: application/json" \
+  --header "Origin: http://localhost:2368" \
+  --data "{
+    \"setup\": [
+      {
+        \"blogTitle\": \"Landon Schropp\",
+        \"email\": \"$GHOST_EMAIL\",
+        \"name\": \"$GHOST_NAME\",
+        \"password\": \"$GHOST_PASSWORD\"
+      }
+    ]
+  }" \
+  | jq
+
+# Link the current package as a theme
+echo
+echo "🔗 Linking Local Theme"
+echo
+ln -s build "ghost/content/themes/$PACKAGE_NAME"
+sqlite3 ghost/content/data/ghost-local.db \
+  "UPDATE settings SET VALUE='$PACKAGE_NAME' WHERE key = 'active_theme';"
+
+echo "👍 Done!"
