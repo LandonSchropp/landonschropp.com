@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Out of the box, Ghost expects you to manually set up your site. This might make sense for a big
+# publication, but for a small blog it's a bit of a pain. This script automatically sets up the
+# current repo for theme development, pulls data from a production environment and starts the
+# server.
+
+PACKAGE_NAME=$(jq -r .name package.json)
+
+# Tear down and wipe out an old installation of Ghost
+# TODO: Determine if this step is necessary.
+ghost stop --dir ghost &>/dev/null
+rm -rf ghost
+
+# Install Ghost
+echo "👻 Installing Ghost"
+echo
+
+# TODO: Remove the latest version of Ghost and use whatever is in the package.json file.
+ghost install local --dir ghost --no-start
+
+# TODO: Set up a user automatically.
+# TODO: Pull down the production posts into the local DB.
+
+# Start up the server
+echo
+echo "🎬 Staring Local Ghost Server"
+echo
+
+ghost start --dir ghost

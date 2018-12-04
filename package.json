@@ -1,5 +1,5 @@
 {
-  "name": "landonschropp.com",
+  "name": "landon-schropp",
   "description": "My personal website",
   "repository": "https://github.com/LandonSchropp/landonschropp.com",
   "author": "Landon Schropp <schroppl@gmail.com>",
@@ -17,6 +17,7 @@
     "@landonschropp/eslint-config": "^0.4.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.7.0",
+    "ghost-cli": "^1.9.8",
     "sass": "^1.14.2"
   }
 }
