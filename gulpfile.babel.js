@@ -1,6 +1,9 @@
 // Ensure the proper environment variables are provided
-if (!process.env.URL || !process.env.NODE_ENV || !process.env.PORT) {
-  process.stderr.write("You must provide NODE_ENV, PORT and URL environments variables.");
+if (!process.env.URL || !process.env.NODE_ENV || !process.env.PORT || !process.env.EMBEDLY_KEY) {
+  process.stderr.write(
+    "You must provide NODE_ENV, PORT, URL and EMBEDLY_KEY environments variables."
+  );
+
   process.exit(1);
 }
 
