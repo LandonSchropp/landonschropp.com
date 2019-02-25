@@ -5,6 +5,10 @@
 {% block content %}
   <article class="note">
 
+    {% if embedURL %}
+      {% embedly embedURL %}
+    {% endif %}
+
     <header class="note__header header">
       <h1 class="header__header">
         <a class="header__link" href="{{ link }}">{{ title }}</a>
@@ -15,9 +19,25 @@
       {% endif %}
     </header>
 
-    {% if embedURL %}
-      {% embedly embedURL %}
-    {% endif %}
+    <aside class="disclaimer">
+      These are my personal notes from
+
+      {% if link %}
+        <a href="{{ link }}">{{ title }}</a>,
+      {% else%}
+        {{ title }},
+      {% endif %}
+
+      {% if type == "liveTalk" %}
+        a talk
+        {% if author %}by {{ author }}{% endif %}
+        I attended at {{ location }}.
+      {% elif type == "podcast" %}
+        an episode of {{ site }}, a podcast by {{ author }}.
+      {% else %}
+        a {{ type }} by {{ author }}.
+      {% endif %}
+    </aside>
 
     <section class="note__content">
       {{ content | safe }}
