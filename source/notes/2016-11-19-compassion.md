@@ -1,7 +1,7 @@
 ---
 title: Compassion
 author: Tim Dawes
-type: live_talk
+type: liveTalk
 location: TEDxSeattle
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: Biophilia and Our Environment
 author: Scott Wyatt
-type: live_talk
+type: liveTalk
 location: TEDxSeattle
 ---
 

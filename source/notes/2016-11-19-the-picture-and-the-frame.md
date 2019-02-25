@@ -1,7 +1,7 @@
 ---
 title: The Picture and the Frame
 author: Nikkita Oliver
-type: live_talk
+type: liveTalk
 location: TEDxSeattle
 ---
 

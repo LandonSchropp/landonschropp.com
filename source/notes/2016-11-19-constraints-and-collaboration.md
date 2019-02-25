@@ -1,7 +1,7 @@
 ---
 title: Collaboration and Constraints
 author: Alexis Kaushansky
-type: live_talk
+type: liveTalk
 location: TEDxSeattle
 ---
 

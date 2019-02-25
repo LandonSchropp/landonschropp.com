@@ -1,7 +1,7 @@
 ---
 title: Is AI Good or Evil?
 author: Oren Etzioni
-type: live_talk
+type: liveTalk
 location: TEDxSeattle
 ---
 

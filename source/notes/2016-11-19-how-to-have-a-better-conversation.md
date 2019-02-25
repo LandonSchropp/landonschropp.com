@@ -1,7 +1,7 @@
 ---
 title: How to Have a Better Conversation
 author: Celeste Headlee
-type: live_talk
+type: liveTalk
 location: TEDxSeattle
 ---
 

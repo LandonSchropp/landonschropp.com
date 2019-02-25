@@ -1,6 +1,6 @@
 ---
 title: A Fireside Chat with Scott Svenson
-type: live_talk
+type: liveTalk
 location: Startup Grind Seattle
 ---
 
