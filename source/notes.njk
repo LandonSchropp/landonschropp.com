@@ -16,7 +16,7 @@
   </header>
 
   <section class="note-cards">
-    {% for note in collections.note | reverse %}
+    {% for note in collections.notes | reverse %}
       <a class="note-card" href="{{ note.url }}">
         <h2 class="note-card__title">
           {{ note.data.title }}
