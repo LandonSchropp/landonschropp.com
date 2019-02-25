@@ -1,6 +1,7 @@
 ---
 title: The Overton Window and How Creative Business Ideas Arise
 link: https://taylorpearson.me/overton/
+site: taylorpearson.me
 author: Taylor Pearson
 type: article
 ---

@@ -1,6 +1,8 @@
 ---
 title: The Top Three Ways People Fail (and How to Avoid Them)
+link: https://taylorpearson.me/archive/
 author: Taylor Pearson
+site: taylorpearson.me
 type: article
 ---
 
