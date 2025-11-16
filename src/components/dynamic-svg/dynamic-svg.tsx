@@ -63,7 +63,7 @@ export function DynamicSVG({ children }: DynamicSVGProps) {
             width={patternSize}
             height={patternSize}
           >
-            <image href={flannel.src} x={0} y={0} width={patternSize} height={patternSize} />
+            <image href={flannel} x={0} y={0} width={patternSize} height={patternSize} />
           </pattern>
         </defs>
 

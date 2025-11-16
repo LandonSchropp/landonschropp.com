@@ -1,8 +1,11 @@
-"use client";
-
 import { DynamicSVG } from "@/components/dynamic-svg";
 import { NAME } from "@/constants";
 import * as DATA from "@/data/svg";
+import { createFileRoute } from "@tanstack/react-router";
+
+export const Route = createFileRoute("/")({
+  component: IndexPage,
+});
 
 const NARROW_SPACING = 0.3;
 const MEDIUM_SPACING = 0.4;
