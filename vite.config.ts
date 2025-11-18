@@ -3,6 +3,7 @@ import { devtools } from "@tanstack/devtools-vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
+import svgr from "vite-plugin-svgr";
 import viteTsConfigPaths from "vite-tsconfig-paths";
 
 const PATHS_TO_PRERENDER: RegExp[] = [/^\/$/];
@@ -24,5 +25,19 @@ export default defineConfig({
     }),
     viteReact(),
     tailwindcss(),
+    svgr({
+      svgrOptions: {
+        svgoConfig: {
+          plugins: [
+            "cleanupIds",
+            "removeDimensions",
+            {
+              name: "removeAttrs",
+              params: { attrs: "(stroke|fill|stroke-width)" },
+            },
+          ],
+        },
+      },
+    }),
   ],
 });
