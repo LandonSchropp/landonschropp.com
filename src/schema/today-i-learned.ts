@@ -1,24 +1,7 @@
 import { ContentSchema } from "./content";
-import { TechnologySchema } from "./enums";
-import { TYPESCRIPT_TECHNOLOGY } from "@/constants";
 import { z } from "zod";
 
-function preprocessTechnology(technology: unknown) {
-  if (typeof technology !== "string") {
-    return technology;
-  }
-
-  switch (technology) {
-    case "JavaScript":
-      return TYPESCRIPT_TECHNOLOGY;
-    default:
-      return technology;
-  }
-}
-
-export const TodayILearnedSchema = ContentSchema.extend({
-  technology: z.preprocess(preprocessTechnology, TechnologySchema),
-});
+export const TodayILearnedSchema = ContentSchema;
 
 /**
  * Parses the provided value as a today I learned (TIL).

@@ -8,7 +8,8 @@ export const ContentSchema = z.object({
   title: z.string(),
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   date: z.string().date(),
-  published: z.boolean(),
+  status: z.enum(["Idea", "Draft", "Published", "Will Not Publish"]),
+  tags: z.array(z.string()),
   markdown: MarkdownSchema,
   filePath: z.string(),
 });
