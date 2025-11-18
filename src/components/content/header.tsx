@@ -1,4 +1,3 @@
-import { GenericTagComponent } from "./tag";
 import type { ReactNode } from "react";
 import { isNullish } from "remeda";
 
@@ -19,45 +18,15 @@ function HeaderLink({ children, href }: HeaderLinkProps) {
   );
 }
 
-type HeaderTagProps<T extends string> = {
-  tag?: T | undefined;
-  href?: string | undefined;
-  component?: GenericTagComponent<T>;
-};
-
-function HeaderTag<T extends string>({ tag, href, component: TagComponent }: HeaderTagProps<T>) {
-  if (!tag || !href || !TagComponent) {
-    return null;
-  }
-
-  return (
-    <div className="mb-2 mt-3 text-sm text-theme-accent">
-      <TagComponent value={tag} href={href} />
-    </div>
-  );
-}
-
-type HeaderProps<T extends string> = {
+type HeaderProps = {
   children?: ReactNode;
   superText?: ReactNode;
   title: ReactNode;
   subText: ReactNode;
   href?: string | undefined;
-  tag?: T | undefined;
-  tagHref?: string | undefined;
-  tagComponent?: GenericTagComponent<T>;
 };
 
-export function Header<T extends string>({
-  children,
-  superText,
-  title,
-  href,
-  subText,
-  tag,
-  tagHref,
-  tagComponent,
-}: HeaderProps<T>) {
+export function Header({ children, superText, title, href, subText }: HeaderProps) {
   const superSubClassName =
     "mx-auto my-1 m-width[50ch] text-base font-normal font-serif italic text-theme-lightText [&_a]:underline";
 
@@ -72,7 +41,6 @@ export function Header<T extends string>({
       <div className={`my-2 block ${superSubClassName}`} data-test-id="sub-text">
         {subText}
       </div>
-      <HeaderTag tag={tag} href={tagHref} component={tagComponent} />
 
       {children}
     </header>

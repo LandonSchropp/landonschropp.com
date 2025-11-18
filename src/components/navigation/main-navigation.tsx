@@ -2,7 +2,6 @@
 
 import { Icon } from "../base/icon";
 import { NAME } from "@/constants";
-import { useIsClient } from "@/hooks/use-is-client";
 import { usePathname } from "next/navigation";
 
 type LinkProps = {
@@ -11,15 +10,8 @@ type LinkProps = {
   icon?: boolean;
 };
 
-function isCurrent(pathname: string | null, href: string, client: boolean) {
+function isCurrent(pathname: string | null, href: string): boolean {
   if (pathname === null) return false;
-
-  // HACK: Next.js does not allow us to pass static data from a child page to a root template or
-  // layout. This means we can't easily set the category when the page defines one. On most pages
-  // this is fine, but on note pages it causes an issue where the category "flashes" the wrong
-  // color, which is noticeable to the user. To make this less prominant, we'll never set current on
-  // the server.
-  if (!client) return false;
 
   if (href === "/") {
     return href === pathname;
@@ -30,18 +22,18 @@ function isCurrent(pathname: string | null, href: string, client: boolean) {
 
 function Link({ href, children, icon = false }: LinkProps) {
   const pathname = usePathname();
-  const client = useIsClient();
 
   const className = icon ? "hocus:text-theme-accent" : "font-sans text-theme-lightText ";
 
-  const shocusClassName =
-    client && !icon ? "shocus:shadow-[0_3px] shadow-theme-accent shocus:text-theme-accent" : "";
+  const shocusClassName = !icon
+    ? "shocus:shadow-[0_3px] shadow-theme-accent shocus:text-theme-accent"
+    : "";
 
   return (
     <a
       className={`mx-2 block text-inherit transition-all duration-75 ease-in ${className} ${shocusClassName}`}
       href={href}
-      {...(isCurrent(pathname, href, client) && { "aria-current": "page" })}
+      {...(isCurrent(pathname, href) && { "aria-current": "page" })}
     >
       {children}
     </a>
@@ -50,7 +42,7 @@ function Link({ href, children, icon = false }: LinkProps) {
 
 export function MainNavigation() {
   return (
-    <nav className="my-3 flex gap-3 px-2 text-sm text-theme-extraLightText lg:justify-between max-lg:flex-col">
+    <nav className="text-theme-extraLightText my-3 flex gap-3 px-2 text-sm max-lg:flex-col lg:justify-between">
       <div className="flex justify-center">
         <Link href="/">
           <span className="max-md:hidden">{NAME}</span>

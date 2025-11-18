@@ -1,16 +1,3 @@
-import {
-  BUSINESS_CATEGORY,
-  DEVELOPMENT_CATEGORY,
-  PSYCHOLOGY_CATEGORY,
-  OTHER_CATEGORY,
-  RUBY_TECHNOLOGY,
-  GIT_TECHNOLOGY,
-  HEALTH_CATEGORY,
-  NEOVIM_TECHNOLOGY,
-  SHELL_TECHNOLOGY,
-  TYPESCRIPT_TECHNOLOGY,
-} from "./src/constants";
-import camelCase from "camelcase";
 import { mapValues } from "remeda";
 import type { Config } from "tailwindcss";
 // @ts-expect-error The tailwind-theme-swapper library is not written in TypeScript.
@@ -78,22 +65,6 @@ const TAILWIND_CONFIG = {
   },
 } satisfies Config;
 
-const CATEGORY_COLORS = {
-  [BUSINESS_CATEGORY]: TAILWIND_CONFIG.theme.colors.cornflower,
-  [DEVELOPMENT_CATEGORY]: TAILWIND_CONFIG.theme.colors.purple,
-  [PSYCHOLOGY_CATEGORY]: TAILWIND_CONFIG.theme.colors.amethyst,
-  [HEALTH_CATEGORY]: TAILWIND_CONFIG.theme.colors.mulberry,
-  [OTHER_CATEGORY]: TAILWIND_CONFIG.theme.colors.bittersweet,
-} as const;
-
-const TECHNOLOGY_COLORS = {
-  [TYPESCRIPT_TECHNOLOGY]: TAILWIND_CONFIG.theme.colors.cornflower,
-  [RUBY_TECHNOLOGY]: TAILWIND_CONFIG.theme.colors.purple,
-  [GIT_TECHNOLOGY]: TAILWIND_CONFIG.theme.colors.amethyst,
-  [NEOVIM_TECHNOLOGY]: TAILWIND_CONFIG.theme.colors.mulberry,
-  [SHELL_TECHNOLOGY]: TAILWIND_CONFIG.theme.colors.bittersweet,
-} as const;
-
 const HOCUS_SELECTORS = ["&:hover", "&:focus-visible"];
 const SELECTED_SELECTORS = ["&[aria-checked='true']", "&[aria-current='page']"];
 
@@ -141,28 +112,6 @@ export default {
             },
           },
         },
-        ...Object.entries(CATEGORY_COLORS).map(([category, color]) => ({
-          name: camelCase(category),
-          selectors: [`[data-category="${category}"]`],
-          theme: {
-            colors: {
-              theme: {
-                accent: color,
-              },
-            },
-          },
-        })),
-        ...Object.entries(TECHNOLOGY_COLORS).map(([technology, color]) => ({
-          name: camelCase(technology),
-          selectors: [`[data-technology="${technology}"]`],
-          theme: {
-            colors: {
-              theme: {
-                accent: color,
-              },
-            },
-          },
-        })),
       ],
     }),
   ],
