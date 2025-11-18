@@ -1,3 +1,4 @@
+import { UnknownContent } from "@/types";
 import { z } from "zod";
 
 const MarkdownSchema = z
@@ -13,3 +14,13 @@ export const ContentSchema = z.object({
   markdown: MarkdownSchema,
   filePath: z.string(),
 });
+
+/**
+ * Parses the provided value as content, passing through unknown properties.
+ * @param value The value to parse.
+ * @returns The parsed today I learned.
+ * @throws If the value does not match the schema.
+ */
+export function parseUnknownContent(value: unknown): UnknownContent {
+  return ContentSchema.passthrough().parse(value);
+}

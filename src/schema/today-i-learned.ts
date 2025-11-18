@@ -1,5 +1,5 @@
 import { ContentSchema } from "./content";
-import { z } from "zod";
+import { TodayILearned } from "@/types";
 
 export const TodayILearnedSchema = ContentSchema;
 
@@ -9,6 +9,6 @@ export const TodayILearnedSchema = ContentSchema;
  * @returns The parsed today I learned.
  * @throws If the value does not match the schema.
  */
-export function parseTodayILearned(value: unknown): z.infer<typeof TodayILearnedSchema> {
+export function parseTodayILearned(value: unknown): TodayILearned {
   return TodayILearnedSchema.parse(value);
 }
