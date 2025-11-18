@@ -1,12 +1,10 @@
-import { Content } from "@/types";
+import { parseUnknownContent } from "@/schema";
+import { Content, UnknownContent } from "@/types";
 import { parseFrontmatter } from "@/utilities/frontmatter";
 import { getMarkdownImageSourcePaths } from "@/utilities/markdown";
 import { readFile } from "fs/promises";
 import { glob } from "glob";
 import { basename, join, relative } from "path";
-
-/** An object containing the raw metadata and markdown of a parsed content file. */
-export type UnknownContent = Record<string, unknown>;
 
 /**
  * Fetches the content of a file and parses it.
@@ -23,13 +21,13 @@ async function fetchAndParseContent(
 
   const [frontMatter, markdown] = parseFrontmatter(filePath, fileContent);
 
-  return {
+  return parseUnknownContent({
     ...frontMatter,
     markdown: markdown.trim(),
     category: pathParts.length > 1 ? pathParts[0] : frontMatter.category,
     title: "title" in frontMatter ? frontMatter.title : basename(filePath, ".md"),
     filePath,
-  };
+  });
 }
 
 /**
@@ -41,35 +39,11 @@ export async function fetchContents(path: string): Promise<UnknownContent[]> {
   // Find all of the markdown files in the provided path.
   const files = await glob(join(path, "**/*.md"));
 
-  // Fetch and parse all of the contents in the given directory.
-  let contents = await Promise.all(
-    files.map((filePath) => {
-      return fetchAndParseContent(path, filePath);
-    }),
-  );
-
-  // Filter out unpublished content
-  contents = contents.filter((content) => {
-    return "published" in content && typeof content.published === "boolean" && content.published;
-  });
-
-  // Sort the contents by date (if present). This is a bit tricky, because we haven't actually
-  // parsed the dates yet. However, we can still rely on a sorting the date strings.
-  return contents.toSorted((first, second) => {
-    // If the date property is not present, the content will fail validation down the line so the
-    // sorting doesn't matter.
-    if (
-      !("date" in first) ||
-      !("date" in second) ||
-      typeof first.date !== "string" ||
-      typeof second.date !== "string"
-    ) {
-      return 0;
-    }
-
-    // Sort the dates in descending order.
-    return second.date.localeCompare(first.date);
-  });
+  // Fetch and parse all of the contents in the given directory, filter out unpublished content, and
+  // sort the contents by date in descending order.
+  return (await Promise.all(files.map((filePath) => fetchAndParseContent(path, filePath))))
+    .filter((content) => content.status === "Published")
+    .toSorted((first, second) => second.date.localeCompare(first.date));
 }
 
 /**
