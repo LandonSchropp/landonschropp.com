@@ -1,8 +1,6 @@
-"use client";
-
 import { Icon } from "../base/icon";
 import { NAME } from "@/constants";
-import { usePathname } from "next/navigation";
+import { useLocation } from "@tanstack/react-router";
 
 type LinkProps = {
   href: string;
@@ -10,9 +8,7 @@ type LinkProps = {
   icon?: boolean;
 };
 
-function isCurrent(pathname: string | null, href: string): boolean {
-  if (pathname === null) return false;
-
+function isCurrent(pathname: string, href: string): boolean {
   if (href === "/") {
     return href === pathname;
   }
@@ -21,7 +17,7 @@ function isCurrent(pathname: string | null, href: string): boolean {
 }
 
 function Link({ href, children, icon = false }: LinkProps) {
-  const pathname = usePathname();
+  const { pathname } = useLocation();
 
   const className = icon ? "hocus:text-theme-accent" : "font-sans text-theme-lightText ";
 
