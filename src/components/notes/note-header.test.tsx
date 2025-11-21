@@ -23,12 +23,13 @@ describe("NoteHeader", () => {
       category: BUSINESS_CATEGORY,
       media: ARTICLE_MEDIA,
       date: "1988-10-05",
-      published: true,
+      status: "Published",
       slug: "slug",
       source: "Source",
       url: "https://example.com",
       markdown: "",
       filePath: "note.md",
+      tags: [],
     };
   });
 
