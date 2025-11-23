@@ -2,6 +2,8 @@ import { Icon } from "../base/icon";
 import { NAME } from "@/constants";
 import { useLocation } from "@tanstack/react-router";
 
+const ICON_CLASS_NAME = "h-[--spacing(3.6)]";
+
 type LinkProps = {
   href: string;
   children: React.ReactNode;
@@ -56,19 +58,19 @@ export function MainNavigation() {
       </div>
       <div className="flex justify-center">
         <Link href="https://github.com/LandonSchropp" icon>
-          <Icon className="h-3.6" name="github" alt="GitHub" />
+          <Icon className={ICON_CLASS_NAME} name="github" alt="GitHub" />
         </Link>
 
         <Link href="https://www.chess.com/member/landon" icon>
-          <Icon className="h-3.6" name="chessCom" alt="Chess.com" />
+          <Icon className={ICON_CLASS_NAME} name="chessCom" alt="Chess.com" />
         </Link>
 
         <Link href="https://www.linkedin.com/in/landonschropp" icon>
-          <Icon className="h-3.6" name="linkedin" alt="LinkedIn" />
+          <Icon className={ICON_CLASS_NAME} name="linkedin" alt="LinkedIn" />
         </Link>
 
         <Link href="mailto:schroppl@gmail.com" icon>
-          <Icon className="h-3.6" name="email" alt="Email" />
+          <Icon className={ICON_CLASS_NAME} name="email" alt="Email" />
         </Link>
       </div>
     </nav>

@@ -131,9 +131,6 @@ importers:
       tailwindcss:
         specifier: ^4.1.17
         version: 4.1.17
-      tailwindcss-theme-swapper:
-        specifier: ^0.12.0
-        version: 0.12.0(tailwindcss@4.1.17)
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -4493,11 +4490,6 @@ packages:
   synckit@0.11.11:
     resolution: {integrity: sha512-MeQTA1r0litLUf0Rp/iisCaL8761lKAZHaimlbGK4j0HysC4PLfqygQj9srcs0m2RdtDYnF8UuYyKpbjHYp7Jw==}
     engines: {node: ^14.18.0 || >=16.0.0}
-
-  tailwindcss-theme-swapper@0.12.0:
-    resolution: {integrity: sha512-0BoDM27BZ9kSoVut7MwUe8+ECyvFIdIAIvAuhdtvEiEIUpzz9bCku3eaHRzeWqQxd3plmC2PSgGcXw8J35qYpg==}
-    peerDependencies:
-      tailwindcss: '>=3.0.0 || insiders'
 
   tailwindcss@4.1.17:
     resolution: {integrity: sha512-j9Ee2YjuQqYT9bbRTfTZht9W/ytp5H+jJpZKiYdP/bpnXARAuELt9ofP0lPnmHjbga7SNQIxdTAXCmtKVYjN+Q==}
@@ -9865,10 +9857,6 @@ snapshots:
   synckit@0.11.11:
     dependencies:
       '@pkgr/core': 0.2.9
-
-  tailwindcss-theme-swapper@0.12.0(tailwindcss@4.1.17):
-    dependencies:
-      tailwindcss: 4.1.17
 
   tailwindcss@4.1.17: {}
 

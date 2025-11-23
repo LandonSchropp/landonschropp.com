@@ -1,1 +1,79 @@
 @import "tailwindcss";
+
+@theme {
+  --spacing: 0.3125rem;
+
+  --breakpoint-md: 420px;
+  --breakpoint-lg: 960px;
+  --breakpoint-xl: 1280px;
+
+  --font-sans: "Open Sans", sans-serif;
+  --font-serif: "Gentium Book Plus", serif;
+  --font-mono: "Source Code Pro", monospace;
+
+  --color-inherit: inherit;
+  --color-blackOut: #1b1c21;
+  --color-mineShaft: #292b33;
+  --color-emperor: #484a54;
+  --color-gray: #81838f;
+  --color-greatFalls: #a1a4b3;
+  --color-cerebral: #bec1cc;
+  --color-steam: #d3d5de;
+  --color-bleach: #ebecf2;
+  --color-white: #fff;
+  --color-cornflower: #627ff6;
+  --color-purple: #836fdd;
+  --color-amethyst: #955fc2;
+  --color-mulberry: #ca6399;
+  --color-bittersweet: #ff6d71;
+
+  /* The theme colors default to light mode. */
+  --color-theme-accent: var(--color-cornflower);
+  --color-theme-background: var(--color-white);
+  --color-theme-backgroundHighlight: var(--color-bleach);
+  --color-theme-extraLightText: var(--color-gray);
+  --color-theme-header: var(--color-blackOut);
+  --color-theme-lightText: var(--color-emperor);
+  --color-theme-text: var(--color-mineShaft);
+}
+
+/* Override the theme colors for dark mode. */
+@media (prefers-color-scheme: dark) {
+  :root,
+  :host {
+    --color-theme-background: var(--color-blackOut);
+    --color-theme-backgroundHighlight: var(--color-mineShaft);
+    --color-theme-header: var(--color-white);
+    --color-theme-text: var(--color-bleach);
+    --color-theme-lightText: var(--color-steam);
+    --color-theme-extraLightText: var(--color-greatFalls);
+  }
+}
+
+@custom-variant hocus (&:hover, &:focus-visible);
+@custom-variant selected (&[aria-checked="true"], &[aria-current="page"]);
+@custom-variant shocus (&:hover, &:focus-visible, &[aria-checked="true"], &[aria-current="page"]);
+
+@custom-variant max-md {
+  @media (max-width: 419px) {
+    @slot;
+  }
+}
+
+@custom-variant max-lg {
+  @media (max-width: 959px) {
+    @slot;
+  }
+}
+
+@custom-variant max-xl {
+  @media (max-width: 1279px) {
+    @slot;
+  }
+}
+
+@custom-variant portrait {
+  @media (max-aspect-ratio: 1/1) {
+    @slot;
+  }
+}
