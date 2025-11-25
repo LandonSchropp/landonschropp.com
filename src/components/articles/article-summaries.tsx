@@ -14,15 +14,8 @@ export function ArticleSummaries({ articles }: ArticleSummariesProps) {
       <Header title="Writing" subText="My published articles from all over the web." />
 
       <section>
-        {articles.map((article, index) => {
-          return (
-            <ArticleSummary
-              key={article.slug}
-              article={article}
-              index={index}
-              numberOfArticles={articles.length}
-            />
-          );
+        {articles.map((article) => {
+          return <ArticleSummary key={article.slug} article={article} />;
         })}
       </section>
     </>
