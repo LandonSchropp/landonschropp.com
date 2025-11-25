@@ -1,0 +1,5 @@
+@layer components {
+  .prose img {
+    @apply mx-auto max-w-full;
+  }
+}

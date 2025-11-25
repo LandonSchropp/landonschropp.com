@@ -31,7 +31,7 @@ export function Header({ children, superText, title, href, subText }: HeaderProp
     "mx-auto my-1 m-width[50ch] text-base font-normal font-serif italic text-theme-lightText [&_a]:underline";
 
   return (
-    <header className="my-6 text-center">
+    <header className="prose my-6 text-center">
       <h1 className="my-0">
         <span className={`block ${superSubClassName}`}>{superText}</span>{" "}
         <span className="block">

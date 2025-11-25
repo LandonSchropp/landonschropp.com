@@ -1,0 +1,9 @@
+@layer components {
+  .prose pre {
+    @apply my-4 overflow-x-auto;
+  }
+
+  .prose pre code {
+    @apply block px-1.5 py-1;
+  }
+}

@@ -1,0 +1,13 @@
+@layer components {
+  .prose .callout {
+    @apply bg-theme-backgroundHighlight relative flow-root rounded px-4 last:mb-0;
+  }
+
+  .prose .callout-title {
+    @apply text-theme-header font-sans font-bold;
+  }
+
+  .prose .callout p:nth-of-type(n + 2) {
+    @apply italic;
+  }
+}

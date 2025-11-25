@@ -1,0 +1,5 @@
+@layer components {
+  .prose blockquote {
+    @apply border-theme-accent my-6 border-l-[3px] pl-[calc(--spacing(3)-3px)] italic;
+  }
+}

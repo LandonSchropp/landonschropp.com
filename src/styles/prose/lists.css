@@ -1,0 +1,22 @@
+@layer components {
+  .prose ol,
+  .prose ul {
+    @apply pl-4;
+  }
+
+  .prose ol {
+    @apply list-decimal;
+  }
+
+  .prose ul {
+    @apply list-disc;
+  }
+
+  .prose li {
+    @apply my-2;
+  }
+
+  .prose li::marker {
+    @apply text-theme-accent;
+  }
+}

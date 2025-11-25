@@ -11,5 +11,10 @@ type MarkdownProps = {
  */
 export function Markdown({ markdown, slug }: MarkdownProps) {
   markdown = prefixMarkdownImageSourcePaths(markdown, slug);
-  return <section dangerouslySetInnerHTML={{ __html: convertMarkdownToHtml(markdown) }} />;
+  return (
+    <section
+      className="prose"
+      dangerouslySetInnerHTML={{ __html: convertMarkdownToHtml(markdown) }}
+    />
+  );
 }

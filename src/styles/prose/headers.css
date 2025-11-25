@@ -1,0 +1,24 @@
+@layer components {
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    @apply text-theme-header my-4 font-sans font-bold;
+  }
+
+  .prose h1 {
+    @apply text-xl font-extrabold md:text-3xl;
+  }
+
+  .prose h2 {
+    @apply text-base md:text-xl;
+  }
+
+  .prose h3 {
+    @apply text-base md:text-lg;
+  }
+
+  .prose h4 {
+    @apply text-base;
+  }
+}

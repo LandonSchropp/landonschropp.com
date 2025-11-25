@@ -1,0 +1,5 @@
+@layer components {
+  .prose hr {
+    @apply bg-theme-lightText h-[2px] border-0 opacity-25;
+  }
+}

@@ -1,3 +1,0 @@
-blockquote {
-  @apply my-6 border-l-[3px] border-theme-accent pl-[calc(theme("spacing.3")-3px)] italic;
-}

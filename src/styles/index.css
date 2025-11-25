@@ -77,3 +77,5 @@
     @slot;
   }
 }
+
+@import "./prose/index.css";

@@ -1,0 +1,21 @@
+/* This includes the inline table styles, but the styles for the table wrapper are inline. */
+
+@layer components {
+  .prose table {
+    @apply w-full border-separate border-spacing-0 whitespace-nowrap;
+  }
+
+  .prose th {
+    @apply text-left font-bold;
+  }
+
+  .prose th,
+  .prose td {
+    @apply px-1 leading-8;
+  }
+
+  .prose thead tr th,
+  .prose tbody tr:nth-of-type(even) td {
+    @apply bg-theme-backgroundHighlight first:rounded-l last:rounded-r;
+  }
+}

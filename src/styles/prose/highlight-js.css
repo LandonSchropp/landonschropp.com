@@ -1,0 +1,44 @@
+/* This is my own custom Highlight.js theme based upon the ally-light theme. */
+
+@layer components {
+  .prose .hljs-comment,
+  .prose .hljs-quote {
+    @apply text-gray italic;
+  }
+
+  .prose .hljs-variable,
+  .prose .hljs-template-variable,
+  .prose .hljs-tag,
+  .prose .hljs-name,
+  .prose .hljs-selector-id,
+  .prose .hljs-selector-class,
+  .prose .hljs-regexp,
+  .prose .hljs-deletion,
+  .prose .hljs-string,
+  .prose .hljs-symbol,
+  .prose .hljs-bullet,
+  .prose .hljs-addition,
+  .prose .hljs-number,
+  .prose .hljs-built_in,
+  .prose .hljs-builtin-name,
+  .prose .hljs-literal,
+  .prose .hljs-type,
+  .prose .hljs-params,
+  .prose .hljs-meta,
+  .prose .hljs-link,
+  .prose .hljs-attribute,
+  .prose .hljs-title,
+  .prose .hljs-section,
+  .prose .hljs-keyword,
+  .prose .hljs-selector-tag {
+    @apply text-cornflower text-theme-accent;
+  }
+
+  .prose .hljs-emphasis {
+    font-style: italic;
+  }
+
+  .prose .hljs-strong {
+    font-weight: bold;
+  }
+}

@@ -1,0 +1,5 @@
+@layer components {
+  .prose p {
+    @apply my-4;
+  }
+}
