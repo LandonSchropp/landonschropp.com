@@ -42,16 +42,16 @@ type Parser<T extends UnknownContent> = (value: unknown) => T;
 
 /**
  * Fetches all of the content files.
- * @param path The path from which the content files should be fetched.
+ * @param directory The directory path from which the content files should be fetched.
  * @param parser A parser function to convert the unknown content to the desired type.
  * @returns An array of contents.
  */
 export async function fetchContents<T extends UnknownContent>(
-  path: string,
+  directory: string,
   parser: Parser<T>,
 ): Promise<T[]> {
   // Find all of the markdown files in the provided path.
-  const files = await glob(join(path, "**/*.md"));
+  const files = await glob(join(directory, "**/*.md"));
 
   // Fetch and parse all of the contents in the given directory, filter out unpublished content, and
   // sort the contents by date in descending order.
