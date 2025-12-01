@@ -1,6 +1,3 @@
-import { ContentSchema } from "./content";
-import { CategorySchema, MediaSchema } from "./enums";
-import { parseSchema } from "./parse";
 import {
   APP_MEDIA,
   ARTICLE_MEDIA,
@@ -12,7 +9,10 @@ import {
   PSYCHOLOGY_CATEGORY,
   RECORDED_TALK_MEDIA,
   VIDEO_MEDIA,
-} from "@/constants";
+} from "../constants";
+import { ContentSchema } from "./content";
+import { CategorySchema, MediaSchema } from "./enums";
+import { parseSchema } from "./parse";
 import { z } from "zod";
 
 function preprocessCategory(category: unknown) {

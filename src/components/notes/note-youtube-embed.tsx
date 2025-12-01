@@ -1,5 +1,5 @@
-import { VIDEO_MEDIA } from "@/constants";
-import { Note } from "@/types";
+import { VIDEO_MEDIA } from "../../constants";
+import { Note } from "../../types";
 
 // A relatively simple regex to match YouTube URLs. Taken from here:
 // https://gist.github.com/brunodles/927fd8feaaccdbb9d02b

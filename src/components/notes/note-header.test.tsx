@@ -1,4 +1,3 @@
-import { NoteHeader } from "./note-header";
 import {
   BUSINESS_CATEGORY,
   ARTICLE_MEDIA,
@@ -9,8 +8,9 @@ import {
   VIDEO_MEDIA,
   COURSE_MEDIA,
   APP_MEDIA,
-} from "@/constants";
-import { Note } from "@/types";
+} from "../../constants";
+import { Note } from "../../types";
+import { NoteHeader } from "./note-header";
 import { render, screen } from "@testing-library/react";
 
 describe("NoteHeader", () => {

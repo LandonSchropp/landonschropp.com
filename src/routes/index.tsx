@@ -1,6 +1,6 @@
-import { DynamicSVG } from "@/components/dynamic-svg";
-import { NAME } from "@/constants";
-import * as DATA from "@/data/svg";
+import { DynamicSVG } from "../components/dynamic-svg";
+import { NAME } from "../constants";
+import * as DATA from "../data/svg";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({

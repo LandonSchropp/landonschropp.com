@@ -1,6 +1,6 @@
+import { TODAY_I_LEARNED_PATH } from "../env";
+import { parseTodayILearned } from "../schema";
 import { fetchContent, fetchContents } from "./content";
-import { TODAY_I_LEARNED_PATH } from "@/env";
-import { parseTodayILearned } from "@/schema";
 import { createServerFn } from "@tanstack/react-start";
 import { staticFunctionMiddleware } from "@tanstack/start-static-server-functions";
 import z from "zod";

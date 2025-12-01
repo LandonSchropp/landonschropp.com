@@ -1,8 +1,8 @@
 "use client";
 
-import { ArticleSummary } from "@/components/articles/article-summary";
-import { Header } from "@/components/content/header";
-import type { Article } from "@/types";
+import type { Article } from "../../types";
+import { Header } from "../content/header";
+import { ArticleSummary } from "./article-summary";
 
 type ArticleSummariesProps = {
   articles: Article[];

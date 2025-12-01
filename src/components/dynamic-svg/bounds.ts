@@ -1,4 +1,4 @@
-import { Bounds, BoundedObject } from "@/types";
+import { Bounds, BoundedObject } from "../../types";
 
 /**
  * Translates the object by the given amount.

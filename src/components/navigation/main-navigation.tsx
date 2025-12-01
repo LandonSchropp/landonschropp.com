@@ -1,5 +1,5 @@
+import { NAME } from "../../constants";
 import { Icon } from "../base/icon";
-import { NAME } from "@/constants";
 import { useLocation } from "@tanstack/react-router";
 
 const ICON_CLASS_NAME = "h-[--spacing(3.6)]";

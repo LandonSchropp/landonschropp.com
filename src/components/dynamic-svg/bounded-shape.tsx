@@ -1,4 +1,4 @@
-import { BoundedDynamicSVGShape } from "@/types";
+import { BoundedDynamicSVGShape } from "../../types";
 
 type BoundedShapeProps = {
   /** The bounded shape to display. */

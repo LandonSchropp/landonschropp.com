@@ -1,4 +1,4 @@
-import { DynamicSVGShape } from "@/types";
+import { DynamicSVGShape } from "../../types";
 
 /**
  * A row contained in the SVG.

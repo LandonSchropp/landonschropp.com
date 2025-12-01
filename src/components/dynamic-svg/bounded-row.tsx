@@ -1,7 +1,7 @@
+import { BoundedDynamicSVGRow } from "../../types";
+import { recursivelyReplaceType } from "../../utilities/introspection";
 import { BoundedShape } from "./bounded-shape";
 import { Shape } from "./shape";
-import { BoundedDynamicSVGRow } from "@/types";
-import { recursivelyReplaceType } from "@/utilities/introspection";
 import { ReactNode } from "react";
 import { indexBy } from "remeda";
 

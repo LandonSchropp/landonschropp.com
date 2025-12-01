@@ -1,4 +1,4 @@
-import { DynamicSVGRow } from "@/types";
+import { DynamicSVGRow } from "../../types";
 
 type DynamicSVGRowProps = Omit<DynamicSVGRow, "shapes"> & {
   /** The shapes contained in the row, as well as their surrounding markup. */

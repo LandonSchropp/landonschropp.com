@@ -1,5 +1,5 @@
-import { Content } from "@/types";
-import { getMarkdownImageSourcePaths } from "@/utilities/markdown";
+import { Content } from "../types";
+import { getMarkdownImageSourcePaths } from "../utilities/markdown";
 import { readFile } from "fs/promises";
 import mime from "mime";
 import { join, dirname, extname } from "path";

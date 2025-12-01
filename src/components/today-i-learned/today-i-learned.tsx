@@ -1,8 +1,8 @@
 "use client";
 
+import type { TodayILearned as TodayILearnedType } from "../../types";
 import { Markdown } from "../content/markdown";
-import { TodayILearnedHeader } from "@/components/today-i-learned/today-i-learned-header";
-import type { TodayILearned as TodayILearnedType } from "@/types";
+import { TodayILearnedHeader } from "./today-i-learned-header";
 
 type TodayILearnedProps = {
   todayILearned: TodayILearnedType;

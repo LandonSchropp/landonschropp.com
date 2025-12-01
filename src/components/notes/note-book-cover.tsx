@@ -1,5 +1,5 @@
-import { BOOK_MEDIA } from "@/constants";
-import type { Note } from "@/types";
+import { BOOK_MEDIA } from "../../constants";
+import type { Note } from "../../types";
 
 type NoteBookCoverProps = {
   note: Note;

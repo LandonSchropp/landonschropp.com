@@ -1,6 +1,6 @@
+import { TodayILearned } from "../types";
 import { ContentSchema } from "./content";
 import { parseSchema } from "./parse";
-import { TodayILearned } from "@/types";
 
 export const TodayILearnedSchema = ContentSchema;
 

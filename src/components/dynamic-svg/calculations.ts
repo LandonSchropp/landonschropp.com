@@ -1,4 +1,3 @@
-import { calculateBounds } from "./bounds";
 import {
   DynamicSVGShape,
   BoundedDynamicSVGShape,
@@ -7,9 +6,10 @@ import {
   BoundedDynamicSVGAspect,
   DynamicSVGAspect,
   DynamicSVGRow,
-} from "@/types";
-import { maxBy, sum } from "@/utilities/array";
-import { clamp } from "@/utilities/number";
+} from "../../types";
+import { maxBy, sum } from "../../utilities/array";
+import { clamp } from "../../utilities/number";
+import { calculateBounds } from "./bounds";
 
 /**
  * Given an array of shapes, this function distributes them in a horizontal row.

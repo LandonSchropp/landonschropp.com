@@ -1,9 +1,9 @@
 "use client";
 
+import type { Note as NoteType } from "../../types";
 import { Markdown } from "../content/markdown";
 import { NoteEmbed } from "./note-embed";
-import { NoteHeader } from "@/components/notes/note-header";
-import type { Note as NoteType } from "@/types";
+import { NoteHeader } from "./note-header";
 
 type NoteProps = {
   note: NoteType;

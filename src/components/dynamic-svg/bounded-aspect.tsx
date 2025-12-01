@@ -1,8 +1,8 @@
+import { BoundedDynamicSVGAspect, BoundedDynamicSVGRow } from "../../types";
+import { recursivelyReplaceType } from "../../utilities/introspection";
 import { Aspect } from "./aspect";
 import { BoundedRow } from "./bounded-row";
 import { Row } from "./row";
-import { BoundedDynamicSVGAspect, BoundedDynamicSVGRow } from "@/types";
-import { recursivelyReplaceType } from "@/utilities/introspection";
 import { ReactNode } from "react";
 import { indexBy } from "remeda";
 

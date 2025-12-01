@@ -1,3 +1,5 @@
+import { useSize } from "../../hooks/use-size";
+import flannel from "../../images/flannel.png";
 import { Aspect } from "./aspect";
 import { BoundedAspect } from "./bounded-aspect";
 import { calculateBounds } from "./bounds";
@@ -7,8 +9,6 @@ import { Group } from "./group";
 import { Link } from "./link";
 import { Row } from "./row";
 import { Shape } from "./shape";
-import { useSize } from "@/hooks/use-size";
-import flannel from "@/images/flannel.png";
 import { useRef } from "react";
 
 const PATTERN_SIZE_MULTIPLIER = 0.1;

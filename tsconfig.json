@@ -11,9 +11,6 @@
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": false,
     "jsx": "react-jsx",
-    "paths": {
-      "@/*": ["./src/*"]
-    },
     "skipLibCheck": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,

@@ -1,4 +1,4 @@
-import { convertMarkdownToHtml, prefixMarkdownImageSourcePaths } from "@/utilities/markdown";
+import { convertMarkdownToHtml, prefixMarkdownImageSourcePaths } from "../../utilities/markdown";
 
 type MarkdownProps = {
   markdown: string;

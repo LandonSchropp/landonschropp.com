@@ -1,6 +1,6 @@
+import { STATUSES } from "../constants";
+import { UnknownContent } from "../types";
 import { parseSchema } from "./parse";
-import { STATUSES } from "@/constants";
-import { UnknownContent } from "@/types";
 import { z } from "zod";
 
 export const UnknownContentSchema = z.object({

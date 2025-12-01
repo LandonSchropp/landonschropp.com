@@ -1,7 +1,7 @@
+import { NAME } from "../../constants";
+import { TodayILearned } from "../../types";
 import { FormattedDate } from "../base/formatted-date";
 import { Header } from "../content/header";
-import { NAME } from "@/constants";
-import { TodayILearned } from "@/types";
 
 type TodayILearnedHeaderProps = {
   todayILearned: TodayILearned;

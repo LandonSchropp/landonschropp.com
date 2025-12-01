@@ -1,5 +1,3 @@
-import { Listify } from "../base/listify";
-import { Header } from "../content/header";
 import {
   LIVE_TALK_MEDIA,
   PODCAST_MEDIA,
@@ -9,9 +7,11 @@ import {
   RECORDED_TALK_MEDIA,
   VIDEO_MEDIA,
   APP_MEDIA,
-} from "@/constants";
-import { Note } from "@/types";
-import { baseURL } from "@/utilities/url";
+} from "../../constants";
+import { Note } from "../../types";
+import { baseURL } from "../../utilities/url";
+import { Listify } from "../base/listify";
+import { Header } from "../content/header";
 import { ReactElement } from "react";
 
 // NOTE: It turns out it's _really_ hard to represent all of the possible nuances of a byline in a

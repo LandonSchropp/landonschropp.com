@@ -1,8 +1,8 @@
+import { DynamicSVGShape, DynamicSVGRow, DynamicSVGAspect } from "../../types";
+import { recursivelyExtractType } from "../../utilities/introspection";
 import { Aspect } from "./aspect";
 import { Row } from "./row";
 import { Shape } from "./shape";
-import { DynamicSVGShape, DynamicSVGRow, DynamicSVGAspect } from "@/types";
-import { recursivelyExtractType } from "@/utilities/introspection";
 import { ReactNode } from "react";
 
 /**

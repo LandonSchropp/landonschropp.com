@@ -1,4 +1,4 @@
-import { CATEGORIES, TECHNOLOGIES, MEDIAS } from "@/constants";
+import { CATEGORIES, TECHNOLOGIES, MEDIAS } from "../constants";
 import { z } from "zod";
 
 export const CategorySchema = z.enum(CATEGORIES);

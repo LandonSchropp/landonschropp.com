@@ -1,6 +1,6 @@
+import { ARTICLES_PATH } from "../env";
+import { parseArticle } from "../schema";
 import { fetchContent, fetchContents } from "./content";
-import { ARTICLES_PATH } from "@/env";
-import { parseArticle } from "@/schema";
 import { createServerFn } from "@tanstack/react-start";
 import { staticFunctionMiddleware } from "@tanstack/start-static-server-functions";
 import z from "zod";

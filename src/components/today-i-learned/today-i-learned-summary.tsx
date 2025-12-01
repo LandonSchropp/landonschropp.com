@@ -1,6 +1,6 @@
+import type { TodayILearned } from "../../types";
 import { FormattedDate } from "../base/formatted-date";
-import { Summary } from "@/components/content/summary";
-import type { TodayILearned } from "@/types";
+import { Summary } from "../content/summary";
 
 type TodayILearnedSummaryProps = {
   todayILearned: TodayILearned;

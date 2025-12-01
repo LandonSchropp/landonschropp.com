@@ -1,8 +1,8 @@
+import { DynamicSVG } from "../components/dynamic-svg";
+import { NAME } from "../constants";
+import { notFound } from "../data/svg";
 import flannel from "../images/flannel.png";
 import stylesheetsIndex from "../styles/index.css?url";
-import { DynamicSVG } from "@/components/dynamic-svg";
-import { NAME } from "@/constants";
-import { notFound } from "@/data/svg";
 import { HeadContent, Outlet, Scripts, createRootRoute } from "@tanstack/react-router";
 
 export const Route = createRootRoute({

@@ -1,8 +1,8 @@
 "use client";
 
+import type { TodayILearned } from "../../types";
+import { Header } from "../content/header";
 import { TodayILearnedSummary } from "./today-i-learned-summary";
-import { Header } from "@/components/content/header";
-import type { TodayILearned } from "@/types";
 
 type TodayILearnedSummariesProps = {
   todayILearneds: TodayILearned[];

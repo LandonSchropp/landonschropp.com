@@ -1,4 +1,4 @@
-import { MainNavigation } from "@/components/navigation/main-navigation";
+import { MainNavigation } from "../components/navigation/main-navigation";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 // TODO: Figure out how to share this layout with the other content layouts.

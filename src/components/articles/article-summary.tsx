@@ -1,6 +1,6 @@
+import type { Article } from "../../types";
+import { Icon } from "../base/icon";
 import { Summary } from "../content/summary";
-import { Icon } from "@/components/base/icon";
-import type { Article } from "@/types";
 import { isNullish } from "remeda";
 
 type ArticleSummaryProps = {

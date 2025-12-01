@@ -1,7 +1,7 @@
-import { parseUnknownContent } from "@/schema";
-import { Content, UnknownContent } from "@/types";
-import { parseFrontmatter } from "@/utilities/frontmatter";
-import { getMarkdownImageSourcePaths } from "@/utilities/markdown";
+import { parseUnknownContent } from "../schema";
+import { Content, UnknownContent } from "../types";
+import { parseFrontmatter } from "../utilities/frontmatter";
+import { getMarkdownImageSourcePaths } from "../utilities/markdown";
 import { readFile } from "fs/promises";
 import { glob } from "glob";
 import { basename, join } from "path";

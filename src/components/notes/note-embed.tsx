@@ -1,6 +1,6 @@
+import { Note } from "../../types";
 import { NoteBookCover } from "./note-book-cover";
 import { NoteYouTubeEmbed } from "./note-youtube-embed";
-import { Note } from "@/types";
 
 type NoteEmbedProps = {
   note: Note;

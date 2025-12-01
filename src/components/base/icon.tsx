@@ -1,10 +1,10 @@
-import ChessComIcon from "@/images/data/chess-com.svg?react";
-import EmailIcon from "@/images/data/email.svg?react";
-import GitHubIcon from "@/images/data/github.svg?react";
-import LinkedInIcon from "@/images/data/linkedin.svg?react";
-import BashIcon from "@/images/icons/bash.svg?react";
-import NeovimIcon from "@/images/icons/neovim.svg?react";
-import RubyIcon from "@/images/icons/ruby.svg?react";
+import ChessComIcon from "../../images/data/chess-com.svg?react";
+import EmailIcon from "../../images/data/email.svg?react";
+import GitHubIcon from "../../images/data/github.svg?react";
+import LinkedInIcon from "../../images/data/linkedin.svg?react";
+import BashIcon from "../../images/icons/bash.svg?react";
+import NeovimIcon from "../../images/icons/neovim.svg?react";
+import RubyIcon from "../../images/icons/ruby.svg?react";
 import { SiGit, SiTypescript } from "@icons-pack/react-simple-icons";
 import { Layers, Briefcase, Brain, ExternalLink, Activity, Code } from "lucide-react";
 

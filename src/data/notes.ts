@@ -1,6 +1,6 @@
+import { NOTES_PATH } from "../env";
+import { parseNote } from "../schema";
 import { fetchContent, fetchContents } from "./content";
-import { NOTES_PATH } from "@/env";
-import { parseNote } from "@/schema";
 import { createServerFn } from "@tanstack/react-start";
 import { staticFunctionMiddleware } from "@tanstack/start-static-server-functions";
 import z from "zod";

@@ -1,6 +1,6 @@
-import { Listify } from "@/components/base/listify";
-import { Summary } from "@/components/content/summary";
-import type { Note } from "@/types";
+import type { Note } from "../../types";
+import { Listify } from "../base/listify";
+import { Summary } from "../content/summary";
 
 type NoteBylineProps = {
   note: Note;

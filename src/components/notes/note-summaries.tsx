@@ -1,8 +1,8 @@
 "use client";
 
+import type { Note } from "../../types";
+import { Header } from "../content/header";
 import { NoteSummary } from "./note-summary";
-import { Header } from "@/components/content/header";
-import type { Note } from "@/types";
 
 type NoteSummariesProps = {
   notes: Note[];

@@ -1,6 +1,6 @@
 "use client";
 
-import { Size } from "@/types";
+import { Size } from "../types";
 import { RefObject, useLayoutEffect, useState } from "react";
 
 /**
