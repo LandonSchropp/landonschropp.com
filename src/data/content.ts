@@ -2,8 +2,7 @@ import { parseUnknownContent } from "../schema";
 import { Content, UnknownContent } from "../types";
 import { parseFrontmatter } from "../utilities/frontmatter";
 import { getMarkdownImageSourcePaths } from "../utilities/markdown";
-import { readFile } from "fs/promises";
-import { glob } from "glob";
+import { glob, readFile } from "fs/promises";
 import { basename, join } from "path";
 
 /**
@@ -51,7 +50,7 @@ export async function fetchContents<T extends UnknownContent>(
   parser: Parser<T>,
 ): Promise<T[]> {
   // Find all of the markdown files in the provided path.
-  const files = await glob(join(directory, "**/*.md"));
+  const files = await Array.fromAsync(glob(join(directory, "**/*.md")));
 
   // Fetch and parse all of the contents in the given directory, filter out unpublished content, and
   // sort the contents by date in descending order.
