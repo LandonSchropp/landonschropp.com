@@ -48,4 +48,16 @@ export const TECHNOLOGIES = [
   SHELL_TECHNOLOGY,
 ] as const;
 
+export const IDEA_STATUS = "Idea";
+export const DRAFT_STATUS = "Draft";
+export const PUBLISHED_STATUS = "Published";
+export const WILL_NOT_PUBLISH_STATUS = "Will Not Publish";
+
+export const STATUSES = [
+  IDEA_STATUS,
+  DRAFT_STATUS,
+  PUBLISHED_STATUS,
+  WILL_NOT_PUBLISH_STATUS,
+] as const;
+
 export const NAME = "Landon Schropp";
