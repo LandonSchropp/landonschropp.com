@@ -1,7 +1,7 @@
 import { includeIgnoreFile } from "@eslint/compat";
 import javascript from "@eslint/js";
+import vitestPlugin from "@vitest/eslint-plugin";
 import prettier from "eslint-config-prettier";
-import jest from "eslint-plugin-jest";
 import reactPlugin from "eslint-plugin-react";
 import reactHooksPlugin from "eslint-plugin-react-hooks";
 import globals from "globals";
@@ -20,10 +20,6 @@ export default [
   },
   includeIgnoreFile(gitignorePath),
   javascript.configs.recommended,
-  {
-    files: ["**/*.test.{js,ts,jsx,tsx}"],
-    ...jest.configs["flat/recommended"],
-  },
   reactPlugin.configs.flat.recommended,
   reactPlugin.configs.flat["jsx-runtime"],
   {
@@ -73,6 +69,15 @@ export default [
       "@typescript-eslint/no-unsafe-return": "off",
       "@typescript-eslint/no-unsafe-argument": "off",
       "@typescript-eslint/no-unused-vars": "off",
+    },
+  },
+  {
+    files: ["**/*.test.{ts,tsx}"],
+    plugins: {
+      vitest: vitestPlugin,
+    },
+    rules: {
+      ...vitestPlugin.configs.recommended.rules,
     },
   },
 ];
