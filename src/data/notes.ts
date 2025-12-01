@@ -11,9 +11,7 @@ import z from "zod";
  */
 export const fetchNotes = createServerFn({ method: "GET" })
   .middleware([staticFunctionMiddleware])
-  .handler(async () => {
-    return (await fetchContents(NOTES_PATH)).map(parseNote);
-  });
+  .handler(() => fetchContents(NOTES_PATH, parseNote));
 
 /**
  * Fetches a single note.
@@ -23,6 +21,4 @@ export const fetchNotes = createServerFn({ method: "GET" })
 export const fetchNote = createServerFn({ method: "GET" })
   .middleware([staticFunctionMiddleware])
   .inputValidator(z.object({ slug: z.string() }))
-  .handler(async ({ data: { slug } }) => {
-    return parseNote(await fetchContent(TODAY_I_LEARNED_PATH, slug));
-  });
+  .handler(({ data: { slug } }) => fetchContent(NOTES_PATH, slug, parseNote));

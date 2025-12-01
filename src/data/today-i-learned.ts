@@ -11,9 +11,7 @@ import z from "zod";
  */
 export const fetchTodayILearneds = createServerFn({ method: "GET" })
   .middleware([staticFunctionMiddleware])
-  .handler(async () => {
-    return (await fetchContents(TODAY_I_LEARNED_PATH)).map(parseTodayILearned);
-  });
+  .handler(() => fetchContents(TODAY_I_LEARNED_PATH, parseTodayILearned));
 
 /**
  * Fetches a single today I learned (TIL).
@@ -23,6 +21,4 @@ export const fetchTodayILearneds = createServerFn({ method: "GET" })
 export const fetchTodayILearned = createServerFn({ method: "GET" })
   .middleware([staticFunctionMiddleware])
   .inputValidator(z.object({ slug: z.string() }))
-  .handler(async ({ data: { slug } }) => {
-    return parseTodayILearned(await fetchContent(TODAY_I_LEARNED_PATH, slug));
-  });
+  .handler(({ data: { slug } }) => fetchContent(TODAY_I_LEARNED_PATH, slug, parseTodayILearned));

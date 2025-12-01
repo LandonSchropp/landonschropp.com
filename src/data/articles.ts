@@ -11,9 +11,7 @@ import z from "zod";
  */
 export const fetchArticles = createServerFn({ method: "GET" })
   .middleware([staticFunctionMiddleware])
-  .handler(async () => {
-    return (await fetchContents(ARTICLES_PATH)).map(parseArticle);
-  });
+  .handler(() => fetchContents(ARTICLES_PATH, parseArticle));
 
 /**
  * Fetches a single article.
@@ -23,6 +21,4 @@ export const fetchArticles = createServerFn({ method: "GET" })
 export const fetchArticle = createServerFn({ method: "GET" })
   .middleware([staticFunctionMiddleware])
   .inputValidator(z.object({ slug: z.string() }))
-  .handler(async ({ data: { slug } }) => {
-    return parseArticle(await fetchContent(ARTICLES_PATH, slug));
-  });
+  .handler(({ data: { slug } }) => fetchContent(ARTICLES_PATH, slug, parseArticle));
