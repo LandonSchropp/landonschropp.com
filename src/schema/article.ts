@@ -1,4 +1,5 @@
 import { ContentSchema } from "./content";
+import { parseSchema } from "./parse";
 import { z } from "zod";
 
 export const ArticleSchema = z.union([
@@ -23,5 +24,5 @@ export const ArticleSchema = z.union([
  * @throws If the value does not match the schema.
  */
 export function parseArticle(value: unknown): z.infer<typeof ArticleSchema> {
-  return ArticleSchema.parse(value);
+  return parseSchema(ArticleSchema, value);
 }

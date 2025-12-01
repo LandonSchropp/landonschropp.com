@@ -1,5 +1,6 @@
 import { ContentSchema } from "./content";
 import { CategorySchema, MediaSchema } from "./enums";
+import { parseSchema } from "./parse";
 import {
   APP_MEDIA,
   ARTICLE_MEDIA,
@@ -100,5 +101,5 @@ export const NoteSchema = z.discriminatedUnion("media", [
  * @throws If the value does not match the schema.
  */
 export function parseNote(value: unknown): z.infer<typeof NoteSchema> {
-  return NoteSchema.parse(value);
+  return parseSchema(NoteSchema, value);
 }

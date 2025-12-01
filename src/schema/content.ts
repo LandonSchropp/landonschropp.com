@@ -1,3 +1,4 @@
+import { parseSchema } from "./parse";
 import { UnknownContent } from "@/types";
 import { z } from "zod";
 
@@ -22,5 +23,5 @@ export const ContentSchema = z.object({
  * @throws If the value does not match the schema.
  */
 export function parseUnknownContent(value: unknown): UnknownContent {
-  return ContentSchema.passthrough().parse(value);
+  return parseSchema(ContentSchema.passthrough(), value);
 }
