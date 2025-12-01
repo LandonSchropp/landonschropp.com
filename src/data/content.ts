@@ -4,7 +4,7 @@ import { parseFrontmatter } from "@/utilities/frontmatter";
 import { getMarkdownImageSourcePaths } from "@/utilities/markdown";
 import { readFile } from "fs/promises";
 import { glob } from "glob";
-import { basename, join, relative } from "path";
+import { basename, join } from "path";
 
 /**
  * Parses the provided content using the given parser.
@@ -23,23 +23,16 @@ function parseContent<T extends UnknownContent>(value: UnknownContent, parser: P
 
 /**
  * Fetches the content of a file and parses it.
- * @param contentPath The directory containing the content files.
  * @param filePath The path to the file to fetch.
  */
-async function fetchAndParseContent(
-  contentPath: string,
-  filePath: string,
-): Promise<UnknownContent> {
-  const relativePath = relative(contentPath, filePath);
+async function fetchAndParseContent(filePath: string): Promise<UnknownContent> {
   const fileContent = await readFile(filePath, "utf8");
-  const pathParts = relativePath.split("/");
 
   const [frontMatter, markdown] = parseFrontmatter(filePath, fileContent);
 
   return parseUnknownContent({
     ...frontMatter,
     markdown: markdown.trim(),
-    category: pathParts.length > 1 ? pathParts[0] : frontMatter.category,
     title: "title" in frontMatter ? frontMatter.title : basename(filePath, ".md"),
     filePath,
   });
@@ -62,7 +55,7 @@ export async function fetchContents<T extends UnknownContent>(
 
   // Fetch and parse all of the contents in the given directory, filter out unpublished content, and
   // sort the contents by date in descending order.
-  return (await Promise.all(files.map((filePath) => fetchAndParseContent(path, filePath))))
+  return (await Promise.all(files.map((filePath) => fetchAndParseContent(filePath))))
     .filter((content) => content.status === "Published")
     .toSorted((first, second) => second.date.localeCompare(first.date))
     .map((content) => parseContent(content, parser));
