@@ -4,7 +4,7 @@ import z from "zod";
 /**
  * Custom error class for schema parsing errors.
  */
-class SchemaParseError extends Error {
+export class SchemaParseError extends Error {
   constructor(error: z.ZodError, value: unknown) {
     const target =
       typeof value === "object" &&
