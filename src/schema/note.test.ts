@@ -1,4 +1,4 @@
-import { ARTICLE_MEDIA, DEVELOPMENT_CATEGORY } from "../constants";
+import { ARTICLE_MEDIA } from "../constants";
 import { parseNote } from "./note";
 import { SchemaParseError } from "./parse";
 import { describe, it, expect } from "vitest";
@@ -15,7 +15,6 @@ describe("parseNote", () => {
         tags: ["javascript", "testing"],
         markdown: "This is a test article",
         authors: ["John Doe"],
-        category: DEVELOPMENT_CATEGORY,
         media: ARTICLE_MEDIA,
         url: "https://example.com/article",
         source: "Example Site",
@@ -36,7 +35,6 @@ describe("parseNote", () => {
         tags: "javascript",
         markdown: "This is a test article",
         authors: ["John Doe"],
-        category: DEVELOPMENT_CATEGORY,
         media: ARTICLE_MEDIA,
         url: "https://example.com/article",
         source: "Example Site",

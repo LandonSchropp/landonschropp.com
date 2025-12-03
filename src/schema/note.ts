@@ -4,36 +4,17 @@ import {
   BOOK_MEDIA,
   COURSE_MEDIA,
   LIVE_TALK_MEDIA,
-  OTHER_CATEGORY,
   PODCAST_MEDIA,
-  PSYCHOLOGY_CATEGORY,
   RECORDED_TALK_MEDIA,
   VIDEO_MEDIA,
 } from "../constants";
 import { ContentSchema } from "./content";
-import { CategorySchema, MediaSchema } from "./enums";
+import { MediaSchema } from "./enums";
 import { parseSchema } from "./parse";
 import { z } from "zod";
 
-function preprocessCategory(category: unknown) {
-  if (typeof category !== "string") {
-    return category;
-  }
-
-  switch (category) {
-    case "Productivity":
-      return PSYCHOLOGY_CATEGORY;
-    case "Chess":
-    case "Design":
-      return OTHER_CATEGORY;
-    default:
-      return category;
-  }
-}
-
 const NoteSchemaBase = ContentSchema.extend({
   authors: z.array(z.string()),
-  category: z.preprocess(preprocessCategory, CategorySchema),
   media: MediaSchema,
   url: z.string().url(),
   isbn: z.undefined(),
