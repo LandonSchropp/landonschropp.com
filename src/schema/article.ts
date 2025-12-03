@@ -3,13 +3,13 @@ import { parseSchema } from "./parse";
 import { z } from "zod";
 
 export const ArticleSchema = z.union([
-  ContentSchema.extend({
+  ContentSchema.omit({ tags: true }).extend({
     description: z.string(),
     publisher: z.undefined(),
     url: z.undefined(),
     markdown: z.string().min(1),
   }),
-  ContentSchema.extend({
+  ContentSchema.omit({ tags: true }).extend({
     description: z.string(),
     publisher: z.string(),
     url: z.string().url(),

@@ -7,6 +7,7 @@ import {
   PODCAST_MEDIA,
   RECORDED_TALK_MEDIA,
   VIDEO_MEDIA,
+  VIDEO_PLAYLIST_MEDIA,
 } from "../constants";
 import { ContentSchema } from "./content";
 import { MediaSchema } from "./enums";
@@ -64,6 +65,11 @@ const VideoNoteSchema = ArticleNoteSchema.extend({
   source: z.string(),
 });
 
+const VideoPlaylistNoteSchema = ArticleNoteSchema.extend({
+  media: z.literal(VIDEO_PLAYLIST_MEDIA),
+  source: z.string(),
+});
+
 export const NoteSchema = z.discriminatedUnion("media", [
   ArticleNoteSchema,
   AppNoteSchema,
@@ -73,6 +79,7 @@ export const NoteSchema = z.discriminatedUnion("media", [
   PodcastNoteSchema,
   RecordedTalkNoteSchema,
   VideoNoteSchema,
+  VideoPlaylistNoteSchema,
 ]);
 
 /**
