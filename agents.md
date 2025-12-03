@@ -4,6 +4,29 @@ Provides guidance to AI agents when working with code in this repository. First,
 
 - Environment variables for content paths must be configured in `mise.toml` file.
 - Always run `pnpm lint` and `pnpm check-types` after making code changes to ensure code quality.
+- Use `ts-dedent` for formatting multi-line strings with proper indentation. This preserves readability in code while maintaining clean output.
+
+  ```typescript
+  // Bad
+  it("does not have properly indented content", () => {
+    const message = `
+  Error parsing ${target}:
+  ${error.message}
+    `;
+  });
+  ```
+
+  ```typescript
+  // Good
+  import { dedent } from "ts-dedent";
+
+  it("does not have properly indented content", () => {
+    const message = dedent`
+      Error parsing ${target}:
+      ${error.message}
+    `;
+  });
+  ```
 
 ## Architecture Overview
 
