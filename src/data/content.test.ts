@@ -1,0 +1,226 @@
+import { parseUnknownContent } from "../schema";
+import { fetchContents, fetchContent, extractImageSlugPairs } from "./content";
+import { mkdir, writeFile, rm } from "fs/promises";
+import { tmpdir } from "os";
+import { join } from "path";
+import { dedent } from "ts-dedent";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+
+const testDir = join(tmpdir(), `content-test-${Date.now()}`);
+
+type ContentMarkdownParams = {
+  title: string;
+  date: string;
+  status: string;
+  slug: string;
+};
+
+function buildContentMarkdown({ title, date, status, slug }: ContentMarkdownParams): string {
+  return dedent`
+    ---
+    title: ${title}
+    date: ${date}
+    status: ${status}
+    slug: ${slug}
+    tags: []
+    ---
+
+    Example
+  `;
+}
+
+async function writeContent(
+  directory: string,
+  { title, date, status, slug }: ContentMarkdownParams,
+): Promise<void> {
+  const content = buildContentMarkdown({ title, date, status, slug });
+  const filePath = join(directory, `${slug}.md`);
+  await writeFile(filePath, content);
+}
+
+describe("fetchContents", () => {
+  describe("when the directory is empty", () => {
+    beforeEach(async () => {
+      await mkdir(testDir, { recursive: true });
+    });
+
+    afterEach(async () => {
+      await rm(testDir, { recursive: true, force: true });
+    });
+
+    it("returns an empty array", async () => {
+      const result = await fetchContents(testDir, parseUnknownContent);
+      expect(result).toEqual([]);
+    });
+  });
+
+  describe("when the directory contains published markdown files", () => {
+    beforeEach(async () => {
+      await mkdir(testDir, { recursive: true });
+
+      // Create in different order (c, a, b) than expected return (b, c, a)
+      await writeContent(testDir, {
+        title: "Article C",
+        date: "2024-01-15",
+        status: "Published",
+        slug: "item-c",
+      });
+
+      await writeContent(testDir, {
+        title: "Article A",
+        date: "2024-01-10",
+        status: "Published",
+        slug: "item-a",
+      });
+
+      await writeContent(testDir, {
+        title: "Article B",
+        date: "2024-01-20",
+        status: "Published",
+        slug: "item-b",
+      });
+    });
+
+    afterEach(async () => {
+      await rm(testDir, { recursive: true, force: true });
+    });
+
+    it("returns the parsed published markdown files sorted by date", async () => {
+      const result = await fetchContents(testDir, parseUnknownContent);
+      expect(result).toHaveLength(3);
+      expect(result[0].slug).toBe("item-b");
+      expect(result[1].slug).toBe("item-c");
+      expect(result[2].slug).toBe("item-a");
+    });
+  });
+
+  describe("when the directory contains unpublished markdown files", () => {
+    beforeEach(async () => {
+      await mkdir(testDir, { recursive: true });
+
+      // Create in different order with mix of published and unpublished
+      await writeContent(testDir, {
+        title: "Draft B",
+        date: "2024-01-20",
+        status: "Draft",
+        slug: "draft-b",
+      });
+
+      await writeContent(testDir, {
+        title: "Published A",
+        date: "2024-01-15",
+        status: "Published",
+        slug: "published-a",
+      });
+
+      await writeContent(testDir, {
+        title: "Draft A",
+        date: "2024-01-10",
+        status: "Draft",
+        slug: "draft-a",
+      });
+
+      await writeContent(testDir, {
+        title: "Published B",
+        date: "2024-01-25",
+        status: "Published",
+        slug: "published-b",
+      });
+    });
+
+    afterEach(async () => {
+      await rm(testDir, { recursive: true, force: true });
+    });
+
+    it("returns the parsed published markdown files sorted by date", async () => {
+      const result = await fetchContents(testDir, parseUnknownContent);
+      expect(result).toHaveLength(2);
+      expect(result[0].slug).toBe("published-b");
+      expect(result[1].slug).toBe("published-a");
+    });
+  });
+});
+
+describe("fetchContent", () => {
+  beforeEach(async () => {
+    await mkdir(testDir, { recursive: true });
+
+    // Create 3 items
+    await writeContent(testDir, {
+      title: "Article A",
+      date: "2024-01-10",
+      status: "Published",
+      slug: "item-a",
+    });
+
+    await writeContent(testDir, {
+      title: "Article B",
+      date: "2024-01-20",
+      status: "Published",
+      slug: "item-b",
+    });
+
+    await writeContent(testDir, {
+      title: "Article C",
+      date: "2024-01-15",
+      status: "Published",
+      slug: "item-c",
+    });
+  });
+
+  afterEach(async () => {
+    await rm(testDir, { recursive: true, force: true });
+  });
+
+  describe("when the content with the slug exists", () => {
+    it("returns the content", async () => {
+      const result = await fetchContent(testDir, "item-b", parseUnknownContent);
+      expect(result.slug).toBe("item-b");
+      expect(result.title).toBe("Article B");
+    });
+  });
+
+  describe("when the content with the slug does not exist", () => {
+    it("throws an error", async () => {
+      await expect(fetchContent(testDir, "nonexistent", parseUnknownContent)).rejects.toThrow(
+        "Content with slug 'nonexistent' not found",
+      );
+    });
+  });
+});
+
+describe("extractImageSlugPairs", () => {
+  it("extracts image paths from markdown", () => {
+    const contents = [
+      {
+        slug: "test-1",
+        markdown: "This has ![alt](./image1.jpg) and ![alt2](./image2.png)",
+        title: "Test 1",
+        date: "2024-01-15",
+        status: "Published" as const,
+        tags: [],
+        filePath: "/test/test-1.md",
+      },
+    ];
+
+    const result = extractImageSlugPairs(contents);
+    expect(result).toHaveLength(2);
+  });
+
+  it("returns slug and image pairs", () => {
+    const contents = [
+      {
+        slug: "test-1",
+        markdown: "This has ![alt](./image.jpg)",
+        title: "Test 1",
+        date: "2024-01-15",
+        status: "Published" as const,
+        tags: [],
+        filePath: "/test/test-1.md",
+      },
+    ];
+
+    const result = extractImageSlugPairs(contents);
+    expect(result[0]).toEqual({ slug: "test-1", image: expect.stringMatching(/image/) });
+  });
+});
