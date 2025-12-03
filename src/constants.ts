@@ -7,6 +7,7 @@ export const OTHER_MEDIA = "Other";
 export const PODCAST_MEDIA = "Podcast";
 export const RECORDED_TALK_MEDIA = "Recorded Talk";
 export const VIDEO_MEDIA = "Video";
+export const VIDEO_PLAYLIST_MEDIA = "Video Playlist";
 
 export const MEDIAS = [
   ARTICLE_MEDIA,
