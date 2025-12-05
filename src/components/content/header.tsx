@@ -28,7 +28,7 @@ type HeaderProps = {
 
 export function Header({ children, superText, title, href, subText }: HeaderProps) {
   const superSubClassName =
-    "mx-auto my-1 m-width[50ch] text-base font-normal font-serif italic text-theme-lightText [&_a]:underline";
+    "mx-auto my-1 text-base font-normal font-serif italic text-theme-lightText [&_a]:underline";
 
   return (
     <header className="prose my-6 text-center">
