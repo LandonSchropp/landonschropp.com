@@ -27,6 +27,7 @@ export default defineConfig({
     tailwindcss(),
     svgr({
       svgrOptions: {
+        plugins: ["@svgr/plugin-svgo", "@svgr/plugin-jsx"],
         svgoConfig: {
           plugins: [
             "cleanupIds",
