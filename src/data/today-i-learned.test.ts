@@ -1,11 +1,9 @@
-import { TODAY_I_LEARNED_PATH } from "../env";
-import { parseTodayILearned } from "../schema";
-import { fetchContents, fetchContent } from "./content";
-import { describe, it, expect } from "vitest";
+import { fetchTodayILearneds, fetchTodayILearned } from "./today-i-learned";
+import { describe, it, expect, beforeEach } from "vitest";
 
 describe("fetchTodayILearneds", () => {
   it("returns today I learneds sorted by date descending", async () => {
-    const tils = await fetchContents(TODAY_I_LEARNED_PATH, parseTodayILearned);
+    const tils = await fetchTodayILearneds();
 
     // Verify we have tils
     expect(tils.length).toBeGreaterThan(0);
@@ -28,12 +26,12 @@ describe("fetchTodayILearned", () => {
   let slug: string;
 
   beforeEach(async () => {
-    slug = (await fetchContents(TODAY_I_LEARNED_PATH, parseTodayILearned))[0].slug;
+    slug = (await fetchTodayILearneds())[0].slug;
   });
 
   describe("when a today I learned with the slug exists", () => {
     it("returns the today I learned with correct slug", async () => {
-      const result = await fetchContent(TODAY_I_LEARNED_PATH, slug, parseTodayILearned);
+      const result = await fetchTodayILearned({ data: { slug } });
 
       expect(result.slug).toBe(slug);
       expect(result.title).not.toEqual("");
@@ -44,7 +42,7 @@ describe("fetchTodayILearned", () => {
   describe("when a today I learned with the slug does not exist", () => {
     it("throws an error", async () => {
       await expect(
-        fetchContent(TODAY_I_LEARNED_PATH, "nonexistent-til-slug-xyz", parseTodayILearned),
+        fetchTodayILearned({ data: { slug: "nonexistent-til-slug-xyz" } }),
       ).rejects.toThrow("Content with slug 'nonexistent-til-slug-xyz' not found");
     });
   });
