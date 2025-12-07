@@ -38,7 +38,7 @@ export function Header({ children, superText, title, href, subText }: HeaderProp
           <HeaderLink href={href}>{title}</HeaderLink>
         </span>
       </h1>
-      <div className={`my-2 block ${superSubClassName}`} data-test-id="sub-text">
+      <div className={`my-2 block ${superSubClassName}`} data-testid="sub-text">
         {subText}
       </div>
 
