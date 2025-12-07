@@ -8,6 +8,6 @@ export default defineConfig({
     clearMocks: true,
     environment: "jsdom",
     globals: true,
-    setupFiles: [],
+    setupFiles: ["./test/create-server-fn.ts"],
   },
 });
