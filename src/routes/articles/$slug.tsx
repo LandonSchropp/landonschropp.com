@@ -1,0 +1,51 @@
+import { FormattedDate } from "../../components/base/formatted-date";
+import { Header } from "../../components/content/header";
+import { Markdown } from "../../components/content/markdown";
+import { NAME } from "../../constants";
+import { fetchContent } from "../../data/content";
+import { ARTICLES_PATH } from "../../env";
+import { parseArticle } from "../../schema";
+import { createFileRoute } from "@tanstack/react-router";
+
+export const Route = createFileRoute("/articles/$slug")({
+  loader: async ({ params }) => await fetchContent(ARTICLES_PATH, params.slug, parseArticle),
+  head: ({ loaderData }) => {
+    if (!loaderData) return {};
+
+    return {
+      meta: [
+        {
+          title: loaderData.title,
+        },
+        {
+          name: "description",
+          content: loaderData.description,
+        },
+        {
+          name: "author",
+          content: NAME,
+        },
+      ],
+    };
+  },
+  component: ArticlePage,
+});
+
+function ArticlePage() {
+  const article = Route.useLoaderData();
+
+  return (
+    <article>
+      <Header
+        title={article.title}
+        href={`/articles/${article.slug}`}
+        subText={
+          <>
+            <span rel="author">{NAME}</span> • <FormattedDate date={article.date} />
+          </>
+        }
+      />
+      <Markdown markdown={article.markdown} slug={article.slug} />
+    </article>
+  );
+}
