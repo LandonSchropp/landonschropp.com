@@ -1,4 +1,4 @@
-import { parseUnknownContent } from "../schema";
+import { parseContent } from "../schema";
 import { fetchContents, fetchContent, extractImageSlugPairs } from "./content";
 import { mkdir, writeFile, rm } from "fs/promises";
 import { tmpdir } from "os";
@@ -49,7 +49,7 @@ describe("fetchContents", () => {
     });
 
     it("returns an empty array", async () => {
-      const result = await fetchContents(testDir, parseUnknownContent);
+      const result = await fetchContents(testDir, parseContent);
       expect(result).toEqual([]);
     });
   });
@@ -86,7 +86,7 @@ describe("fetchContents", () => {
     });
 
     it("returns the parsed published markdown files sorted by date", async () => {
-      const result = await fetchContents(testDir, parseUnknownContent);
+      const result = await fetchContents(testDir, parseContent);
       expect(result).toHaveLength(3);
       expect(result[0].slug).toBe("item-b");
       expect(result[1].slug).toBe("item-c");
@@ -133,7 +133,7 @@ describe("fetchContents", () => {
     });
 
     it("returns the parsed published markdown files sorted by date", async () => {
-      const result = await fetchContents(testDir, parseUnknownContent);
+      const result = await fetchContents(testDir, parseContent);
       expect(result).toHaveLength(2);
       expect(result[0].slug).toBe("published-b");
       expect(result[1].slug).toBe("published-a");
@@ -174,7 +174,7 @@ describe("fetchContent", () => {
 
   describe("when the content with the slug exists", () => {
     it("returns the content", async () => {
-      const result = await fetchContent(testDir, "item-b", parseUnknownContent);
+      const result = await fetchContent(testDir, "item-b", parseContent);
       expect(result.slug).toBe("item-b");
       expect(result.title).toBe("Article B");
     });
@@ -182,7 +182,7 @@ describe("fetchContent", () => {
 
   describe("when the content with the slug does not exist", () => {
     it("throws an error", async () => {
-      await expect(fetchContent(testDir, "nonexistent", parseUnknownContent)).rejects.toThrow(
+      await expect(fetchContent(testDir, "nonexistent", parseContent)).rejects.toThrow(
         "Content with slug 'nonexistent' not found",
       );
     });

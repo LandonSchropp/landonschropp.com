@@ -1,18 +1,21 @@
-import { parseUnknownContent } from "../schema";
-import { Content, UnknownContent } from "../types";
+import { parseContent } from "../schema";
+import { Content, PassthroughContent } from "../types";
 import { parseFrontmatter } from "../utilities/frontmatter";
 import { getMarkdownImageSourcePaths } from "../utilities/markdown";
 import { glob, readFile } from "fs/promises";
 import { basename, join } from "path";
 
 /**
- * Parses the provided content using the given parser.
+ * Parses the provided content using the given parser as a base method.
  * @param value The content to parse.
  * @param parser The parser function to use.
  * @returns The parsed content.
  * @throws If parsing fails.
  */
-function parseContent<T extends UnknownContent>(value: UnknownContent, parser: Parser<T>): T {
+function parseContentWithParser<T extends PassthroughContent>(
+  value: PassthroughContent,
+  parser: Parser<T>,
+): T {
   try {
     return parser(value);
   } catch (error) {
@@ -24,12 +27,14 @@ function parseContent<T extends UnknownContent>(value: UnknownContent, parser: P
  * Fetches the content of a file and parses it.
  * @param filePath The path to the file to fetch.
  */
-async function fetchAndParseContent(filePath: string): Promise<UnknownContent> {
+async function fetchAndParseContent(filePath: string): Promise<PassthroughContent> {
   const fileContent = await readFile(filePath, "utf8");
 
   const [frontMatter, markdown] = parseFrontmatter(filePath, fileContent);
 
-  return parseUnknownContent({
+  return parseContent({
+    slug: "",
+    tags: [],
     ...frontMatter,
     markdown: markdown.trim(),
     title: "title" in frontMatter ? frontMatter.title : basename(filePath, ".md"),
@@ -37,7 +42,7 @@ async function fetchAndParseContent(filePath: string): Promise<UnknownContent> {
   });
 }
 
-type Parser<T extends UnknownContent> = (value: unknown) => T;
+type Parser<T extends PassthroughContent> = (value: unknown) => T;
 
 /**
  * Fetches all of the content files.
@@ -45,7 +50,7 @@ type Parser<T extends UnknownContent> = (value: unknown) => T;
  * @param parser A parser function to convert the unknown content to the desired type.
  * @returns An array of contents.
  */
-export async function fetchContents<T extends UnknownContent>(
+export async function fetchContents<T extends PassthroughContent>(
   directory: string,
   parser: Parser<T>,
 ): Promise<T[]> {
@@ -57,7 +62,7 @@ export async function fetchContents<T extends UnknownContent>(
   return (await Promise.all(files.map((filePath) => fetchAndParseContent(filePath))))
     .filter((content) => content.status === "Published")
     .toSorted((first, second) => second.date.localeCompare(first.date))
-    .map((content) => parseContent(content, parser));
+    .map((content) => parseContentWithParser(content, parser));
 }
 
 /**
@@ -67,7 +72,7 @@ export async function fetchContents<T extends UnknownContent>(
  * @returns The content with the provided slug.
  * @throws An error if the content could not be fetched.
  */
-export async function fetchContent<T extends UnknownContent>(
+export async function fetchContent<T extends PassthroughContent>(
   path: string,
   slug: string,
   parser: Parser<T>,
