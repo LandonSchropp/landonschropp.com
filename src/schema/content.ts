@@ -4,7 +4,7 @@ import { z } from "zod";
 
 const MarkdownSchema = z
   .string()
-  .refine((value) => !/^# /m.test(value), { message: "Markdown should not contain an H1" });
+  .refine((value) => !/---[\n]*^# /m.test(value), { message: "Markdown should not contain an H1" });
 
 export const ContentSchema = z.object({
   title: z.string(),
