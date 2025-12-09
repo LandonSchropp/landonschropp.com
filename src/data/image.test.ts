@@ -1,3 +1,4 @@
+import { contentFactory } from "../../test/factories";
 import { downloadImage, getContentImageSlugPairs } from "./image";
 import { mkdir, writeFile, rm } from "fs/promises";
 import { tmpdir } from "os";
@@ -22,7 +23,7 @@ describe("downloadImage", () => {
       const imagePath = join(testDir, "test.png");
       await writeFile(imagePath, "fake image data");
 
-      const content = { filePath: join(testDir, "content.md") };
+      const content = contentFactory.build({ filePath: join(testDir, "content.md") });
       result = await downloadImage(content, "test.png");
     });
 
@@ -51,7 +52,7 @@ describe("downloadImage", () => {
       const imagePath = join(testDir, "test.png");
       await writeFile(imagePath, minimalPng);
 
-      const content = { filePath: join(testDir, "content.md") };
+      const content = contentFactory.build({ filePath: join(testDir, "content.md") });
       result = await downloadImage(content, "test.png");
     });
 
@@ -79,7 +80,7 @@ describe("downloadImage", () => {
       const imagePath = join(testDir, "test.jpg");
       await writeFile(imagePath, minimalJpeg);
 
-      const content = { filePath: join(testDir, "content.md") };
+      const content = contentFactory.build({ filePath: join(testDir, "content.md") });
       result = await downloadImage(content, "test.jpg");
     });
 
@@ -101,7 +102,7 @@ describe("downloadImage", () => {
       const imagePath = join(testDir, "test.gif");
       await writeFile(imagePath, minimalGif);
 
-      const content = { filePath: join(testDir, "content.md") };
+      const content = contentFactory.build({ filePath: join(testDir, "content.md") });
       result = await downloadImage(content, "test.gif");
     });
 
@@ -120,7 +121,7 @@ describe("downloadImage", () => {
       const imagePath = join(subdir, "test.png");
       await writeFile(imagePath, "fake image data");
 
-      const content = { filePath: join(subdir, "content.md") };
+      const content = contentFactory.build({ filePath: join(subdir, "content.md") });
       result = await downloadImage(content, "test.png");
     });
 
@@ -132,7 +133,7 @@ describe("downloadImage", () => {
 
   describe("when the image does not exist", () => {
     it("throws an error", async () => {
-      const content = { filePath: join(testDir, "content.md") };
+      const content = contentFactory.build({ filePath: join(testDir, "content.md") });
       await expect(downloadImage(content, "nonexistent.png")).rejects.toThrow();
     });
   });
@@ -144,7 +145,7 @@ describe("downloadImage", () => {
     });
 
     it("throws an error", async () => {
-      const content = { filePath: join(testDir, "content.md") };
+      const content = contentFactory.build({ filePath: join(testDir, "content.md") });
       await expect(downloadImage(content, "test.unknown")).rejects.toThrow(
         "Could not determine content type for image 'test.unknown'",
       );
@@ -156,10 +157,10 @@ describe("getContentImageSlugPairs", () => {
   describe("when the markdown has no images", () => {
     it("returns an empty array", () => {
       const contents = [
-        {
+        contentFactory.build({
           slug: "test-1",
           markdown: "This has no images",
-        },
+        }),
       ];
 
       const result = getContentImageSlugPairs(contents);
@@ -170,10 +171,10 @@ describe("getContentImageSlugPairs", () => {
   describe("when the markdown has a single image", () => {
     it("returns an array with one slug-image pair", () => {
       const contents = [
-        {
+        contentFactory.build({
           slug: "test-1",
           markdown: "This has ![alt](./image.png)",
-        },
+        }),
       ];
 
       const result = getContentImageSlugPairs(contents);
@@ -184,10 +185,10 @@ describe("getContentImageSlugPairs", () => {
   describe("when the markdown has multiple images", () => {
     it("returns an array with multiple slug-image pairs", () => {
       const contents = [
-        {
+        contentFactory.build({
           slug: "test-1",
           markdown: "This has ![alt](./image1.jpg) and ![alt2](./image2.png)",
-        },
+        }),
       ];
 
       const result = getContentImageSlugPairs(contents);
@@ -201,14 +202,14 @@ describe("getContentImageSlugPairs", () => {
   describe("when there are multiple content items", () => {
     it("returns slug-image pairs for all content items", () => {
       const contents = [
-        {
+        contentFactory.build({
           slug: "test-1",
           markdown: "This has ![alt](./image1.png)",
-        },
-        {
+        }),
+        contentFactory.build({
           slug: "test-2",
           markdown: "This has ![alt](./image2.jpg)",
-        },
+        }),
       ];
 
       const result = getContentImageSlugPairs(contents);
@@ -222,10 +223,10 @@ describe("getContentImageSlugPairs", () => {
   describe("when a content item has multiple images", () => {
     it("returns all images with the same slug", () => {
       const contents = [
-        {
+        contentFactory.build({
           slug: "test-1",
           markdown: "![img1](./a.png) text ![img2](./b.jpg) more ![img3](./c.gif)",
-        },
+        }),
       ];
 
       const result = getContentImageSlugPairs(contents);

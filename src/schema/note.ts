@@ -18,9 +18,6 @@ const NoteSchemaBase = ContentSchema.extend({
   authors: z.array(z.string()),
   media: MediaSchema,
   url: z.string().url(),
-  isbn: z.undefined(),
-  source: z.undefined(),
-  event: z.undefined(),
 });
 
 const ArticleNoteSchema = NoteSchemaBase.extend({

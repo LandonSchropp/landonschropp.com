@@ -1,3 +1,4 @@
+import { contentFactory } from "../../test/factories";
 import { parseContent } from "../schema";
 import { fetchContents, fetchContent, extractImageSlugPairs } from "./content";
 import { mkdir, writeFile, rm } from "fs/promises";
@@ -8,20 +9,21 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
 const testDir = join(tmpdir(), `content-test-${Date.now()}`);
 
-type ContentMarkdownParams = {
+type ContentMarkdownParams = Partial<{
   title: string;
   date: string;
-  status: string;
+  status: "Idea" | "Draft" | "Published" | "Will Not Publish";
   slug: string;
-};
+}>;
 
-function buildContentMarkdown({ title, date, status, slug }: ContentMarkdownParams): string {
+function buildContentMarkdown(params: ContentMarkdownParams = {}): string {
+  const content = contentFactory.build(params);
   return dedent`
     ---
-    title: ${title}
-    date: ${date}
-    status: ${status}
-    slug: ${slug}
+    title: ${content.title}
+    date: ${content.date}
+    status: ${content.status}
+    slug: ${content.slug}
     tags: []
     ---
 
@@ -29,13 +31,11 @@ function buildContentMarkdown({ title, date, status, slug }: ContentMarkdownPara
   `;
 }
 
-async function writeContent(
-  directory: string,
-  { title, date, status, slug }: ContentMarkdownParams,
-): Promise<void> {
-  const content = buildContentMarkdown({ title, date, status, slug });
-  const filePath = join(directory, `${slug}.md`);
-  await writeFile(filePath, content);
+async function writeContent(directory: string, params: ContentMarkdownParams = {}): Promise<void> {
+  const content = contentFactory.build(params);
+  const markdown = buildContentMarkdown(params);
+  const filePath = join(directory, `${content.slug}.md`);
+  await writeFile(filePath, markdown);
 }
 
 describe("fetchContents", () => {
@@ -192,15 +192,10 @@ describe("fetchContent", () => {
 describe("extractImageSlugPairs", () => {
   it("extracts image paths from markdown", () => {
     const contents = [
-      {
+      contentFactory.build({
         slug: "test-1",
         markdown: "This has ![alt](./image1.jpg) and ![alt2](./image2.png)",
-        title: "Test 1",
-        date: "2024-01-15",
-        status: "Published" as const,
-        tags: [],
-        filePath: "/test/test-1.md",
-      },
+      }),
     ];
 
     const result = extractImageSlugPairs(contents);
@@ -209,15 +204,10 @@ describe("extractImageSlugPairs", () => {
 
   it("returns slug and image pairs", () => {
     const contents = [
-      {
+      contentFactory.build({
         slug: "test-1",
         markdown: "This has ![alt](./image.jpg)",
-        title: "Test 1",
-        date: "2024-01-15",
-        status: "Published" as const,
-        tags: [],
-        filePath: "/test/test-1.md",
-      },
+      }),
     ];
 
     const result = extractImageSlugPairs(contents);

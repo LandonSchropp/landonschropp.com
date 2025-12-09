@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import "@testing-library/jest-dom/vitest";
 import { vi } from "vitest";
 
 // NOTE: This file mocks the createServerFn function from @tanstack/react-start to pass through the

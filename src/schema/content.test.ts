@@ -1,3 +1,4 @@
+import { contentFactory } from "../../test/factories";
 import { ContentSchema } from "./content";
 import { dedent } from "ts-dedent";
 import { describe, it, expect } from "vitest";
@@ -5,10 +6,7 @@ import { describe, it, expect } from "vitest";
 describe("ContentSchema", () => {
   describe("when the markdown contains an H1 after frontmatter", () => {
     it("is invalid", () => {
-      const content = {
-        title: "Test",
-        date: "2024-01-01",
-        status: "Published",
+      const content = contentFactory.build({
         markdown: dedent`
           ---
           title: Test
@@ -18,10 +16,7 @@ describe("ContentSchema", () => {
 
           Some content here.
         `,
-        filePath: "/test.md",
-        slug: "test",
-        tags: [],
-      };
+      });
 
       expect(() => ContentSchema.parse(content)).toThrow("Markdown should not contain an H1");
     });
@@ -29,10 +24,7 @@ describe("ContentSchema", () => {
 
   describe("when the markdown contains an H1 in a markdown code block", () => {
     it("is valid", () => {
-      const content = {
-        title: "Test",
-        date: "2024-01-01",
-        status: "Published",
+      const content = contentFactory.build({
         markdown: dedent`
           ---
           title: Test
@@ -48,10 +40,7 @@ describe("ContentSchema", () => {
           ## Overview
           \`\`\`
         `,
-        filePath: "/test.md",
-        slug: "test",
-        tags: [],
-      };
+      });
 
       expect(() => ContentSchema.parse(content)).not.toThrow();
     });
@@ -59,10 +48,7 @@ describe("ContentSchema", () => {
 
   describe("when the markdown contains a # comment in a Ruby code block", () => {
     it("is valid", () => {
-      const content = {
-        title: "Test",
-        date: "2024-01-01",
-        status: "Published",
+      const content = contentFactory.build({
         markdown: dedent`
           ---
           title: Test
@@ -77,10 +63,7 @@ describe("ContentSchema", () => {
           end
           \`\`\`
         `,
-        filePath: "/test.md",
-        slug: "test",
-        tags: [],
-      };
+      });
 
       expect(() => ContentSchema.parse(content)).not.toThrow();
     });
