@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { isNullish } from "remeda";
 
 type HeaderLinkProps = {
   children: ReactNode;
@@ -7,7 +6,7 @@ type HeaderLinkProps = {
 };
 
 function HeaderLink({ children, href }: HeaderLinkProps) {
-  if (isNullish(href)) {
+  if (href === undefined) {
     return children;
   }
 

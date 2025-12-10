@@ -1,3 +1,4 @@
+import { isObject } from "./object";
 import {
   Children,
   cloneElement,
@@ -6,7 +7,6 @@ import {
   ReactElement,
   ReactNode,
 } from "react";
-import { isObjectType } from "remeda";
 
 /**
  * Determines if the provided node is a React element of the given component type.
@@ -28,7 +28,7 @@ function isElementOfType<T>(node: ReactNode, type: ComponentType<T>): node is Re
 function hasChildren(node: ReactNode): node is ReactElement<{ children: ReactNode }> {
   return (
     isValidElement(node) &&
-    isObjectType(node.props) &&
+    isObject(node.props) &&
     "children" in node.props &&
     (isValidElement(node.props.children) ||
       (Array.isArray(node.props.children) && node.props.children.every(isValidElement)))
