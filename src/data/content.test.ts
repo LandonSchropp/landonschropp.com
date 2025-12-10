@@ -1,6 +1,6 @@
 import { contentFactory } from "../../test/factories";
 import { parseContent } from "../schema";
-import { fetchContents, fetchContent, extractImageSlugPairs } from "./content";
+import { fetchContents, fetchContent } from "./content";
 import { mkdir, writeFile, rm } from "fs/promises";
 import { tmpdir } from "os";
 import { join } from "path";
@@ -186,31 +186,5 @@ describe("fetchContent", () => {
         "Content with slug 'nonexistent' not found",
       );
     });
-  });
-});
-
-describe("extractImageSlugPairs", () => {
-  it("extracts image paths from markdown", () => {
-    const contents = [
-      contentFactory.build({
-        slug: "test-1",
-        markdown: "This has ![alt](./image1.jpg) and ![alt2](./image2.png)",
-      }),
-    ];
-
-    const result = extractImageSlugPairs(contents);
-    expect(result).toHaveLength(2);
-  });
-
-  it("returns slug and image pairs", () => {
-    const contents = [
-      contentFactory.build({
-        slug: "test-1",
-        markdown: "This has ![alt](./image.jpg)",
-      }),
-    ];
-
-    const result = extractImageSlugPairs(contents);
-    expect(result[0]).toEqual({ slug: "test-1", image: expect.stringMatching(/image/) });
   });
 });

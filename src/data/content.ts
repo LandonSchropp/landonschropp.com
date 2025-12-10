@@ -87,15 +87,3 @@ export const fetchContent = createServerOnlyFn(
     return content;
   },
 );
-
-/**
- * Given an array of contents, this method returns object pairs of the content slugs and images
- * contained in the contents.
- * @param contents The contents to search.
- * @returns An array of objects containing the slug and image for each image contained the contents.
- */
-export function extractImageSlugPairs(contents: Content[]): { slug: string; image: string }[] {
-  return contents.flatMap(({ slug, markdown }) => {
-    return getMarkdownImageSourcePaths(markdown).map((image) => ({ slug, image }));
-  });
-}
