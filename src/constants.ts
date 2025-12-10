@@ -21,34 +21,6 @@ export const MEDIAS = [
   VIDEO_MEDIA,
 ] as const;
 
-export const BUSINESS_CATEGORY = "Business";
-export const DEVELOPMENT_CATEGORY = "Development";
-export const PSYCHOLOGY_CATEGORY = "Psychology";
-export const HEALTH_CATEGORY = "Health";
-export const OTHER_CATEGORY = "Other";
-
-export const CATEGORIES = [
-  BUSINESS_CATEGORY,
-  DEVELOPMENT_CATEGORY,
-  PSYCHOLOGY_CATEGORY,
-  HEALTH_CATEGORY,
-  OTHER_CATEGORY,
-] as const;
-
-export const TYPESCRIPT_TECHNOLOGY = "TypeScript";
-export const RUBY_TECHNOLOGY = "Ruby";
-export const GIT_TECHNOLOGY = "Git";
-export const NEOVIM_TECHNOLOGY = "Neovim";
-export const SHELL_TECHNOLOGY = "Shell";
-
-export const TECHNOLOGIES = [
-  TYPESCRIPT_TECHNOLOGY,
-  RUBY_TECHNOLOGY,
-  GIT_TECHNOLOGY,
-  NEOVIM_TECHNOLOGY,
-  SHELL_TECHNOLOGY,
-] as const;
-
 export const IDEA_STATUS = "Idea";
 export const DRAFT_STATUS = "Draft";
 export const PUBLISHED_STATUS = "Published";

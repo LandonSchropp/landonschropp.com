@@ -9,10 +9,12 @@ import {
   VIDEO_MEDIA,
   VIDEO_PLAYLIST_MEDIA,
 } from "../constants";
+import { MEDIAS } from "../constants";
 import { ContentSchema } from "./content";
-import { MediaSchema } from "./enums";
 import { parseSchema } from "./parse";
 import { z } from "zod";
+
+export const MediaSchema = z.enum(MEDIAS);
 
 const NoteSchemaBase = ContentSchema.extend({
   authors: z.array(z.string()),
