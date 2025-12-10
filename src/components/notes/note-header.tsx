@@ -7,6 +7,7 @@ import {
   RECORDED_TALK_MEDIA,
   VIDEO_MEDIA,
   APP_MEDIA,
+  VIDEO_PLAYLIST_MEDIA,
 } from "../../constants";
 import { Note } from "../../types";
 import { baseURL } from "../../utilities/url";
@@ -22,9 +23,10 @@ type NoteProps = {
   note: Note;
 };
 
-function shouldSkipAuthors(note: Note) {
+function shouldSkipAuthors(note: Note & { source?: string }) {
   return (
-    note.authors.length === 0 || (note.authors.length === 1 && note.authors[0] === note.source)
+    note.authors.length === 0 ||
+    (note.authors.length === 1 && "source" in note && note.authors[0] === note.source)
   );
 }
 
@@ -32,7 +34,7 @@ function NoteAuthors({ note }: NoteProps) {
   return <Listify items={note.authors} />;
 }
 
-function NoteSource({ note }: NoteProps) {
+function NoteSource({ note }: { note: Note & { source: string } }) {
   return <a href={baseURL(note.url)}>{note.source}</a>;
 }
 
@@ -130,10 +132,24 @@ function VideoNoteSubheadText({ note }: VideoNoteSubheadProps) {
   return <>A video by <NoteAuthors note={note} /> from <NoteSource note={note} /></>;
 }
 
+type VideoPlaylistNoteSubheadProps = {
+  note: Extract<Note, { media: typeof VIDEO_PLAYLIST_MEDIA }>;
+};
+
+function VideoPlaylistNoteSubheadText({ note }: VideoPlaylistNoteSubheadProps) {
+  if (shouldSkipAuthors(note)) {
+    // prettier-ignore
+    return <>A series of videos from <NoteSource note={note} /></>;
+  }
+
+  // prettier-ignore
+  return <>A series of videos by <NoteAuthors note={note} /> from <NoteSource note={note} /></>;
+}
+
 function NoteSubheadText({ note }: NoteProps): ReactElement | null {
   // If the note's title is the same as the source (indicating they're one and the same), then don't
-  // return a subhead.
-  if (note.title === note.source) {
+  // return a subhead. Only check for notes that have a source property.
+  if ("source" in note && note.title === note.source) {
     return null;
   }
 
@@ -154,6 +170,8 @@ function NoteSubheadText({ note }: NoteProps): ReactElement | null {
       return <RecordedTalkNoteSubheadText note={note} />;
     case VIDEO_MEDIA:
       return <VideoNoteSubheadText note={note} />;
+    case VIDEO_PLAYLIST_MEDIA:
+      return <VideoPlaylistNoteSubheadText note={note} />;
   }
 }
 

@@ -1,49 +1,28 @@
-import {
-  BUSINESS_CATEGORY,
-  ARTICLE_MEDIA,
-  BOOK_MEDIA,
-  LIVE_TALK_MEDIA,
-  RECORDED_TALK_MEDIA,
-  PODCAST_MEDIA,
-  VIDEO_MEDIA,
-  COURSE_MEDIA,
-  APP_MEDIA,
-} from "../../constants";
+import { noteFactory } from "../../../test/factories";
 import { Note } from "../../types";
 import { NoteHeader } from "./note-header";
 import { render, screen } from "@testing-library/react";
 
 describe("NoteHeader", () => {
-  let note: Note;
+  describe("when the note is any type", () => {
+    let note: Note;
 
-  beforeEach(() => {
-    note = {
-      title: "Title",
-      authors: ["Author"],
-      category: BUSINESS_CATEGORY,
-      media: ARTICLE_MEDIA,
-      date: "1988-10-05",
-      status: "Published",
-      slug: "slug",
-      source: "Source",
-      url: "https://example.com",
-      markdown: "",
-      filePath: "note.md",
-      tags: [],
-    };
-  });
+    beforeEach(() => {
+      note = noteFactory.article().build({ title: "Title" });
+      render(<NoteHeader note={note} />);
+    });
 
-  it("sets the title", () => {
-    render(<NoteHeader note={note} />);
-    expect(screen.getByRole("heading")).toHaveTextContent("My personal notes for Title");
+    it("sets the title", () => {
+      expect(screen.getByRole("heading")).toHaveTextContent("My personal notes for Title");
+    });
   });
 
   describe("when the note's media is 'Article'", () => {
-    beforeEach(() => (note.media = ARTICLE_MEDIA));
+    let note: Note;
 
     describe("when the note's source and title are the same", () => {
       beforeEach(() => {
-        note.source = note.title;
+        note = noteFactory.article().build({ title: "Example", source: "Example" });
         render(<NoteHeader note={note} />);
       });
 
@@ -54,7 +33,7 @@ describe("NoteHeader", () => {
 
     describe("when the note does not have any authors", () => {
       beforeEach(() => {
-        note.authors = [];
+        note = noteFactory.article().build({ title: "Title", source: "Source", authors: [] });
         render(<NoteHeader note={note} />);
       });
 
@@ -65,17 +44,26 @@ describe("NoteHeader", () => {
 
     describe("when the note's source and author are the same", () => {
       beforeEach(() => {
-        note.authors = [note.source!];
+        note = noteFactory
+          .article()
+          .build({ title: "Title", source: "Source", authors: ["Source"] });
+
         render(<NoteHeader note={note} />);
       });
 
-      it("reners the source", () => {
+      it("renders the source", () => {
         expect(screen.getByTestId("sub-text")).toHaveTextContent("An article from Source");
       });
     });
 
     describe("when the note's source and authors are different", () => {
-      beforeEach(() => render(<NoteHeader note={note} />));
+      beforeEach(() => {
+        note = noteFactory
+          .article()
+          .build({ title: "Title", source: "Source", authors: ["Author"] });
+
+        render(<NoteHeader note={note} />);
+      });
 
       it("renders the media, authors and the source", () => {
         expect(screen.getByTestId("sub-text")).toHaveTextContent(
@@ -86,11 +74,11 @@ describe("NoteHeader", () => {
   });
 
   describe("when the note's media is 'App'", () => {
-    beforeEach(() => (note.media = APP_MEDIA));
+    let note: Note;
 
     describe("when the note's source and title are the same", () => {
       beforeEach(() => {
-        note.source = note.title;
+        note = noteFactory.app().build({ title: "Example", source: "Example" });
         render(<NoteHeader note={note} />);
       });
 
@@ -101,7 +89,7 @@ describe("NoteHeader", () => {
 
     describe("when the note does not have any authors", () => {
       beforeEach(() => {
-        note.authors = [];
+        note = noteFactory.app().build({ title: "Title", source: "Source", authors: [] });
         render(<NoteHeader note={note} />);
       });
 
@@ -112,7 +100,7 @@ describe("NoteHeader", () => {
 
     describe("when the note's source and author are the same", () => {
       beforeEach(() => {
-        note.authors = [note.source!];
+        note = noteFactory.app().build({ title: "Title", source: "Source", authors: ["Source"] });
         render(<NoteHeader note={note} />);
       });
 
@@ -122,7 +110,10 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note's source and authors are different", () => {
-      beforeEach(() => render(<NoteHeader note={note} />));
+      beforeEach(() => {
+        note = noteFactory.app().build({ title: "Title", source: "Source", authors: ["Author"] });
+        render(<NoteHeader note={note} />);
+      });
 
       it("renders the media, authors and the source", () => {
         expect(screen.getByTestId("sub-text")).toHaveTextContent("By Author from the app Source");
@@ -131,11 +122,12 @@ describe("NoteHeader", () => {
   });
 
   describe("when the note's media is 'Book'", () => {
-    beforeEach(() => (note.media = BOOK_MEDIA));
+    let note: Note;
 
     describe("when the note does not have any authors", () => {
       beforeEach(() => {
-        note.authors = [];
+        // Override the authors to be empty - this violates the schema but tests the component behavior
+        note = { ...noteFactory.book().build({ title: "Title" }), authors: [] };
         render(<NoteHeader note={note} />);
       });
 
@@ -145,7 +137,10 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note has authors", () => {
-      beforeEach(() => render(<NoteHeader note={note} />));
+      beforeEach(() => {
+        note = noteFactory.book().build({ title: "Title", authors: ["Author"] });
+        render(<NoteHeader note={note} />);
+      });
 
       it("renders the media, authors and the source", () => {
         expect(screen.getByTestId("sub-text")).toHaveTextContent("A book by Author");
@@ -154,11 +149,11 @@ describe("NoteHeader", () => {
   });
 
   describe("when the note's media is 'Course'", () => {
-    beforeEach(() => (note.media = COURSE_MEDIA));
+    let note: Note;
 
     describe("when the note's source and title are the same", () => {
       beforeEach(() => {
-        note.source = note.title;
+        note = noteFactory.course().build({ title: "Example", source: "Example" });
         render(<NoteHeader note={note} />);
       });
 
@@ -169,7 +164,7 @@ describe("NoteHeader", () => {
 
     describe("when the note does not have any authors", () => {
       beforeEach(() => {
-        note.authors = [];
+        note = noteFactory.course().build({ title: "Title", source: "Source", authors: [] });
         render(<NoteHeader note={note} />);
       });
 
@@ -180,7 +175,10 @@ describe("NoteHeader", () => {
 
     describe("when the note's source and author are the same", () => {
       beforeEach(() => {
-        note.authors = [note.source!];
+        note = noteFactory
+          .course()
+          .build({ title: "Title", source: "Source", authors: ["Source"] });
+
         render(<NoteHeader note={note} />);
       });
 
@@ -190,7 +188,13 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note's source and authors are different", () => {
-      beforeEach(() => render(<NoteHeader note={note} />));
+      beforeEach(() => {
+        note = noteFactory
+          .course()
+          .build({ title: "Title", source: "Source", authors: ["Author"] });
+
+        render(<NoteHeader note={note} />);
+      });
 
       it("renders the media, authors and the source", () => {
         expect(screen.getByTestId("sub-text")).toHaveTextContent("A course by Author from Source");
@@ -199,26 +203,13 @@ describe("NoteHeader", () => {
   });
 
   describe("when the note's media is 'Live Talk'", () => {
-    beforeEach(() => {
-      note.event = "Event";
-      note.media = LIVE_TALK_MEDIA;
-    });
-
-    describe("when the note's source and title are the same", () => {
-      beforeEach(() => {
-        note.source = note.title;
-        render(<NoteHeader note={note} />);
-      });
-
-      it("does not render a subheader", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("");
-      });
-    });
+    let note: Note;
 
     describe("when the note does not have any authors", () => {
       beforeEach(() => {
-        note.authors = [];
-        render(<NoteHeader note={note} />);
+        // Override authors to be empty - this violates the schema but tests the component behavior
+        note = { ...noteFactory.liveTalk().build({ title: "Title", event: "Event" }), authors: [] };
+        render(<NoteHeader note={{ ...note }} />);
       });
 
       it("renders the source", () => {
@@ -227,7 +218,13 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note's source and authors are different", () => {
-      beforeEach(() => render(<NoteHeader note={note} />));
+      beforeEach(() => {
+        note = noteFactory
+          .liveTalk()
+          .build({ title: "Title", event: "Event", authors: ["Author"] });
+
+        render(<NoteHeader note={note} />);
+      });
 
       it("renders the media, authors and the source", () => {
         expect(screen.getByTestId("sub-text")).toHaveTextContent(
@@ -238,11 +235,11 @@ describe("NoteHeader", () => {
   });
 
   describe("when the note's media is 'Podcast'", () => {
-    beforeEach(() => (note.media = PODCAST_MEDIA));
+    let note: Note;
 
     describe("when the note's source and title are the same", () => {
       beforeEach(() => {
-        note.source = note.title;
+        note = noteFactory.podcast().build({ title: "Example", source: "Example" });
         render(<NoteHeader note={note} />);
       });
 
@@ -253,7 +250,7 @@ describe("NoteHeader", () => {
 
     describe("when the note does not have any authors", () => {
       beforeEach(() => {
-        note.authors = [];
+        note = noteFactory.podcast().build({ title: "Title", source: "Source", authors: [] });
         render(<NoteHeader note={note} />);
       });
 
@@ -264,17 +261,26 @@ describe("NoteHeader", () => {
 
     describe("when the note's source and author are the same", () => {
       beforeEach(() => {
-        note.authors = [note.source!];
+        note = noteFactory
+          .podcast()
+          .build({ title: "Title", source: "Source", authors: ["Source"] });
+
         render(<NoteHeader note={note} />);
       });
 
-      it("reners the source", () => {
+      it("renders the source", () => {
         expect(screen.getByTestId("sub-text")).toHaveTextContent("From the podcast Source");
       });
     });
 
     describe("when the note's source and authors are different", () => {
-      beforeEach(() => render(<NoteHeader note={note} />));
+      beforeEach(() => {
+        note = noteFactory
+          .podcast()
+          .build({ title: "Title", source: "Source", authors: ["Author"] });
+
+        render(<NoteHeader note={note} />);
+      });
 
       it("renders the media, authors and the source", () => {
         expect(screen.getByTestId("sub-text")).toHaveTextContent(
@@ -285,11 +291,11 @@ describe("NoteHeader", () => {
   });
 
   describe("when the note's media is 'Recorded Talk'", () => {
-    beforeEach(() => (note.media = RECORDED_TALK_MEDIA));
+    let note: Note;
 
     describe("when the note's source and title are the same", () => {
       beforeEach(() => {
-        note.source = note.title;
+        note = noteFactory.recordedTalk().build({ title: "Example", source: "Example" });
         render(<NoteHeader note={note} />);
       });
 
@@ -300,7 +306,7 @@ describe("NoteHeader", () => {
 
     describe("when the note does not have any authors", () => {
       beforeEach(() => {
-        note.authors = [];
+        note = noteFactory.recordedTalk().build({ title: "Title", source: "Source", authors: [] });
         render(<NoteHeader note={note} />);
       });
 
@@ -311,17 +317,26 @@ describe("NoteHeader", () => {
 
     describe("when the note's source and author are the same", () => {
       beforeEach(() => {
-        note.authors = [note.source!];
+        note = noteFactory
+          .recordedTalk()
+          .build({ title: "Title", source: "Source", authors: ["Source"] });
+
         render(<NoteHeader note={note} />);
       });
 
-      it("reners the source", () => {
+      it("renders the source", () => {
         expect(screen.getByTestId("sub-text")).toHaveTextContent("A talk from Source");
       });
     });
 
     describe("when the note's source and authors are different", () => {
-      beforeEach(() => render(<NoteHeader note={note} />));
+      beforeEach(() => {
+        note = noteFactory
+          .recordedTalk()
+          .build({ title: "Title", source: "Source", authors: ["Author"] });
+
+        render(<NoteHeader note={note} />);
+      });
 
       it("renders the media, authors and the source", () => {
         expect(screen.getByTestId("sub-text")).toHaveTextContent("A talk by Author from Source");
@@ -330,11 +345,11 @@ describe("NoteHeader", () => {
   });
 
   describe("when the note's media is 'Video'", () => {
-    beforeEach(() => (note.media = VIDEO_MEDIA));
+    let note: Note;
 
     describe("when the note's source and title are the same", () => {
       beforeEach(() => {
-        note.source = note.title;
+        note = noteFactory.video().build({ title: "Example", source: "Example" });
         render(<NoteHeader note={note} />);
       });
 
@@ -345,7 +360,7 @@ describe("NoteHeader", () => {
 
     describe("when the note does not have any authors", () => {
       beforeEach(() => {
-        note.authors = [];
+        note = noteFactory.video().build({ title: "Title", source: "Source", authors: [] });
         render(<NoteHeader note={note} />);
       });
 
@@ -356,7 +371,7 @@ describe("NoteHeader", () => {
 
     describe("when the note's source and author are the same", () => {
       beforeEach(() => {
-        note.authors = [note.source!];
+        note = noteFactory.video().build({ title: "Title", source: "Source", authors: ["Source"] });
         render(<NoteHeader note={note} />);
       });
 
@@ -366,10 +381,69 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note's source and authors are different", () => {
-      beforeEach(() => render(<NoteHeader note={note} />));
+      beforeEach(() => {
+        note = noteFactory.video().build({ title: "Title", source: "Source", authors: ["Author"] });
+        render(<NoteHeader note={note} />);
+      });
 
       it("renders the media, authors and the source", () => {
         expect(screen.getByTestId("sub-text")).toHaveTextContent("A video by Author from Source");
+      });
+    });
+  });
+
+  describe("when the note's media is 'Video Playlist'", () => {
+    let note: Note;
+
+    describe("when the note's source and title are the same", () => {
+      beforeEach(() => {
+        note = noteFactory.videoPlaylist().build({ title: "Example", source: "Example" });
+        render(<NoteHeader note={note} />);
+      });
+
+      it("does not render a subheader", () => {
+        expect(screen.getByTestId("sub-text")).toHaveTextContent("");
+      });
+    });
+
+    describe("when the note does not have any authors", () => {
+      beforeEach(() => {
+        note = noteFactory.videoPlaylist().build({ title: "Title", source: "Source", authors: [] });
+        render(<NoteHeader note={note} />);
+      });
+
+      it("renders the media and source", () => {
+        expect(screen.getByTestId("sub-text")).toHaveTextContent("A series of videos from Source");
+      });
+    });
+
+    describe("when the note's source and author are the same", () => {
+      beforeEach(() => {
+        note = noteFactory
+          .videoPlaylist()
+          .build({ title: "Title", source: "Source", authors: ["Source"] });
+
+        render(<NoteHeader note={note} />);
+      });
+
+      it("renders the media and source", () => {
+        expect(screen.getByTestId("sub-text")).toHaveTextContent("A series of videos from Source");
+      });
+    });
+
+    describe("when the note's source and authors are different", () => {
+      beforeEach(() => {
+        note = noteFactory
+          .videoPlaylist()
+          .build({ title: "Title", source: "Source", authors: ["Author"] });
+
+        render(<NoteHeader note={note} />);
+      });
+
+      it("renders the media, authors and the source", () => {
+        expect(screen.getByTestId("sub-text")).toHaveTextContent(
+          "A series of videos by Author from Source",
+        );
       });
     });
   });
