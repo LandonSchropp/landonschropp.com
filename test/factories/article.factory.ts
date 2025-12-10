@@ -12,7 +12,6 @@ export class ArticleFactory extends ContentFactory<Article> {
     return this.params({
       publisher: `Publisher ${sequence}`,
       url: `https://example.com/${sequence}`,
-      markdown: "",
     });
   }
 }
@@ -21,5 +20,4 @@ export class ArticleFactory extends ContentFactory<Article> {
 export const articleFactory = ArticleFactory.define(({ sequence }) => ({
   ...contentFactory.build(),
   description: `A test article ${sequence}.`,
-  markdown: `This is test article content ${sequence}.`,
 }));

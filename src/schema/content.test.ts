@@ -4,64 +4,26 @@ import { dedent } from "ts-dedent";
 import { describe, it, expect } from "vitest";
 
 describe("ContentSchema", () => {
-  describe("when the markdown contains an H1 after frontmatter", () => {
+  describe("when the content contains an H1 tag", () => {
     it("is invalid", () => {
       const content = contentFactory.build({
-        markdown: dedent`
-          ---
-          title: Test
-          ---
-
-          # This is an H1
-
-          Some content here.
+        content: dedent`
+          <h1>This is an H1</h1>
+          <p>Some content here.</p>
         `,
       });
 
-      expect(() => ContentSchema.parse(content)).toThrow("Markdown should not contain an H1");
+      expect(() => ContentSchema.parse(content)).toThrow("Should not include an H1 tag");
     });
   });
 
-  describe("when the markdown contains an H1 in a markdown code block", () => {
+  describe("when the content contains an h1 in a code block", () => {
     it("is valid", () => {
       const content = contentFactory.build({
-        markdown: dedent`
-          ---
-          title: Test
-          ---
-
-          ## Example
-
-          Here's an example template:
-
-          \`\`\`markdown
-          # Title
-
-          ## Overview
-          \`\`\`
-        `,
-      });
-
-      expect(() => ContentSchema.parse(content)).not.toThrow();
-    });
-  });
-
-  describe("when the markdown contains a # comment in a Ruby code block", () => {
-    it("is valid", () => {
-      const content = contentFactory.build({
-        markdown: dedent`
-          ---
-          title: Test
-          ---
-
-          ## Code Example
-
-          \`\`\`ruby
-          # This is a comment
-          def hello
-            puts "Hello"
-          end
-          \`\`\`
+        content: dedent`
+          <p>Here's an example template:</p>
+          <pre><code class="language-html">&lt;h1&gt;Title&lt;/h1&gt;
+          </code></pre>
         `,
       });
 

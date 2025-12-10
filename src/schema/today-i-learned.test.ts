@@ -16,12 +16,8 @@ describe("parseTodayILearned", () => {
   describe("when given invalid input", () => {
     it("throws SchemaParseError", () => {
       const input = todayILearnedFactory.build({
-        markdown: dedent`
-          ---
-          title: "Invalid TIL"
-          ---
-
-          # This violates the H1 rule
+        content: dedent`
+          <h1>This violates the H1 rule</h1>
         `,
       });
       expect(() => parseTodayILearned(input)).toThrow(SchemaParseError);

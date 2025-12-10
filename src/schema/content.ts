@@ -2,15 +2,16 @@ import { STATUSES } from "../constants";
 import { parseSchema } from "./parse";
 import { z } from "zod";
 
-const MarkdownSchema = z
-  .string()
-  .refine((value) => !/---[\n]*^# /m.test(value), { message: "Markdown should not contain an H1" });
+const H1_TAG_REGEX = /<h1[^>]*>/i;
 
 export const ContentSchema = z.object({
   title: z.string(),
   date: z.string().date(),
   status: z.enum(STATUSES),
-  markdown: MarkdownSchema,
+  content: z.string().refine((html) => !H1_TAG_REGEX.test(html), {
+    message: "Should not include an H1 tag",
+  }),
+  images: z.array(z.string()),
   filePath: z.string(),
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   tags: z.array(z.string()),

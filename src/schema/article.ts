@@ -5,13 +5,13 @@ import { z } from "zod";
 export const ArticleSchema = z.union([
   ContentSchema.extend({
     description: z.string(),
-    markdown: z.string().min(1),
+    content: z.string().min(1),
   }),
   ContentSchema.extend({
     description: z.string(),
     publisher: z.string(),
     url: z.string().url(),
-    markdown: z.string().max(0),
+    content: z.string().max(0),
   }),
 ]);
 
