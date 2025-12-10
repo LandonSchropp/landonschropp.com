@@ -1,4 +1,3 @@
-import { isObject } from "./object";
 import {
   Children,
   cloneElement,
@@ -28,7 +27,8 @@ function isElementOfType<T>(node: ReactNode, type: ComponentType<T>): node is Re
 function hasChildren(node: ReactNode): node is ReactElement<{ children: ReactNode }> {
   return (
     isValidElement(node) &&
-    isObject(node.props) &&
+    typeof node.props === "object" &&
+    node.props !== null &&
     "children" in node.props &&
     (isValidElement(node.props.children) ||
       (Array.isArray(node.props.children) && node.props.children.every(isValidElement)))

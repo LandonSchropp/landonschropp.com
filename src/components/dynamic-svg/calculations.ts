@@ -7,9 +7,9 @@ import {
   DynamicSVGAspect,
   DynamicSVGRow,
 } from "../../types";
-import { maxBy, sum } from "../../utilities/array";
-import { clamp } from "../../utilities/number";
 import { calculateBounds } from "./bounds";
+import { clamp } from "es-toolkit";
+import { maxBy, sum, sumBy } from "es-toolkit";
 
 /**
  * Given an array of shapes, this function distributes them in a horizontal row.
@@ -32,7 +32,7 @@ function distributeShapesHorizontally(
       bounds: {
         width: shape.originalWidth,
         height: shape.originalHeight,
-        x: sum(accumulator, ({ bounds: { width } }) => width + spacingWidth),
+        x: sumBy(accumulator, ({ bounds: { width } }) => width + spacingWidth),
         y: align === "top" ? 0 : (rowHeight - shape.originalHeight) / 2,
       },
     });
@@ -94,7 +94,7 @@ function distributeRowsVertically(
   const spacingHeight = clamp(calculatedSpacingHeight, minSpacingHeight, maxSpacingHeight);
 
   return rows.map((row, index) => {
-    const baseY = sum(rows.slice(0, index), (row) => row.bounds.height + spacingHeight);
+    const baseY = sumBy(rows.slice(0, index), (row) => row.bounds.height + spacingHeight);
 
     const boundedShapes = row.boundedShapes.map(({ bounds, ...shape }) => {
       return { ...shape, bounds: { ...bounds, y: baseY + bounds.y } };
