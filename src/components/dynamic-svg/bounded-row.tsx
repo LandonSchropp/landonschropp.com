@@ -2,8 +2,8 @@ import { BoundedDynamicSVGRow } from "../../types";
 import { recursivelyReplaceType } from "../../utilities/introspection";
 import { BoundedShape } from "./bounded-shape";
 import { Shape } from "./shape";
+import { keyBy } from "es-toolkit";
 import { ReactNode } from "react";
-import { indexBy } from "remeda";
 
 type BoundedRowProps = {
   /** The children to render. */
@@ -18,7 +18,7 @@ type BoundedRowProps = {
  * be used directly—instead, use `DynamicSVG.Row` and `DynamicSVG.Shape`.
  */
 export function BoundedRow({ children, boundedRow: { boundedShapes } }: BoundedRowProps) {
-  const indexedBoundedShapes = indexBy(boundedShapes, ({ key }) => key);
+  const indexedBoundedShapes = keyBy(boundedShapes, ({ key }) => key);
 
   return recursivelyReplaceType(children, Shape, ({ key }) => {
     if (!key) {

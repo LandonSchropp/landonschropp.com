@@ -1,5 +1,5 @@
+import { last } from "es-toolkit";
 import type { ReactNode } from "react";
-import { last } from "remeda";
 
 function intersperse<T, U>(array: T[], separator: U): (T | U)[] {
   return array.flatMap((item) => [item, separator]).slice(0, -1);

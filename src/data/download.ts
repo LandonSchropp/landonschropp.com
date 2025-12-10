@@ -1,8 +1,8 @@
+import { last } from "es-toolkit";
 import { fileTypeFromBuffer } from "file-type";
 import { createWriteStream } from "fs";
 import { mkdirp } from "fs-extra";
 import { join } from "path";
-import { last } from "remeda";
 import { finished } from "stream/promises";
 import { v4 as uuidV4 } from "uuid";
 

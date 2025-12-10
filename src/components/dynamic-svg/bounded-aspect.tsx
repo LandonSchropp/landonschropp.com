@@ -3,14 +3,14 @@ import { recursivelyReplaceType } from "../../utilities/introspection";
 import { Aspect } from "./aspect";
 import { BoundedRow } from "./bounded-row";
 import { Row } from "./row";
+import { keyBy } from "es-toolkit";
 import { ReactNode } from "react";
-import { indexBy } from "remeda";
 
 function replaceRowsWithBoundedRows(
   node: ReactNode,
   boundedRows: BoundedDynamicSVGRow[],
 ): ReactNode {
-  const indexedBoundedRows = indexBy(boundedRows, ({ key }) => key);
+  const indexedBoundedRows = keyBy(boundedRows, ({ key }) => key);
 
   return recursivelyReplaceType(node, Row, ({ key, props }) => {
     if (!key) {
