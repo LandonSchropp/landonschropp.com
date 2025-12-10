@@ -2,6 +2,7 @@ import { parseContent } from "../schema";
 import { Content, PassthroughContent } from "../types";
 import { parseFrontmatter } from "../utilities/frontmatter";
 import { getMarkdownImageSourcePaths } from "../utilities/markdown";
+import { createServerOnlyFn } from "@tanstack/react-start";
 import { glob, readFile } from "fs/promises";
 import { basename, join } from "path";
 
@@ -50,20 +51,19 @@ type Parser<T extends PassthroughContent> = (value: unknown) => T;
  * @param parser A parser function to convert the unknown content to the desired type.
  * @returns An array of contents.
  */
-export async function fetchContents<T extends PassthroughContent>(
-  directory: string,
-  parser: Parser<T>,
-): Promise<T[]> {
-  // Find all of the markdown files in the provided path.
-  const files = await Array.fromAsync(glob(join(directory, "**/*.md")));
+export const fetchContents = createServerOnlyFn(
+  async <T extends PassthroughContent>(directory: string, parser: Parser<T>): Promise<T[]> => {
+    // Find all of the markdown files in the provided path.
+    const files = await Array.fromAsync(glob(join(directory, "**/*.md")));
 
-  // Fetch and parse all of the contents in the given directory, filter out unpublished content, and
-  // sort the contents by date in descending order.
-  return (await Promise.all(files.map((filePath) => fetchAndParseContent(filePath))))
-    .filter((content) => content.status === "Published")
-    .toSorted((first, second) => second.date.localeCompare(first.date))
-    .map((content) => parseContentWithParser(content, parser));
-}
+    // Fetch and parse all of the contents in the given directory, filter out unpublished content, and
+    // sort the contents by date in descending order.
+    return (await Promise.all(files.map((filePath) => fetchAndParseContent(filePath))))
+      .filter((content) => content.status === "Published")
+      .toSorted((first, second) => second.date.localeCompare(first.date))
+      .map((content) => parseContentWithParser(content, parser));
+  },
+);
 
 /**
  * Fetches a single content based on its slug.
@@ -72,19 +72,21 @@ export async function fetchContents<T extends PassthroughContent>(
  * @returns The content with the provided slug.
  * @throws An error if the content could not be fetched.
  */
-export async function fetchContent<T extends PassthroughContent>(
-  path: string,
-  slug: string,
-  parser: Parser<T>,
-): Promise<T> {
-  const content = (await fetchContents(path, parser)).find((content) => content.slug === slug);
+export const fetchContent = createServerOnlyFn(
+  async <T extends PassthroughContent>(
+    path: string,
+    slug: string,
+    parser: Parser<T>,
+  ): Promise<T> => {
+    const content = (await fetchContents(path, parser)).find((content) => content.slug === slug);
 
-  if (!content) {
-    throw new Error(`Content with slug '${slug}' not found.`);
-  }
+    if (!content) {
+      throw new Error(`Content with slug '${slug}' not found.`);
+    }
 
-  return content;
-}
+    return content;
+  },
+);
 
 /**
  * Given an array of contents, this method returns object pairs of the content slugs and images
