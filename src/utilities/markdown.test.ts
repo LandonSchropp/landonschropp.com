@@ -80,6 +80,15 @@ describe("prefixMarkdownImageSourcePaths", () => {
       expect(prefixMarkdownImageSourcePaths(markdown, null)).toBe(markdown);
     });
   });
+
+  describe("when the image path starts with ./", () => {
+    it("strips the ./ prefix before prepending", () => {
+      const markdown = "![alt text](./image.png)";
+      expect(prefixMarkdownImageSourcePaths(markdown, "prefix")).toBe(
+        "![alt text](prefix/image.png)",
+      );
+    });
+  });
 });
 
 describe("getMarkdownImageSourcePaths", () => {

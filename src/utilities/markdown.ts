@@ -1,6 +1,7 @@
 import highlightJs from "highlight.js/lib/common";
 import createMarkdownIt from "markdown-it";
 import markdownItCallouts from "markdown-it-callouts";
+import { posix } from "path";
 
 const MARKDOWN_IMAGE_REGEX = /!\[([^\]]*)\]\(([^)]+)\)/g;
 
@@ -52,7 +53,7 @@ export function prefixMarkdownImageSourcePaths(markdown: string, prefix: string 
   }
 
   return markdown.replace(MARKDOWN_IMAGE_REGEX, (_match, alt, src) => {
-    return `![${alt}](${prefix}/${src})`;
+    return `![${alt}](${posix.join(prefix, src)})`;
   });
 }
 
