@@ -8,8 +8,10 @@ type TodayILearnedSummaryProps = {
 
 export function TodayILearnedSummary({ todayILearned }: TodayILearnedSummaryProps) {
   return (
-    <Summary url={`/today-i-learned/${todayILearned.slug}`} title={todayILearned.title}>
-      <FormattedDate date={todayILearned.date} />
-    </Summary>
+    <Summary
+      url={`/today-i-learned/${todayILearned.slug}`}
+      title={todayILearned.title}
+      description={<FormattedDate date={todayILearned.date} />}
+    />
   );
 }

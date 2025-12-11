@@ -55,8 +55,10 @@ type NoteSummaryProps = {
 
 export function NoteSummary({ note }: NoteSummaryProps) {
   return (
-    <Summary url={`/notes/${note.slug}`} title={note.title}>
-      <NoteByline note={note} />
-    </Summary>
+    <Summary
+      url={`/notes/${note.slug}`}
+      title={note.title}
+      description={<NoteByline note={note} />}
+    />
   );
 }

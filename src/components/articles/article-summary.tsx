@@ -22,12 +22,11 @@ export function ArticleSummary({ article }: ArticleSummaryProps) {
     <Summary
       title={
         <>
-          {article.title} {linkIcon}
+          <span dangerouslySetInnerHTML={{ __html: article.title }} /> {linkIcon}
         </>
       }
+      description={article.description}
       url={href}
-    >
-      {article.description}
-    </Summary>
+    />
   );
 }

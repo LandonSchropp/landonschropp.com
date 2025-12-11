@@ -1,43 +1,44 @@
 import type { ReactNode } from "react";
 
 type HeaderLinkProps = {
-  children: ReactNode;
+  title: string;
+  className: string;
   href?: string | undefined;
 };
 
-function HeaderLink({ children, href }: HeaderLinkProps) {
+function HeaderTitle({ title, className, href }: HeaderLinkProps) {
   if (href === undefined) {
-    return children;
+    return <span className={className} dangerouslySetInnerHTML={{ __html: title }} />;
   }
 
   return (
-    <a className="no-underline hover:underline" href={href}>
-      {children}
-    </a>
+    <a
+      className={`${className} no-underline hover:underline`}
+      href={href}
+      dangerouslySetInnerHTML={{ __html: title }}
+    />
   );
 }
+
+const SUPER_SUB_CLASS_NAME =
+  "mx-auto my-1 text-base font-normal font-serif italic text-theme-lightText [&_a]:underline";
 
 type HeaderProps = {
   children?: ReactNode;
   superText?: ReactNode;
-  title: ReactNode;
+  title: string;
   subText: ReactNode;
   href?: string | undefined;
 };
 
 export function Header({ children, superText, title, href, subText }: HeaderProps) {
-  const superSubClassName =
-    "mx-auto my-1 text-base font-normal font-serif italic text-theme-lightText [&_a]:underline";
-
   return (
     <header className="prose my-6 text-center">
       <h1 className="my-0">
-        <span className={`block ${superSubClassName}`}>{superText}</span>{" "}
-        <span className="block">
-          <HeaderLink href={href}>{title}</HeaderLink>
-        </span>
+        <span className={`block ${SUPER_SUB_CLASS_NAME}`}>{superText}</span>{" "}
+        <HeaderTitle className="block" href={href} title={title} />
       </h1>
-      <div className={`my-2 block ${superSubClassName}`} data-testid="sub-text">
+      <div className={`my-2 block ${SUPER_SUB_CLASS_NAME}`} data-testid="sub-text">
         {subText}
       </div>
 
