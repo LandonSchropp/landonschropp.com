@@ -1,9 +1,9 @@
 @layer components {
   .prose pre {
-    @apply my-4 overflow-x-auto;
+    @apply my-4 overflow-x-auto rounded-sm;
   }
 
   .prose pre code {
-    @apply block px-1.5 py-1;
+    @apply block rounded-none px-1.5 py-1;
   }
 }
