@@ -1,34 +1,34 @@
 import {
-  convertMarkdownToHtml,
+  renderMarkdown,
   getMarkdownImageSourcePaths,
   prefixMarkdownImageSourcePaths,
 } from "./markdown";
 import { dedent } from "ts-dedent";
 
-describe("convertMarkdownToHtml", () => {
+describe("renderMarkdown", () => {
   describe("when given basic markdown", () => {
-    it("converts headings to HTML", () => {
-      expect(convertMarkdownToHtml("# Hello World")).toContain("<h1>Hello World</h1>");
+    it("renders headings to HTML", () => {
+      expect(renderMarkdown("# Hello World")).toContain("<h1>Hello World</h1>");
     });
 
-    it("converts bold text", () => {
-      expect(convertMarkdownToHtml("**bold text**")).toContain("<strong>bold text</strong>");
+    it("renders bold text", () => {
+      expect(renderMarkdown("**bold text**")).toContain("<strong>bold text</strong>");
     });
 
-    it("converts italic text", () => {
-      expect(convertMarkdownToHtml("*italic text*")).toContain("<em>italic text</em>");
+    it("renders italic text", () => {
+      expect(renderMarkdown("*italic text*")).toContain("<em>italic text</em>");
     });
   });
 
   describe("when given code blocks", () => {
     it("highlights code with specified language", () => {
-      const html = convertMarkdownToHtml("```javascript\nconst x = 1;\n```");
+      const html = renderMarkdown("```javascript\nconst x = 1;\n```");
       expect(html).toContain("language-javascript");
       expect(html).toContain("<code");
     });
 
     it("handles code blocks without language", () => {
-      const html = convertMarkdownToHtml("```\nplain text\n```");
+      const html = renderMarkdown("```\nplain text\n```");
       expect(html).toContain("plain text");
     });
   });

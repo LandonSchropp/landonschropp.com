@@ -199,7 +199,7 @@ describe("fetchAndParseContent", () => {
   });
 
   describe("when the markdown contains headings and text", () => {
-    it("converts markdown to HTML", async () => {
+    it("renders markdown to HTML", async () => {
       const markdown = dedent`
         ---
         title: Test Article

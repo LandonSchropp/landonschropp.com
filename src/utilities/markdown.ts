@@ -35,9 +35,9 @@ markdownIt.use(tableWrapper);
 markdownIt.use(markdownItCallouts, { defaultElementType: "aside", calloutTitleElementType: "p" });
 
 /**
- * Converts markdown to html.
+ * Renders markdown to html.
  */
-export function convertMarkdownToHtml(markdown: string): string {
+export function renderMarkdown(markdown: string): string {
   return markdownIt.render(markdown);
 }
 

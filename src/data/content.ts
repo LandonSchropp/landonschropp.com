@@ -2,7 +2,7 @@ import { parseContent } from "../schema";
 import { PassthroughContent } from "../types";
 import { parseFrontmatter } from "../utilities/frontmatter";
 import {
-  convertMarkdownToHtml,
+  renderMarkdown,
   getMarkdownImageSourcePaths,
   prefixMarkdownImageSourcePaths,
 } from "../utilities/markdown";
@@ -38,7 +38,7 @@ async function fetchAndParseContent(filePath: string): Promise<PassthroughConten
   const [frontMatter, markdown] = parseFrontmatter(filePath, fileContent);
 
   const prefixedMarkdown = prefixMarkdownImageSourcePaths(markdown, frontMatter.slug ?? null);
-  const content = convertMarkdownToHtml(prefixedMarkdown).trim();
+  const content = renderMarkdown(prefixedMarkdown).trim();
   const images = getMarkdownImageSourcePaths(prefixedMarkdown);
 
   return parseContent({
