@@ -268,4 +268,91 @@ describe("fetchAndParseContent", () => {
       expect(result.content).toContain('src="test-article/image.jpg"');
     });
   });
+
+  describe("when rendering the title", () => {
+    it("renders bold text as inline HTML", async () => {
+      const markdown = dedent`
+        ---
+        title: Test **Bold** Title
+        date: 2024-01-15
+        status: Published
+        slug: test-article
+        tags: []
+        ---
+
+        Content here.
+      `;
+      const filePath = join(testDir, "test-article.md");
+      await writeFile(filePath, markdown);
+
+      const result = await fetchContent(testDir, "test-article", parseContent);
+
+      expect(result.title).toBe("Test <strong>Bold</strong> Title");
+    });
+
+    it("renders inline code as inline HTML", async () => {
+      const markdown = dedent`
+        ---
+        title: Using \`renderMarkdown\` in Tests
+        date: 2024-01-15
+        status: Published
+        slug: test-article
+        tags: []
+        ---
+
+        Content here.
+      `;
+      const filePath = join(testDir, "test-article.md");
+      await writeFile(filePath, markdown);
+
+      const result = await fetchContent(testDir, "test-article", parseContent);
+
+      expect(result.title).toBe("Using <code>renderMarkdown</code> in Tests");
+    });
+  });
+
+  describe("when rendering the description", () => {
+    it("renders markdown as inline HTML", async () => {
+      const markdown = dedent`
+        ---
+        title: Test Article
+        description: This is a *description*
+        date: 2024-01-15
+        status: Published
+        slug: test-article
+        tags: []
+        ---
+
+        Content here.
+      `;
+      const filePath = join(testDir, "test-article.md");
+      await writeFile(filePath, markdown);
+
+      const result = await fetchContent(testDir, "test-article", parseContent);
+
+      expect(result.description).toBe("This is a <em>description</em>");
+    });
+  });
+
+  describe("when the description is not provided", () => {
+    it("returns undefined", async () => {
+      const markdown = dedent`
+        ---
+        title: Test Article
+        date: 2024-01-15
+        status: Published
+        slug: test-article
+        tags: []
+        ---
+
+        Content here.
+      `;
+      const filePath = join(testDir, "test-article.md");
+      await writeFile(filePath, markdown);
+
+      const result = await fetchContent(testDir, "test-article", parseContent);
+
+      expect(result.description).toBeUndefined();
+    });
+  });
 });

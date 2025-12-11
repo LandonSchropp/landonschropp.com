@@ -5,6 +5,7 @@ import {
   renderMarkdown,
   getMarkdownImageSourcePaths,
   prefixMarkdownImageSourcePaths,
+  renderInlineMarkdown,
 } from "../utilities/markdown";
 import { createServerOnlyFn } from "@tanstack/react-start";
 import { glob, readFile } from "fs/promises";
@@ -37,16 +38,22 @@ async function fetchAndParseContent(filePath: string): Promise<PassthroughConten
 
   const [frontMatter, markdown] = parseFrontmatter(filePath, fileContent);
 
+  // Render the markdown to HTML and extract image paths.
   const prefixedMarkdown = prefixMarkdownImageSourcePaths(markdown, frontMatter.slug ?? null);
   const content = renderMarkdown(prefixedMarkdown).trim();
   const images = getMarkdownImageSourcePaths(prefixedMarkdown);
 
+  // Render the title and description properties.
+  const title = renderInlineMarkdown(frontMatter.title ?? basename(filePath, ".md"));
+  const description = frontMatter.description && renderInlineMarkdown(frontMatter.description);
+
   return parseContent({
     tags: [],
     ...frontMatter,
+    title,
+    description,
     content,
     images,
-    title: "title" in frontMatter ? frontMatter.title : basename(filePath, ".md"),
     filePath,
   });
 }
