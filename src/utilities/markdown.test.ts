@@ -1,5 +1,6 @@
 import {
   renderMarkdown,
+  renderInlineMarkdown,
   getMarkdownImageSourcePaths,
   prefixMarkdownImageSourcePaths,
 } from "./markdown";
@@ -52,6 +53,41 @@ describe("renderMarkdown", () => {
       const markdown = "   \n\n# Title\n\nSome content.\n\n   ";
       const html = renderMarkdown(markdown);
       expect(html).toBe("<h1>Title</h1>\n<p>Some content.</p>");
+    });
+  });
+});
+
+describe("renderInlineMarkdown", () => {
+  describe("when given bold text", () => {
+    it("renders without wrapping in paragraph tags", () => {
+      expect(renderInlineMarkdown("**bold text**")).toBe("<strong>bold text</strong>");
+    });
+  });
+
+  describe("when given italic text", () => {
+    it("renders without wrapping in paragraph tags", () => {
+      expect(renderInlineMarkdown("*italic text*")).toBe("<em>italic text</em>");
+    });
+  });
+
+  describe("when given a link", () => {
+    it("renders without wrapping in paragraph tags", () => {
+      expect(renderInlineMarkdown("[link](https://example.com)")).toBe(
+        '<a href="https://example.com">link</a>',
+      );
+    });
+  });
+
+  describe("when given inline code", () => {
+    it("renders without wrapping in paragraph tags", () => {
+      expect(renderInlineMarkdown("`code`")).toBe("<code>code</code>");
+    });
+  });
+
+  describe("when the markdown contains leading and trailing whitespace", () => {
+    it("removes the leading and trailing whitespace", () => {
+      const markdown = "   **bold text**   ";
+      expect(renderInlineMarkdown(markdown)).toBe("<strong>bold text</strong>");
     });
   });
 });

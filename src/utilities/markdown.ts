@@ -7,6 +7,7 @@ const MARKDOWN_IMAGE_REGEX = /!\[([^\]]*)\]\(([^)]+)\)/g;
 
 /**
  * A markdown-it plugin that wraps tables in a responsive container.
+ * @param markdownit The markdown-it instance.
  */
 export default function tableWrapper(markdownit: createMarkdownIt): void {
   markdownit.renderer.rules.table_open = function () {
@@ -30,15 +31,26 @@ const markdownIt = createMarkdownIt({
   },
 });
 
-// Load the plugin
+// Load the plugins
 markdownIt.use(tableWrapper);
 markdownIt.use(markdownItCallouts, { defaultElementType: "aside", calloutTitleElementType: "p" });
 
 /**
  * Renders markdown to html.
+ * @param markdown The markdown to render.
+ * @returns The rendered html.
  */
 export function renderMarkdown(markdown: string): string {
   return markdownIt.render(markdown).trim();
+}
+
+/**
+ * Renders inline markdown to html. The results will not be wrapped in block elements.
+ * @param markdown The markdown to render.
+ * @returns The rendered html.
+ */
+export function renderInlineMarkdown(markdown: string): string {
+  return markdownIt.renderInline(markdown).trim();
 }
 
 /**
