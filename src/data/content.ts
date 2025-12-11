@@ -1,7 +1,11 @@
 import { parseContent } from "../schema";
-import { Content, PassthroughContent } from "../types";
+import { PassthroughContent } from "../types";
 import { parseFrontmatter } from "../utilities/frontmatter";
-import { getMarkdownImageSourcePaths } from "../utilities/markdown";
+import {
+  convertMarkdownToHtml,
+  getMarkdownImageSourcePaths,
+  prefixMarkdownImageSourcePaths,
+} from "../utilities/markdown";
 import { createServerOnlyFn } from "@tanstack/react-start";
 import { glob, readFile } from "fs/promises";
 import { basename, join } from "path";
@@ -33,11 +37,15 @@ async function fetchAndParseContent(filePath: string): Promise<PassthroughConten
 
   const [frontMatter, markdown] = parseFrontmatter(filePath, fileContent);
 
+  const prefixedMarkdown = prefixMarkdownImageSourcePaths(markdown, frontMatter.slug ?? null);
+  const content = convertMarkdownToHtml(prefixedMarkdown).trim();
+  const images = getMarkdownImageSourcePaths(prefixedMarkdown);
+
   return parseContent({
-    slug: "",
     tags: [],
     ...frontMatter,
-    markdown: markdown.trim(),
+    content,
+    images,
     title: "title" in frontMatter ? frontMatter.title : basename(filePath, ".md"),
     filePath,
   });

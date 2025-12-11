@@ -188,3 +188,84 @@ describe("fetchContent", () => {
     });
   });
 });
+
+describe("fetchAndParseContent", () => {
+  beforeEach(async () => {
+    await mkdir(testDir, { recursive: true });
+  });
+
+  afterEach(async () => {
+    await rm(testDir, { recursive: true, force: true });
+  });
+
+  describe("when the markdown contains headings and text", () => {
+    it("converts markdown to HTML", async () => {
+      const markdown = dedent`
+        ---
+        title: Test Article
+        date: 2024-01-15
+        status: Published
+        slug: test-article
+        tags: []
+        ---
+
+        ## Introduction
+
+        This is a paragraph with **bold** text.
+      `;
+      const filePath = join(testDir, "test-article.md");
+      await writeFile(filePath, markdown);
+
+      const result = await fetchContent(testDir, "test-article", parseContent);
+
+      expect(result.content).toContain("<h2>Introduction</h2>");
+      expect(result.content).toContain(
+        "<p>This is a paragraph with <strong>bold</strong> text.</p>",
+      );
+    });
+  });
+
+  describe("when the markdown contains images", () => {
+    it("extracts image paths into images array", async () => {
+      const markdown = dedent`
+        ---
+        title: Test Article
+        date: 2024-01-15
+        status: Published
+        slug: test-article
+        tags: []
+        ---
+
+        Here's an image: ![alt](./image1.jpg)
+
+        And another: ![alt2](./image2.png)
+      `;
+      const filePath = join(testDir, "test-article.md");
+      await writeFile(filePath, markdown);
+
+      const result = await fetchContent(testDir, "test-article", parseContent);
+
+      expect(result.images).toEqual(["test-article/image1.jpg", "test-article/image2.png"]);
+    });
+
+    it("prefixes image paths with slug in content", async () => {
+      const markdown = dedent`
+        ---
+        title: Test Article
+        date: 2024-01-15
+        status: Published
+        slug: test-article
+        tags: []
+        ---
+
+        ![alt](./image.jpg)
+      `;
+      const filePath = join(testDir, "test-article.md");
+      await writeFile(filePath, markdown);
+
+      const result = await fetchContent(testDir, "test-article", parseContent);
+
+      expect(result.content).toContain('src="test-article/image.jpg"');
+    });
+  });
+});
