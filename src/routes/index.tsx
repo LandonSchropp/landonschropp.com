@@ -1,9 +1,49 @@
 import { DynamicSVG } from "../components/dynamic-svg";
-import { NAME } from "../constants";
-import * as DATA from "../data/svg";
+import {
+  AMPERSAND_SVG_DATA_KEY,
+  CHESS_COM_SVG_DATA_KEY,
+  DASH_SVG_DATA_KEY,
+  DESIGNER_SVG_DATA_KEY,
+  DEVELOPER_SVG_DATA_KEY,
+  EMAIL_SVG_DATA_KEY,
+  ENTREPRENEUR_COMMA_SVG_DATA_KEY,
+  ENTREPRENEUR_SVG_DATA_KEY,
+  GITHUB_SVG_DATA_KEY,
+  LANDON_SVG_DATA_KEY,
+  LINKED_IN_SVG_DATA_KEY,
+  NAME,
+  NOT_FOUND_SVG_DATA_KEY,
+  NOTES_SVG_DATA_KEY,
+  SCHROPP_SVG_DATA_KEY,
+  TIL_SVG_DATA_KEY,
+  WRITING_SVG_DATA_KEY,
+} from "../constants";
+import { fetchSvgData } from "../data/svg";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
+  loader: async () => {
+    return {
+      [AMPERSAND_SVG_DATA_KEY]: await fetchSvgData({ data: { key: AMPERSAND_SVG_DATA_KEY } }),
+      [CHESS_COM_SVG_DATA_KEY]: await fetchSvgData({ data: { key: CHESS_COM_SVG_DATA_KEY } }),
+      [DASH_SVG_DATA_KEY]: await fetchSvgData({ data: { key: DASH_SVG_DATA_KEY } }),
+      [DESIGNER_SVG_DATA_KEY]: await fetchSvgData({ data: { key: DESIGNER_SVG_DATA_KEY } }),
+      [DEVELOPER_SVG_DATA_KEY]: await fetchSvgData({ data: { key: DEVELOPER_SVG_DATA_KEY } }),
+      [EMAIL_SVG_DATA_KEY]: await fetchSvgData({ data: { key: EMAIL_SVG_DATA_KEY } }),
+      [ENTREPRENEUR_COMMA_SVG_DATA_KEY]: await fetchSvgData({
+        data: { key: ENTREPRENEUR_COMMA_SVG_DATA_KEY },
+      }),
+      [ENTREPRENEUR_SVG_DATA_KEY]: await fetchSvgData({ data: { key: ENTREPRENEUR_SVG_DATA_KEY } }),
+      [GITHUB_SVG_DATA_KEY]: await fetchSvgData({ data: { key: GITHUB_SVG_DATA_KEY } }),
+      [LANDON_SVG_DATA_KEY]: await fetchSvgData({ data: { key: LANDON_SVG_DATA_KEY } }),
+      [LINKED_IN_SVG_DATA_KEY]: await fetchSvgData({ data: { key: LINKED_IN_SVG_DATA_KEY } }),
+      [NOT_FOUND_SVG_DATA_KEY]: await fetchSvgData({ data: { key: NOT_FOUND_SVG_DATA_KEY } }),
+      [NOTES_SVG_DATA_KEY]: await fetchSvgData({ data: { key: NOTES_SVG_DATA_KEY } }),
+      [SCHROPP_SVG_DATA_KEY]: await fetchSvgData({ data: { key: SCHROPP_SVG_DATA_KEY } }),
+      [TIL_SVG_DATA_KEY]: await fetchSvgData({ data: { key: TIL_SVG_DATA_KEY } }),
+      [WRITING_SVG_DATA_KEY]: await fetchSvgData({ data: { key: WRITING_SVG_DATA_KEY } }),
+    };
+  },
   component: IndexPage,
 });
 
@@ -17,56 +57,58 @@ const EXTRA_WIDE_SPACING = 1.0;
 // children, so nested components don't work. I _could_ use nested function calls instead, but I
 // don't think that adds any clarity to the source.
 export function IndexPage() {
-  const landon = <DynamicSVG.Shape key="landon" {...DATA.landon} />;
-  const schropp = <DynamicSVG.Shape key="schropp" {...DATA.schropp} />;
+  const svgData = Route.useLoaderData();
 
-  const entrepreneur = <DynamicSVG.Shape key="entrepreneur" {...DATA.entrepreneur} />;
-  const entrepreneurComma = <DynamicSVG.Shape key="entrepreneur" {...DATA.entrepreneurComma} />;
-  const dashLeft = <DynamicSVG.Shape key="dash-left" {...DATA.dash} />;
-  const dashRight = <DynamicSVG.Shape key="dash-right" {...DATA.dash} />;
-  const developer = <DynamicSVG.Shape key="developer" {...DATA.developer} />;
-  const ampersand = <DynamicSVG.Shape key="ampersand" {...DATA.ampersand} />;
-  const designer = <DynamicSVG.Shape key="designer" {...DATA.designer} />;
+  const landon = <DynamicSVG.Shape key="landon" {...svgData.landon} />;
+  const schropp = <DynamicSVG.Shape key="schropp" {...svgData.schropp} />;
+
+  const entrepreneur = <DynamicSVG.Shape key="entrepreneur" {...svgData.entrepreneur} />;
+  const entrepreneurComma = <DynamicSVG.Shape key="entrepreneur" {...svgData.entrepreneurComma} />;
+  const dashLeft = <DynamicSVG.Shape key="dash-left" {...svgData.dash} />;
+  const dashRight = <DynamicSVG.Shape key="dash-right" {...svgData.dash} />;
+  const developer = <DynamicSVG.Shape key="developer" {...svgData.developer} />;
+  const ampersand = <DynamicSVG.Shape key="ampersand" {...svgData.ampersand} />;
+  const designer = <DynamicSVG.Shape key="designer" {...svgData.designer} />;
 
   const writing = (
     <DynamicSVG.Link href="/articles" title="Writing" key="writing">
-      <DynamicSVG.Shape key="writing" {...DATA.writing} />
+      <DynamicSVG.Shape key="writing" {...svgData.writing} />
     </DynamicSVG.Link>
   );
 
   const notes = (
     <DynamicSVG.Link href="/notes" title="Notes" key="notes">
-      <DynamicSVG.Shape key="notes" {...DATA.notes} />
+      <DynamicSVG.Shape key="notes" {...svgData.notes} />
     </DynamicSVG.Link>
   );
 
   const til = (
     <DynamicSVG.Link href="/today-i-learned" title="Today I Learned" key="til">
-      <DynamicSVG.Shape key="til" {...DATA.til} />
+      <DynamicSVG.Shape key="til" {...svgData.til} />
     </DynamicSVG.Link>
   );
 
   const gitHub = (
     <DynamicSVG.Link href="https://github.com/LandonSchropp" title="GitHub" key="github">
-      <DynamicSVG.Shape key="github" {...DATA.github} />
+      <DynamicSVG.Shape key="github" {...svgData.github} />
     </DynamicSVG.Link>
   );
 
   const chessCom = (
     <DynamicSVG.Link href="https://www.chess.com/member/landon" title="Chess.com" key="chess-com">
-      <DynamicSVG.Shape key="chess-com" {...DATA.chessCom} />
+      <DynamicSVG.Shape key="chess-com" {...svgData.chessCom} />
     </DynamicSVG.Link>
   );
 
   const linkedIn = (
     <DynamicSVG.Link href="https://linkedin.com/in/landonschropp" title="LinkedIn" key="linked-in">
-      <DynamicSVG.Shape key="linked-in" {...DATA.linkedIn} />
+      <DynamicSVG.Shape key="linked-in" {...svgData.linkedIn} />
     </DynamicSVG.Link>
   );
 
   const email = (
     <DynamicSVG.Link href="mailto:schroppl@gmail.com" title="Email" key="email">
-      <DynamicSVG.Shape key="email" {...DATA.email} />
+      <DynamicSVG.Shape key="email" {...svgData.email} />
     </DynamicSVG.Link>
   );
 

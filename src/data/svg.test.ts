@@ -1,11 +1,12 @@
+import { SVG_DATA_KEYS } from "../constants";
 import { DynamicSVGShape } from "../types";
-import * as svgDataExports from "./svg";
-import { describe, it, expect } from "vitest";
+import { extractSVGData } from "./svg";
+import { describe, it, expect, beforeEach } from "vitest";
 
 describe("all SVG exports", () => {
   let svgData: Omit<DynamicSVGShape, "key">[];
 
-  beforeEach(() => (svgData = Object.values(svgDataExports)));
+  beforeEach(() => (svgData = SVG_DATA_KEYS.map((key) => extractSVGData(key))));
 
   it("have originalWidth", () => {
     for (const svg of svgData) {

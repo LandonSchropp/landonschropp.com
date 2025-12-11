@@ -1,10 +1,12 @@
-function fetchEnvironmentVariable(name: string): string {
+import { createServerOnlyFn } from "@tanstack/react-start";
+
+const fetchEnvironmentVariable = createServerOnlyFn((name: string): string => {
   if (typeof process.env[name] !== "string") {
     throw new Error(`The '${name}' environment variable must be set.`);
   }
 
   return process.env[name];
-}
+});
 
 /** The path to the notes directory. */
 export const NOTES_PATH = fetchEnvironmentVariable("NOTES_PATH");

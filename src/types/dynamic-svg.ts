@@ -1,3 +1,8 @@
+import { SVG_DATA_KEYS } from "../constants";
+
+/** The valid keys for SVG data. */
+export type SvgDataKey = (typeof SVG_DATA_KEYS)[number];
+
 /** The coordinates of an object. */
 export type Coordinates = {
   /** The x-coordinate of the object. */

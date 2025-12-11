@@ -1,3 +1,22 @@
+import {
+  AMPERSAND_SVG_DATA_KEY,
+  CHESS_COM_SVG_DATA_KEY,
+  DASH_SVG_DATA_KEY,
+  DESIGNER_SVG_DATA_KEY,
+  DEVELOPER_SVG_DATA_KEY,
+  EMAIL_SVG_DATA_KEY,
+  ENTREPRENEUR_COMMA_SVG_DATA_KEY,
+  ENTREPRENEUR_SVG_DATA_KEY,
+  GITHUB_SVG_DATA_KEY,
+  LANDON_SVG_DATA_KEY,
+  LINKED_IN_SVG_DATA_KEY,
+  NOT_FOUND_SVG_DATA_KEY,
+  NOTES_SVG_DATA_KEY,
+  SCHROPP_SVG_DATA_KEY,
+  SVG_DATA_KEYS,
+  TIL_SVG_DATA_KEY,
+  WRITING_SVG_DATA_KEY,
+} from "../constants";
 import ampersandRaw from "../images/data/ampersand.svg?raw";
 import chessComRaw from "../images/data/chess-com.svg?raw";
 import dashRaw from "../images/data/dash.svg?raw";
@@ -14,13 +33,36 @@ import notesRaw from "../images/data/notes.svg?raw";
 import schroppRaw from "../images/data/schropp.svg?raw";
 import tilRaw from "../images/data/til.svg?raw";
 import writingRaw from "../images/data/writing.svg?raw";
-import { DynamicSVGShape } from "../types";
+import { DynamicSVGShape, SvgDataKey } from "../types";
+import { createServerFn } from "@tanstack/react-start";
+import { staticFunctionMiddleware } from "@tanstack/start-static-server-functions";
+import z from "zod";
 
 const SVG_TAG_REGEX = /<svg([^>]*)>\s*([\s\S]*)\s*<\/svg>/i;
 const WIDTH_REGEX = /width="(\d+)"/i;
 const HEIGHT_REGEX = /height="(\d+)"/i;
 
-function extractSVGData(svg: string): Omit<DynamicSVGShape, "key"> {
+const RAW_DATA = {
+  [AMPERSAND_SVG_DATA_KEY]: ampersandRaw,
+  [CHESS_COM_SVG_DATA_KEY]: chessComRaw,
+  [DASH_SVG_DATA_KEY]: dashRaw,
+  [DESIGNER_SVG_DATA_KEY]: designerRaw,
+  [DEVELOPER_SVG_DATA_KEY]: developerRaw,
+  [EMAIL_SVG_DATA_KEY]: emailRaw,
+  [ENTREPRENEUR_COMMA_SVG_DATA_KEY]: entrepreneurCommaRaw,
+  [ENTREPRENEUR_SVG_DATA_KEY]: entrepreneurRaw,
+  [GITHUB_SVG_DATA_KEY]: githubRaw,
+  [LANDON_SVG_DATA_KEY]: landonRaw,
+  [LINKED_IN_SVG_DATA_KEY]: linkedInRaw,
+  [NOT_FOUND_SVG_DATA_KEY]: notFoundRaw,
+  [NOTES_SVG_DATA_KEY]: notesRaw,
+  [SCHROPP_SVG_DATA_KEY]: schroppRaw,
+  [TIL_SVG_DATA_KEY]: tilRaw,
+  [WRITING_SVG_DATA_KEY]: writingRaw,
+} as const;
+
+export function extractSVGData(key: SvgDataKey): Omit<DynamicSVGShape, "key"> {
+  const svg = RAW_DATA[key];
   const match = SVG_TAG_REGEX.exec(svg);
 
   if (match === null) {
@@ -44,19 +86,7 @@ function extractSVGData(svg: string): Omit<DynamicSVGShape, "key"> {
   return { originalWidth, originalHeight, content };
 }
 
-export const ampersand = extractSVGData(ampersandRaw);
-export const chessCom = extractSVGData(chessComRaw);
-export const dash = extractSVGData(dashRaw);
-export const designer = extractSVGData(designerRaw);
-export const developer = extractSVGData(developerRaw);
-export const email = extractSVGData(emailRaw);
-export const entrepreneurComma = extractSVGData(entrepreneurCommaRaw);
-export const entrepreneur = extractSVGData(entrepreneurRaw);
-export const github = extractSVGData(githubRaw);
-export const landon = extractSVGData(landonRaw);
-export const linkedIn = extractSVGData(linkedInRaw);
-export const notFound = extractSVGData(notFoundRaw);
-export const notes = extractSVGData(notesRaw);
-export const schropp = extractSVGData(schroppRaw);
-export const til = extractSVGData(tilRaw);
-export const writing = extractSVGData(writingRaw);
+export const fetchSvgData = createServerFn({ method: "GET" })
+  .middleware([staticFunctionMiddleware])
+  .inputValidator(z.object({ key: z.enum(SVG_DATA_KEYS) }))
+  .handler(({ data: { key } }) => extractSVGData(key));
