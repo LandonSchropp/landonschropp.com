@@ -1,5 +1,14 @@
 @layer components {
   .prose code {
-    @apply bg-theme-backgroundHighlight min-w-fit rounded-sm box-decoration-clone px-0.75 py-0.25 font-mono;
+    @apply bg-theme-backgroundHighlight min-w-fit rounded-sm box-decoration-clone px-0.75 py-0.25 font-mono text-sm;
+  }
+
+  .prose h1 code,
+  .prose h2 code,
+  .prose h3 code,
+  .prose h4 code,
+  .prose h5 code,
+  .prose h6 code {
+    @apply text-[1em];
   }
 }
