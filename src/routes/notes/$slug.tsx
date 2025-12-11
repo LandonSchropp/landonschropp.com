@@ -1,4 +1,3 @@
-import { Markdown } from "../../components/content/markdown";
 import { NoteEmbed } from "../../components/notes/note-embed";
 import { NoteHeader } from "../../components/notes/note-header";
 import { NAME } from "../../constants";
@@ -38,7 +37,7 @@ function NotePage() {
     <article className="my-6">
       <NoteHeader note={note} />
       <NoteEmbed note={note} />
-      <Markdown markdown={note.markdown} slug={note.slug} />
+      <section className="prose" dangerouslySetInnerHTML={{ __html: note.content }} />
     </article>
   );
 }

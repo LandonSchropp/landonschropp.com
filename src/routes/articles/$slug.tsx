@@ -1,6 +1,5 @@
 import { FormattedDate } from "../../components/base/formatted-date";
 import { Header } from "../../components/content/header";
-import { Markdown } from "../../components/content/markdown";
 import { NAME } from "../../constants";
 import { fetchContent } from "../../data/content";
 import { ARTICLES_PATH } from "../../env";
@@ -45,7 +44,7 @@ function ArticlePage() {
           </>
         }
       />
-      <Markdown markdown={article.markdown} slug={article.slug} />
+      <section className="prose" dangerouslySetInnerHTML={{ __html: article.content }} />
     </article>
   );
 }

@@ -1,4 +1,3 @@
-import { Markdown } from "../../components/content/markdown";
 import { TodayILearnedHeader } from "../../components/today-i-learned/today-i-learned-header";
 import { NAME } from "../../constants";
 import { fetchContent } from "../../data/content";
@@ -37,7 +36,7 @@ function TodayILearnedPage() {
   return (
     <article className="my-6">
       <TodayILearnedHeader todayILearned={todayILearned} />
-      <Markdown markdown={todayILearned.markdown} slug={todayILearned.slug} />
+      <section className="prose" dangerouslySetInnerHTML={{ __html: todayILearned.content }} />
     </article>
   );
 }
