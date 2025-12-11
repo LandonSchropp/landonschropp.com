@@ -1,5 +1,5 @@
 @layer components {
   .prose code {
-    @apply bg-theme-backgroundHighlight min-w-fit rounded-s box-decoration-clone px-0.75 py-0.25 font-mono text-sm;
+    @apply bg-theme-backgroundHighlight min-w-fit rounded-sm box-decoration-clone px-0.75 py-0.25 font-mono;
   }
 }
