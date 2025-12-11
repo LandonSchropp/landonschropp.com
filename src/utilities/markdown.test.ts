@@ -41,9 +41,17 @@ describe("renderMarkdown", () => {
         | Cell 1   | Cell 2   |
       `;
 
-      const html = convertMarkdownToHtml(markdown);
+      const html = renderMarkdown(markdown);
       expect(html).toContain('class="overflow-x-auto my-4"');
       expect(html).toContain("<table>");
+    });
+  });
+
+  describe("when the markdown contains leading and trailing whitespace", () => {
+    it("removes the leading and trailing whitespace", () => {
+      const markdown = "   \n\n# Title\n\nSome content.\n\n   ";
+      const html = renderMarkdown(markdown);
+      expect(html).toBe("<h1>Title</h1>\n<p>Some content.</p>");
     });
   });
 });

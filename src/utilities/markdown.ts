@@ -38,7 +38,7 @@ markdownIt.use(markdownItCallouts, { defaultElementType: "aside", calloutTitleEl
  * Renders markdown to html.
  */
 export function renderMarkdown(markdown: string): string {
-  return markdownIt.render(markdown);
+  return markdownIt.render(markdown).trim();
 }
 
 /**
