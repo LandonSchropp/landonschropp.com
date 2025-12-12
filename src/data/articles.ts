@@ -1,4 +1,4 @@
-import { ARTICLES_PATH } from "../env";
+import { fetchEnvironmentVariable } from "../env";
 import { parseArticle } from "../schema";
 import { fetchContent, fetchContents } from "./content";
 import { createServerFn } from "@tanstack/react-start";
@@ -11,7 +11,7 @@ import z from "zod";
  */
 export const fetchArticles = createServerFn({ method: "GET" })
   .middleware([staticFunctionMiddleware])
-  .handler(() => fetchContents(ARTICLES_PATH, parseArticle));
+  .handler(() => fetchContents(fetchEnvironmentVariable("ARTICLES_PATH"), parseArticle));
 
 /**
  * Fetches a single article.
@@ -21,4 +21,6 @@ export const fetchArticles = createServerFn({ method: "GET" })
 export const fetchArticle = createServerFn({ method: "GET" })
   .middleware([staticFunctionMiddleware])
   .inputValidator(z.object({ slug: z.string() }))
-  .handler(({ data: { slug } }) => fetchContent(ARTICLES_PATH, slug, parseArticle));
+  .handler(({ data: { slug } }) =>
+    fetchContent(fetchEnvironmentVariable("ARTICLES_PATH"), slug, parseArticle),
+  );

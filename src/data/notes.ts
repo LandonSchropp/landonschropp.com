@@ -1,4 +1,4 @@
-import { NOTES_PATH } from "../env";
+import { fetchEnvironmentVariable } from "../env";
 import { parseNote } from "../schema";
 import { fetchContent, fetchContents } from "./content";
 import { createServerFn } from "@tanstack/react-start";
@@ -11,7 +11,7 @@ import z from "zod";
  */
 export const fetchNotes = createServerFn({ method: "GET" })
   .middleware([staticFunctionMiddleware])
-  .handler(() => fetchContents(NOTES_PATH, parseNote));
+  .handler(() => fetchContents(fetchEnvironmentVariable("NOTES_PATH"), parseNote));
 
 /**
  * Fetches a single note.
@@ -21,4 +21,6 @@ export const fetchNotes = createServerFn({ method: "GET" })
 export const fetchNote = createServerFn({ method: "GET" })
   .middleware([staticFunctionMiddleware])
   .inputValidator(z.object({ slug: z.string() }))
-  .handler(({ data: { slug } }) => fetchContent(NOTES_PATH, slug, parseNote));
+  .handler(({ data: { slug } }) =>
+    fetchContent(fetchEnvironmentVariable("NOTES_PATH"), slug, parseNote),
+  );

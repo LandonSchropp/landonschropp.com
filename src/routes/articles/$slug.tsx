@@ -2,12 +2,13 @@ import { FormattedDate } from "../../components/base/formatted-date";
 import { Header } from "../../components/content/header";
 import { NAME } from "../../constants";
 import { fetchContent } from "../../data/content";
-import { ARTICLES_PATH } from "../../env";
+import { fetchEnvironmentVariable } from "../../env";
 import { parseArticle } from "../../schema";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/articles/$slug")({
-  loader: async ({ params }) => await fetchContent(ARTICLES_PATH, params.slug, parseArticle),
+  loader: async ({ params }) =>
+    await fetchContent(fetchEnvironmentVariable("ARTICLES_PATH"), params.slug, parseArticle),
   head: ({ loaderData }) => {
     if (!loaderData) return {};
 

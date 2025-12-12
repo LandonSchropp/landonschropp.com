@@ -1,12 +1,12 @@
 import { ArticleSummary } from "../../components/articles/article-summary";
 import { Header } from "../../components/content/header";
 import { fetchContents } from "../../data/content";
-import { ARTICLES_PATH } from "../../env";
+import { fetchEnvironmentVariable } from "../../env";
 import { parseArticle } from "../../schema";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/articles/")({
-  loader: async () => await fetchContents(ARTICLES_PATH, parseArticle),
+  loader: async () => await fetchContents(fetchEnvironmentVariable("ARTICLES_PATH"), parseArticle),
   head: () => ({
     meta: [
       {

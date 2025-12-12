@@ -1,4 +1,4 @@
-import { TODAY_I_LEARNED_PATH } from "../env";
+import { fetchEnvironmentVariable } from "../env";
 import { parseTodayILearned } from "../schema";
 import { fetchContent, fetchContents } from "./content";
 import { createServerFn } from "@tanstack/react-start";
@@ -11,7 +11,9 @@ import z from "zod";
  */
 export const fetchTodayILearneds = createServerFn({ method: "GET" })
   .middleware([staticFunctionMiddleware])
-  .handler(() => fetchContents(TODAY_I_LEARNED_PATH, parseTodayILearned));
+  .handler(() =>
+    fetchContents(fetchEnvironmentVariable("TODAY_I_LEARNED_PATH"), parseTodayILearned),
+  );
 
 /**
  * Fetches a single today I learned (TIL).
@@ -21,4 +23,6 @@ export const fetchTodayILearneds = createServerFn({ method: "GET" })
 export const fetchTodayILearned = createServerFn({ method: "GET" })
   .middleware([staticFunctionMiddleware])
   .inputValidator(z.object({ slug: z.string() }))
-  .handler(({ data: { slug } }) => fetchContent(TODAY_I_LEARNED_PATH, slug, parseTodayILearned));
+  .handler(({ data: { slug } }) =>
+    fetchContent(fetchEnvironmentVariable("TODAY_I_LEARNED_PATH"), slug, parseTodayILearned),
+  );

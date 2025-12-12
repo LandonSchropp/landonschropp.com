@@ -1,12 +1,13 @@
 import { Header } from "../../components/content/header";
 import { TodayILearnedSummary } from "../../components/today-i-learned/today-i-learned-summary";
 import { fetchContents } from "../../data/content";
-import { TODAY_I_LEARNED_PATH } from "../../env";
+import { fetchEnvironmentVariable } from "../../env";
 import { parseTodayILearned } from "../../schema";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/today-i-learned/")({
-  loader: async () => await fetchContents(TODAY_I_LEARNED_PATH, parseTodayILearned),
+  loader: async () =>
+    await fetchContents(fetchEnvironmentVariable("TODAY_I_LEARNED_PATH"), parseTodayILearned),
   head: () => ({
     meta: [
       {
