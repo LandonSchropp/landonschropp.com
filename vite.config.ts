@@ -6,8 +6,6 @@ import { defineConfig } from "vite";
 import svgr from "vite-plugin-svgr";
 import viteTsConfigPaths from "vite-tsconfig-paths";
 
-const PATHS_TO_PRERENDER: RegExp[] = [/^\/$/];
-
 export default defineConfig({
   plugins: [
     devtools(),
@@ -18,9 +16,6 @@ export default defineConfig({
       prerender: {
         enabled: true,
         crawlLinks: true,
-        // TODO: Enable link crawling and remove specific routes once all pages have been moved to
-        // TanStack
-        filter: ({ path }) => PATHS_TO_PRERENDER.some((regex) => regex.test(path)),
       },
     }),
     viteReact(),
