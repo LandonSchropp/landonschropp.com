@@ -1,9 +1,14 @@
-import { NAME } from "../constants";
+import { DynamicSVG } from "../components/dynamic-svg";
+import { NAME, NOT_FOUND_SVG_DATA_KEY } from "../constants";
+import { fetchSvgData } from "../data/svg";
 import flannel from "../images/flannel.png";
 import stylesheetsIndex from "../styles/index.css?url";
 import { HeadContent, Outlet, Scripts, createRootRoute } from "@tanstack/react-router";
 
 export const Route = createRootRoute({
+  loader: async () => ({
+    notFoundShape: await fetchSvgData({ data: { key: NOT_FOUND_SVG_DATA_KEY } }),
+  }),
   head: () => ({
     meta: [
       {
@@ -34,7 +39,7 @@ export const Route = createRootRoute({
     ],
   }),
   component: RootLayout,
-  // notFoundComponent: NotFoundPage,
+  notFoundComponent: NotFoundPage,
 });
 
 function RootLayout() {
@@ -56,16 +61,18 @@ function RootLayout() {
   );
 }
 
-// export function NotFoundPage() {
-//   return (
-//     <DynamicSVG>
-//       <DynamicSVG.Aspect key="not-found" minSpacing={0} maxSpacing={0}>
-//         <DynamicSVG.Group title="404: Not Found" key="heading" role="heading">
-//           <DynamicSVG.Row key="heading" align="top" spacing={0}>
-//             <DynamicSVG.Shape key="not-found" {...notFound} />
-//           </DynamicSVG.Row>
-//         </DynamicSVG.Group>
-//       </DynamicSVG.Aspect>
-//     </DynamicSVG>
-//   );
-// }
+export function NotFoundPage() {
+  const { notFoundShape } = Route.useLoaderData();
+
+  return (
+    <DynamicSVG>
+      <DynamicSVG.Aspect key="not-found" minSpacing={0} maxSpacing={0}>
+        <DynamicSVG.Group title="404: Not Found" key="heading" role="heading">
+          <DynamicSVG.Row key="heading" align="top" spacing={0}>
+            <DynamicSVG.Shape key="not-found" {...notFoundShape} />
+          </DynamicSVG.Row>
+        </DynamicSVG.Group>
+      </DynamicSVG.Aspect>
+    </DynamicSVG>
+  );
+}
