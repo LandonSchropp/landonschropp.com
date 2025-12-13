@@ -26,7 +26,7 @@ function NotePage() {
     <>
       <Header
         title="Notes"
-        subText="My personal notes on books, articles, talks, podcasts and more."
+        subtitle="My personal notes on books, articles, talks, podcasts and more."
       />
       <section className="my-8">
         {notes.map((note) => (

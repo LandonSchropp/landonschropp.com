@@ -178,10 +178,10 @@ function NoteSubheadText({ note }: NoteProps): ReactElement | null {
 export function NoteHeader({ note }: NoteProps) {
   return (
     <Header
-      superText="My personal notes for"
+      kicker="My personal notes for"
       title={note.title}
-      subText={<NoteSubheadText note={note} />}
-      href={note.url}
+      subtitle={<NoteSubheadText note={note} />}
+      titleHref={note.url}
       tags={note.tags}
     />
   );

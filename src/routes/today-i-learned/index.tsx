@@ -29,7 +29,7 @@ function TodayILearnedPage() {
     <>
       <Header
         title="Today I Learned"
-        subText="Language and framework tips and tricks I've learned while coding"
+        subtitle="Language and framework tips and tricks I've learned while coding"
       />
       <section className="my-8">
         {todayILearneds.map((todayILearned) => (

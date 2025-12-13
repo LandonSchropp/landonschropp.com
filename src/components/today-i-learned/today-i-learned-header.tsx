@@ -10,10 +10,10 @@ type TodayILearnedHeaderProps = {
 export function TodayILearnedHeader({ todayILearned }: TodayILearnedHeaderProps) {
   return (
     <Header
-      superText="Today I Learned"
+      kicker="Today I Learned"
       title={todayILearned.title}
-      href={`/today-i-learned/${todayILearned.slug}`}
-      subText={
+      titleHref={`/today-i-learned/${todayILearned.slug}`}
+      subtitle={
         <>
           <span rel="author">{NAME}</span> • <FormattedDate date={todayILearned.date} />
         </>

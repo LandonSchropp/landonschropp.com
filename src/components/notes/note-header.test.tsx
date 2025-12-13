@@ -27,7 +27,7 @@ describe("NoteHeader", () => {
       });
 
       it("does not render a subheader", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("");
       });
     });
 
@@ -38,7 +38,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("An article from Source");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("An article from Source");
       });
     });
 
@@ -52,7 +52,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("An article from Source");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("An article from Source");
       });
     });
 
@@ -66,7 +66,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the media, authors and the source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent(
+        expect(screen.getByTestId("subtitle")).toHaveTextContent(
           "An article by Author from Source",
         );
       });
@@ -83,7 +83,7 @@ describe("NoteHeader", () => {
       });
 
       it("does not render a subheader", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("");
       });
     });
 
@@ -94,7 +94,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("From the app Source");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("From the app Source");
       });
     });
 
@@ -105,7 +105,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("From the app Source");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("From the app Source");
       });
     });
 
@@ -116,7 +116,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the media, authors and the source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("By Author from the app Source");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("By Author from the app Source");
       });
     });
   });
@@ -132,7 +132,7 @@ describe("NoteHeader", () => {
       });
 
       it("does not render a subheader", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("");
       });
     });
 
@@ -143,7 +143,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the media, authors and the source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("A book by Author");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("A book by Author");
       });
     });
   });
@@ -158,7 +158,7 @@ describe("NoteHeader", () => {
       });
 
       it("does not render a subheader", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("");
       });
     });
 
@@ -169,7 +169,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("A course from Source");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("A course from Source");
       });
     });
 
@@ -183,7 +183,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("A course from Source");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("A course from Source");
       });
     });
 
@@ -197,7 +197,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the media, authors and the source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("A course by Author from Source");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("A course by Author from Source");
       });
     });
   });
@@ -213,7 +213,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("A talk I attended at Event");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("A talk I attended at Event");
       });
     });
 
@@ -227,7 +227,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the media, authors and the source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent(
+        expect(screen.getByTestId("subtitle")).toHaveTextContent(
           "A talk by Author I attended at Event",
         );
       });
@@ -244,7 +244,7 @@ describe("NoteHeader", () => {
       });
 
       it("does not render a subheader", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("");
       });
     });
 
@@ -255,7 +255,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("From the podcast Source");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("From the podcast Source");
       });
     });
 
@@ -269,7 +269,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("From the podcast Source");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("From the podcast Source");
       });
     });
 
@@ -283,7 +283,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the media, authors and the source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent(
+        expect(screen.getByTestId("subtitle")).toHaveTextContent(
           "From Source, a podcast by Author",
         );
       });
@@ -300,7 +300,7 @@ describe("NoteHeader", () => {
       });
 
       it("does not render a subheader", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("");
       });
     });
 
@@ -311,7 +311,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("A talk from Source");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("A talk from Source");
       });
     });
 
@@ -325,7 +325,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("A talk from Source");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("A talk from Source");
       });
     });
 
@@ -339,7 +339,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the media, authors and the source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("A talk by Author from Source");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("A talk by Author from Source");
       });
     });
   });
@@ -354,7 +354,7 @@ describe("NoteHeader", () => {
       });
 
       it("does not render a subheader", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("");
       });
     });
 
@@ -365,7 +365,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the media and source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("A video by Source");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("A video by Source");
       });
     });
 
@@ -376,7 +376,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the media and source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("A video by Source");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("A video by Source");
       });
     });
 
@@ -387,7 +387,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the media, authors and the source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("A video by Author from Source");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("A video by Author from Source");
       });
     });
   });
@@ -402,7 +402,7 @@ describe("NoteHeader", () => {
       });
 
       it("does not render a subheader", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("");
       });
     });
 
@@ -413,7 +413,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the media and source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("A series of videos from Source");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("A series of videos from Source");
       });
     });
 
@@ -427,7 +427,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the media and source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent("A series of videos from Source");
+        expect(screen.getByTestId("subtitle")).toHaveTextContent("A series of videos from Source");
       });
     });
 
@@ -441,7 +441,7 @@ describe("NoteHeader", () => {
       });
 
       it("renders the media, authors and the source", () => {
-        expect(screen.getByTestId("sub-text")).toHaveTextContent(
+        expect(screen.getByTestId("subtitle")).toHaveTextContent(
           "A series of videos by Author from Source",
         );
       });

@@ -26,7 +26,7 @@ function ArticlesPage() {
 
   return (
     <>
-      <Header title="Writing" subText="My published articles from all over the web." />
+      <Header title="Writing" subtitle="My published articles from all over the web." />
       <section>
         {articles.map((article) => (
           <ArticleSummary key={article.slug} article={article} />

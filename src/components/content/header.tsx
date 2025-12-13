@@ -21,26 +21,31 @@ function HeaderTitle({ title, className, href }: HeaderLinkProps) {
   );
 }
 
-const SUPER_SUB_CLASS_NAME =
+const SECONDARY_TEXT_CLASS_NAME =
   "mx-auto text-base font-normal font-serif italic text-theme-lightText [&_a]:underline";
 
 type HeaderProps = {
-  superText?: ReactNode;
+  /** Short label or category text that appears above the title */
+  kicker?: ReactNode;
+  /** The main heading text */
   title: string;
-  subText: ReactNode;
-  href?: string | undefined;
+  /** Descriptive text, metadata, or byline that appears below the title */
+  subtitle: ReactNode;
+  /** Optional URL to make the title a clickable link */
+  titleHref?: string | undefined;
+  /** Optional array of tag strings to display */
   tags?: string[];
 };
 
-export function Header({ superText, title, href, subText, tags }: HeaderProps) {
+export function Header({ kicker, title, titleHref, subtitle, tags }: HeaderProps) {
   return (
     <header className="prose my-6 text-center">
       <h1 className="my-0">
-        <span className={`${SUPER_SUB_CLASS_NAME} my-1 block`}>{superText}</span>{" "}
-        <HeaderTitle className="block" href={href} title={title} />
+        <span className={`${SECONDARY_TEXT_CLASS_NAME} my-1 block`}>{kicker}</span>{" "}
+        <HeaderTitle className="block" href={titleHref} title={title} />
       </h1>
-      <div className={`${SUPER_SUB_CLASS_NAME} my-2`} data-testid="sub-text">
-        {subText}
+      <div className={`${SECONDARY_TEXT_CLASS_NAME} my-2`} data-testid="subtitle">
+        {subtitle}
       </div>
 
       <Tags tags={tags} />
