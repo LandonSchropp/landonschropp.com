@@ -44,6 +44,8 @@ function ArticlePage() {
             <span rel="author">{NAME}</span> • <FormattedDate date={article.date} />
           </>
         }
+        tags={article.tags}
+        tagsIndexHref="/articles"
       />
       <section className="prose" dangerouslySetInnerHTML={{ __html: article.content }} />
     </article>

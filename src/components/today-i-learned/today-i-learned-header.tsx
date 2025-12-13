@@ -18,6 +18,8 @@ export function TodayILearnedHeader({ todayILearned }: TodayILearnedHeaderProps)
           <span rel="author">{NAME}</span> • <FormattedDate date={todayILearned.date} />
         </>
       }
+      tags={todayILearned.tags}
+      tagsIndexHref="/today-i-learned"
     />
   );
 }
