@@ -59,6 +59,8 @@ export function NoteSummary({ note }: NoteSummaryProps) {
       url={`/notes/${note.slug}`}
       title={note.title}
       description={<NoteByline note={note} />}
+      tags={note.tags}
+      tagsIndexHref="/notes"
     />
   );
 }

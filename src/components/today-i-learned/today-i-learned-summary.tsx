@@ -12,6 +12,8 @@ export function TodayILearnedSummary({ todayILearned }: TodayILearnedSummaryProp
       url={`/today-i-learned/${todayILearned.slug}`}
       title={todayILearned.title}
       description={<FormattedDate date={todayILearned.date} />}
+      tags={todayILearned.tags}
+      tagsIndexHref="/today-i-learned"
     />
   );
 }

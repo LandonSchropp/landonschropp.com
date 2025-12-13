@@ -5,7 +5,10 @@ type TagProps = {
 
 function Tag({ name, href }: TagProps) {
   return (
-    <a href={href} className="text-theme-extraLightText text-sm hover:underline">
+    <a
+      href={href}
+      className="text-theme-extraLightText text-sm leading-[calc(var(--text-base)*var(--text-base--line-height))] hover:underline"
+    >
       #{name}
     </a>
   );
@@ -19,15 +22,18 @@ type TagsProps = {
    * tag query parameter to this URL.
    */
   indexHref: string;
+
+  /** Additional class names to apply to the container */
+  className?: string;
 };
 
-export function Tags({ tags, indexHref }: TagsProps) {
+export function Tags({ tags, indexHref, className }: TagsProps) {
   if (tags.length === 0) {
     return null;
   }
 
   return (
-    <div className="flex flex-wrap justify-center gap-2">
+    <div className={`flex flex-wrap justify-center gap-2 ${className}`}>
       {tags.map((tag) => (
         <Tag key={tag} name={tag} href={`${indexHref}?tag=${tag}`} />
       ))}
