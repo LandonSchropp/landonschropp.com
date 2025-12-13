@@ -33,11 +33,23 @@ type HeaderProps = {
   subtitle: ReactNode;
   /** Optional URL to make the title a clickable link */
   titleHref?: string | undefined;
-  /** Optional array of tag strings to display */
-  tags?: string[];
-};
+} & (
+  | {
+      /** An array of tag names to display */
+      tags: string[];
+      /**
+       * The URL for tag links (e.g., "/notes"). Individual tag hrefs will be constructed by
+       * appending a tag query parameter to this URL.
+       */
+      tagsIndexHref: string;
+    }
+  | {
+      tags?: never;
+      tagsIndexHref?: never;
+    }
+);
 
-export function Header({ kicker, title, titleHref, subtitle, tags }: HeaderProps) {
+export function Header({ kicker, title, titleHref, subtitle, tags, tagsIndexHref }: HeaderProps) {
   return (
     <header className="prose my-6 text-center">
       <h1 className="my-0">
@@ -48,7 +60,7 @@ export function Header({ kicker, title, titleHref, subtitle, tags }: HeaderProps
         {subtitle}
       </div>
 
-      <Tags tags={tags} />
+      {tags && <Tags tags={tags} indexHref={tagsIndexHref} />}
     </header>
   );
 }

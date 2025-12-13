@@ -183,6 +183,7 @@ export function NoteHeader({ note }: NoteProps) {
       subtitle={<NoteSubheadText note={note} />}
       titleHref={note.url}
       tags={note.tags}
+      tagsIndexHref="/notes"
     />
   );
 }
