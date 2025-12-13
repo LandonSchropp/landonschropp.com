@@ -1,3 +1,4 @@
+import { Tags } from "../content/tags";
 import type { ReactNode } from "react";
 
 type HeaderLinkProps = {
@@ -21,28 +22,28 @@ function HeaderTitle({ title, className, href }: HeaderLinkProps) {
 }
 
 const SUPER_SUB_CLASS_NAME =
-  "mx-auto my-1 text-base font-normal font-serif italic text-theme-lightText [&_a]:underline";
+  "mx-auto text-base font-normal font-serif italic text-theme-lightText [&_a]:underline";
 
 type HeaderProps = {
-  children?: ReactNode;
   superText?: ReactNode;
   title: string;
   subText: ReactNode;
   href?: string | undefined;
+  tags?: string[];
 };
 
-export function Header({ children, superText, title, href, subText }: HeaderProps) {
+export function Header({ superText, title, href, subText, tags }: HeaderProps) {
   return (
     <header className="prose my-6 text-center">
       <h1 className="my-0">
-        <span className={`block ${SUPER_SUB_CLASS_NAME}`}>{superText}</span>{" "}
+        <span className={`${SUPER_SUB_CLASS_NAME} my-1 block`}>{superText}</span>{" "}
         <HeaderTitle className="block" href={href} title={title} />
       </h1>
-      <div className={`my-2 block ${SUPER_SUB_CLASS_NAME}`} data-testid="sub-text">
+      <div className={`${SUPER_SUB_CLASS_NAME} my-2`} data-testid="sub-text">
         {subText}
       </div>
 
-      {children}
+      <Tags tags={tags} />
     </header>
   );
 }
