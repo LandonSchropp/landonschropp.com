@@ -38,7 +38,6 @@ function ArticlePage() {
     <article>
       <Header
         title={article.title}
-        titleHref={`/articles/${article.slug}`}
         subtitle={
           <>
             <span rel="author">{NAME}</span> • <FormattedDate date={article.date} />
