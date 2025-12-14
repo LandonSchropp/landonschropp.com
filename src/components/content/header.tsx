@@ -61,9 +61,11 @@ export function Header({ kicker, title, titleHref, subtitle, tags }: HeaderProps
         <span className={`${SECONDARY_TEXT_CLASS_NAME} block`}>{kicker}</span>{" "}
         <HeaderTitle title={title} href={titleHref} />
       </h1>
-      <div className={`${SECONDARY_TEXT_CLASS_NAME} my-2`} data-testid="subtitle">
-        {subtitle}
-      </div>
+      {subtitle && (
+        <div className={`${SECONDARY_TEXT_CLASS_NAME} my-2`} data-testid="subtitle">
+          {subtitle}
+        </div>
+      )}
 
       {tags && <Tags className="my-2" tags={tags} />}
     </header>
