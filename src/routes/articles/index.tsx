@@ -27,10 +27,22 @@ export const Route = createFileRoute("/articles/")({
 
 function ArticlesPage() {
   const articles = Route.useLoaderData();
+  const { tag } = Route.useSearch();
+
+  const headerTagProps = tag
+    ? {
+        tags: [tag],
+        tagsIndexHref: "/articles",
+      }
+    : {};
 
   return (
     <>
-      <Header title="Writing" subtitle="My published articles from all over the web." />
+      <Header
+        title="Writing"
+        subtitle="My published articles from all over the web."
+        {...headerTagProps}
+      />
       <section>
         {articles.map((article, index) => (
           <ArticleSummary

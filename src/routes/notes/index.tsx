@@ -27,12 +27,21 @@ export const Route = createFileRoute("/notes/")({
 
 function NotePage() {
   const notes = Route.useLoaderData();
+  const { tag } = Route.useSearch();
+
+  const headerTagProps = tag
+    ? {
+        tags: [tag],
+        tagsIndexHref: "/notes",
+      }
+    : {};
 
   return (
     <>
       <Header
         title="Notes"
         subtitle="My personal notes on books, articles, talks, podcasts and more."
+        {...headerTagProps}
       />
       <section className="my-8">
         {notes.map((note, index) => (
