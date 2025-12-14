@@ -50,9 +50,9 @@
   --color-theme-background: var(--color-white);
   --color-theme-backgroundHighlight: var(--color-bleach);
   --color-theme-extraLightText: var(--color-gray);
-  --color-theme-header: var(--color-blackOut);
   --color-theme-lightText: var(--color-emperor);
   --color-theme-text: var(--color-mineShaft);
+  --color-theme-header: var(--color-blackOut);
 }
 
 /* Override the theme colors for dark mode. */
@@ -61,10 +61,10 @@
   :host {
     --color-theme-background: var(--color-blackOut);
     --color-theme-backgroundHighlight: var(--color-mineShaft);
-    --color-theme-header: var(--color-white);
-    --color-theme-text: var(--color-bleach);
-    --color-theme-lightText: var(--color-steam);
     --color-theme-extraLightText: var(--color-greatFalls);
+    --color-theme-lightText: var(--color-steam);
+    --color-theme-text: var(--color-bleach);
+    --color-theme-header: var(--color-white);
   }
 }
 
