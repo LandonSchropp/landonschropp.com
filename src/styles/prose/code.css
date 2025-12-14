@@ -1,6 +1,6 @@
 @layer components {
   .prose code {
-    @apply bg-theme-backgroundHighlight min-w-fit rounded-sm box-decoration-clone px-0.75 py-0.25 font-mono text-sm;
+    @apply bg-theme-backgroundHighlight min-w-fit rounded-sm box-decoration-clone px-[calc(--spacing(0.75)/1rem*1em)] py-[calc(--spacing(0.25)/1rem*1em)] font-mono text-sm;
   }
 
   .prose h1 code,
