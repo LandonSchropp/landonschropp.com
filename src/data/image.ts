@@ -1,5 +1,5 @@
 import { Content } from "../types";
-import { readFile } from "fs/promises";
+import { openAsBlob } from "fs";
 import mime from "mime";
 import { join, dirname, extname } from "path";
 
@@ -11,17 +11,17 @@ import { join, dirname, extname } from "path";
  */
 export async function downloadImage(content: Content, image: string): Promise<Response> {
   const path = join(dirname(content.filePath), image);
-
-  // Read the image file
-  const buffer = await readFile(path);
   const contentType = mime.getType(extname(image));
 
   if (!contentType) {
     throw new Error(`Could not determine content type for image '${image}' at '${path}'.`);
   }
 
+  // Open the file as a Blob and get its stream
+  const blob = await openAsBlob(path);
+
   // Create the response and set the appropriate headers for the image
-  return new Response(buffer, {
+  return new Response(blob.stream(), {
     status: 200,
     headers: {
       "Content-Type": contentType,
