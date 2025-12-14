@@ -8,12 +8,14 @@ type HeaderLinkProps = {
 
 function HeaderTitle({ title, href }: HeaderLinkProps) {
   if (href === undefined) {
-    return <span className="my-2 block" dangerouslySetInnerHTML={{ __html: title }} />;
+    return (
+      <span className="text-theme-accent my-2 block" dangerouslySetInnerHTML={{ __html: title }} />
+    );
   }
 
   return (
     <a
-      className={`my-2 block no-underline hover:underline`}
+      className={`text-theme-accent my-2 block no-underline hover:underline`}
       href={href}
       dangerouslySetInnerHTML={{ __html: title }}
     />

@@ -46,7 +46,7 @@
   --color-bittersweet: #ff6d71;
 
   /* The theme colors default to light mode. */
-  --color-theme-accent: var(--color-cornflower);
+  --color-theme-accent: var(--color-bittersweet);
   --color-theme-background: var(--color-white);
   --color-theme-backgroundHighlight: var(--color-bleach);
   --color-theme-extraLightText: var(--color-gray);

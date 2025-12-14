@@ -46,7 +46,7 @@ export function Summary({
 
   return (
     <a
-      className="text-theme-text hocus:bg-theme-backgroundHighlight hocus:ring-[length:--spacing(2)] hocus:ring-theme-backgroundHighlight my-4 block border-l-[3px] border-l-[color-mix(in_oklab,var(--color-cornflower)_var(--color-mix-percentage),var(--color-bittersweet))] pl-[calc(--spacing(3)-3px)] transition-all duration-75 ease-in outline-none"
+      className="text-theme-text hocus:bg-theme-backgroundHighlight hocus:ring-[length:--spacing(2)] hocus:ring-theme-backgroundHighlight my-4 block border-l-[3px] border-l-[color-mix(in_oklab,var(--color-bittersweet)_var(--color-mix-percentage),var(--color-cornflower))] pl-[calc(--spacing(3)-3px)] transition-all duration-75 ease-in outline-none"
       href={url}
       style={{ "--color-mix-percentage": `${colorMixPercentage}%` } as CSSProperties}
     >
