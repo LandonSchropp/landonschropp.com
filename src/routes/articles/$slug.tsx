@@ -1,5 +1,6 @@
 import { FormattedDate } from "../../components/base/formatted-date";
 import { Header } from "../../components/content/header";
+import { Tag } from "../../components/content/tag";
 import { NAME } from "../../constants";
 import { fetchContent } from "../../data/content";
 import { fetchEnvironmentVariable } from "../../env";
@@ -43,8 +44,9 @@ function ArticlePage() {
             <span rel="author">{NAME}</span> • <FormattedDate date={article.date} />
           </>
         }
-        tags={article.tags}
-        tagsIndexHref="/articles"
+        tags={article.tags.map((tag) => (
+          <Tag key={tag} name={tag} href={`/articles?tag=${tag}`} />
+        ))}
       />
       <section className="prose" dangerouslySetInnerHTML={{ __html: article.content }} />
     </article>

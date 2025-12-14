@@ -1,5 +1,6 @@
 import { ArticleSummary } from "../../components/articles/article-summary";
 import { Header } from "../../components/content/header";
+import { Tag } from "../../components/content/tag";
 import { fetchArticles } from "../../data/articles";
 import { TagSearchSchema } from "../../schema";
 import { createFileRoute } from "@tanstack/react-router";
@@ -29,19 +30,12 @@ function ArticlesPage() {
   const articles = Route.useLoaderData();
   const { tag } = Route.useSearch();
 
-  const headerTagProps = tag
-    ? {
-        tags: [tag],
-        tagsIndexHref: "/articles",
-      }
-    : {};
-
   return (
     <>
       <Header
         title="Writing"
         subtitle="My published articles from all over the web."
-        {...headerTagProps}
+        tags={tag ? [<Tag key={tag} name={tag} href="/articles" />] : undefined}
       />
       <section>
         {articles.map((article, index) => (

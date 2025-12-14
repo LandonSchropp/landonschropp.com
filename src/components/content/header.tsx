@@ -1,12 +1,12 @@
 import { Tags } from "../content/tags";
 import type { ReactNode } from "react";
 
-type HeaderLinkProps = {
+type HeaderTitleProps = {
   title: string;
-  href?: string | undefined;
+  href?: string;
 };
 
-function HeaderTitle({ title, href }: HeaderLinkProps) {
+function HeaderTitle({ title, href }: HeaderTitleProps) {
   if (href === undefined) {
     return (
       <span className="text-theme-accent my-2 block" dangerouslySetInnerHTML={{ __html: title }} />
@@ -15,7 +15,7 @@ function HeaderTitle({ title, href }: HeaderLinkProps) {
 
   return (
     <a
-      className={`text-theme-accent my-2 block no-underline hover:underline`}
+      className="text-theme-accent my-2 block no-underline hover:underline"
       href={href}
       dangerouslySetInnerHTML={{ __html: title }}
     />
@@ -28,40 +28,41 @@ const SECONDARY_TEXT_CLASS_NAME =
 type HeaderProps = {
   /** Short label or category text that appears above the title */
   kicker?: ReactNode;
+
   /** The main heading text */
   title: string;
+
+  /** The URL associated with the title, if applicable. */
+  titleHref?: string;
+
   /** Descriptive text, metadata, or byline that appears below the title */
   subtitle: ReactNode;
-  /** Optional URL to make the title a clickable link */
-  titleHref?: string | undefined;
-} & (
-  | {
-      /** An array of tag names to display */
-      tags: string[];
-      /**
-       * The URL for tag links (e.g., "/notes"). Individual tag hrefs will be constructed by
-       * appending a tag query parameter to this URL.
-       */
-      tagsIndexHref: string;
-    }
-  | {
-      tags?: never;
-      tagsIndexHref?: never;
-    }
-);
 
-export function Header({ kicker, title, titleHref, subtitle, tags, tagsIndexHref }: HeaderProps) {
+  /** Optional array of Tag components to display */
+  tags?: ReactNode[];
+};
+
+/**
+ * The Header is responsible for displaying a title (along with several surrounding elements) in the
+ * following order:
+ *
+ * 1. `kicker` (Optional)
+ * 2. `title` (Required)
+ * 3. `subtitle` (Optional)
+ * 4. `tags` (Optional)
+ */
+export function Header({ kicker, title, titleHref, subtitle, tags }: HeaderProps) {
   return (
     <header className="prose my-6 text-center">
       <h1 className="my-2">
         <span className={`${SECONDARY_TEXT_CLASS_NAME} block`}>{kicker}</span>{" "}
-        <HeaderTitle href={titleHref} title={title} />
+        <HeaderTitle title={title} href={titleHref} />
       </h1>
       <div className={`${SECONDARY_TEXT_CLASS_NAME} my-2`} data-testid="subtitle">
         {subtitle}
       </div>
 
-      {tags && <Tags className="my-2" tags={tags} indexHref={tagsIndexHref} />}
+      {tags && <Tags className="my-2" tags={tags} />}
     </header>
   );
 }

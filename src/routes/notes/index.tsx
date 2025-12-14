@@ -1,4 +1,5 @@
 import { Header } from "../../components/content/header";
+import { Tag } from "../../components/content/tag";
 import { NoteSummary } from "../../components/notes/note-summary";
 import { fetchNotes } from "../../data/notes";
 import { TagSearchSchema } from "../../schema";
@@ -29,19 +30,12 @@ function NotePage() {
   const notes = Route.useLoaderData();
   const { tag } = Route.useSearch();
 
-  const headerTagProps = tag
-    ? {
-        tags: [tag],
-        tagsIndexHref: "/notes",
-      }
-    : {};
-
   return (
     <>
       <Header
         title="Notes"
         subtitle="My personal notes on books, articles, talks, podcasts and more."
-        {...headerTagProps}
+        tags={tag ? [<Tag key={tag} name={tag} href="/notes" />] : undefined}
       />
       <section className="my-8">
         {notes.map((note, index) => (

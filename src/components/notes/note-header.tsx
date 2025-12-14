@@ -13,6 +13,7 @@ import { Note } from "../../types";
 import { baseURL } from "../../utilities/url";
 import { Listify } from "../base/listify";
 import { Header } from "../content/header";
+import { Tag } from "../content/tag";
 import { ReactElement } from "react";
 
 // NOTE: It turns out it's _really_ hard to represent all of the possible nuances of a byline in a
@@ -180,10 +181,11 @@ export function NoteHeader({ note }: NoteProps) {
     <Header
       kicker="My personal notes for"
       title={note.title}
-      subtitle={<NoteSubheadText note={note} />}
       titleHref={note.url}
-      tags={note.tags}
-      tagsIndexHref="/notes"
+      subtitle={<NoteSubheadText note={note} />}
+      tags={note.tags.map((tag) => (
+        <Tag key={tag} name={tag} href={`/notes?tag=${tag}`} />
+      ))}
     />
   );
 }

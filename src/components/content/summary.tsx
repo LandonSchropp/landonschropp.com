@@ -1,3 +1,4 @@
+import { Tag } from "../content/tag";
 import { Tags } from "../content/tags";
 import { CSSProperties, ReactNode } from "react";
 
@@ -52,7 +53,14 @@ export function Summary({
     >
       <h3 className="my-0 text-base" {...titleAttributes} />
       <p className="my-0 italic" {...descriptionAttributes} />
-      {tags && <Tags tags={tags} indexHref={tagsIndexHref} className="justify-start" />}
+      {tags && (
+        <Tags
+          className="justify-start"
+          tags={tags.map((tag) => (
+            <Tag key={tag} name={tag} href={`${tagsIndexHref}?tag=${tag}`} />
+          ))}
+        />
+      )}
     </a>
   );
 }
