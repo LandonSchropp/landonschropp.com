@@ -1,13 +1,16 @@
 import { Header } from "../../components/content/header";
 import { TodayILearnedSummary } from "../../components/today-i-learned/today-i-learned-summary";
-import { fetchContents } from "../../data/content";
-import { fetchEnvironmentVariable } from "../../env";
-import { parseTodayILearned } from "../../schema";
+import { fetchTodayILearneds } from "../../data/today-i-learned";
+import { TagSearchSchema } from "../../schema";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/today-i-learned/")({
-  loader: async () =>
-    await fetchContents(fetchEnvironmentVariable("TODAY_I_LEARNED_PATH"), parseTodayILearned),
+  validateSearch: TagSearchSchema,
+  loaderDeps: ({ search }) => ({ tag: search.tag }),
+  loader: async ({ deps: { tag } }) => {
+    const todayILearneds = await fetchTodayILearneds();
+    return tag ? todayILearneds.filter(({ tags }) => tags.includes(tag)) : todayILearneds;
+  },
   head: () => ({
     meta: [
       {

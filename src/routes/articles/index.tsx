@@ -1,12 +1,16 @@
 import { ArticleSummary } from "../../components/articles/article-summary";
 import { Header } from "../../components/content/header";
-import { fetchContents } from "../../data/content";
-import { fetchEnvironmentVariable } from "../../env";
-import { parseArticle } from "../../schema";
+import { fetchArticles } from "../../data/articles";
+import { TagSearchSchema } from "../../schema";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/articles/")({
-  loader: async () => await fetchContents(fetchEnvironmentVariable("ARTICLES_PATH"), parseArticle),
+  validateSearch: TagSearchSchema,
+  loaderDeps: ({ search }) => ({ tag: search.tag }),
+  loader: async ({ deps: { tag } }) => {
+    const articles = await fetchArticles();
+    return tag ? articles.filter(({ tags }) => tags.includes(tag)) : articles;
+  },
   head: () => ({
     meta: [
       {

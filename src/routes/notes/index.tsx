@@ -1,10 +1,16 @@
 import { Header } from "../../components/content/header";
 import { NoteSummary } from "../../components/notes/note-summary";
 import { fetchNotes } from "../../data/notes";
+import { TagSearchSchema } from "../../schema";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/notes/")({
-  loader: async () => await fetchNotes(),
+  validateSearch: TagSearchSchema,
+  loaderDeps: ({ search }) => ({ tag: search.tag }),
+  loader: async ({ deps: { tag } }) => {
+    const notes = await fetchNotes();
+    return tag ? notes.filter(({ tags }) => tags.includes(tag)) : notes;
+  },
   head: () => ({
     meta: [
       {
