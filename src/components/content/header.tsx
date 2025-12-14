@@ -26,7 +26,10 @@ const SECONDARY_TEXT_CLASS_NAME =
   "mx-auto text-base font-normal font-serif italic text-theme-lightText [&_a]:underline my-2";
 
 type HeaderProps = {
-  /** Short label or category text that appears above the title */
+  /**
+   * Text displayed above the title. This is considered part of the title from SEO and accessibility
+   * perspectives, but visually separated to provide additional context.
+   */
   kicker?: ReactNode;
 
   /** The main heading text */
