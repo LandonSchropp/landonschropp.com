@@ -4,9 +4,11 @@ import { Summary } from "../content/summary";
 
 type TodayILearnedSummaryProps = {
   todayILearned: TodayILearned;
+  index: number;
+  count: number;
 };
 
-export function TodayILearnedSummary({ todayILearned }: TodayILearnedSummaryProps) {
+export function TodayILearnedSummary({ todayILearned, index, count }: TodayILearnedSummaryProps) {
   return (
     <Summary
       url={`/today-i-learned/${todayILearned.slug}`}
@@ -14,6 +16,8 @@ export function TodayILearnedSummary({ todayILearned }: TodayILearnedSummaryProp
       description={<FormattedDate date={todayILearned.date} />}
       tags={todayILearned.tags}
       tagsIndexHref="/today-i-learned"
+      index={index}
+      count={count}
     />
   );
 }

@@ -28,8 +28,13 @@ function ArticlesPage() {
     <>
       <Header title="Writing" subtitle="My published articles from all over the web." />
       <section>
-        {articles.map((article) => (
-          <ArticleSummary key={article.slug} article={article} />
+        {articles.map((article, index) => (
+          <ArticleSummary
+            key={article.slug}
+            article={article}
+            index={index}
+            count={articles.length}
+          />
         ))}
       </section>
     </>

@@ -9,8 +9,8 @@ type NoteSummariesProps = {
 };
 
 export function NoteSummaries({ notes }: NoteSummariesProps) {
-  const noteSummaries = notes.map((noteSummary) => (
-    <NoteSummary key={noteSummary.slug} note={noteSummary} />
+  const noteSummaries = notes.map((noteSummary, index) => (
+    <NoteSummary key={noteSummary.slug} note={noteSummary} index={index} count={notes.length} />
   ));
 
   return (

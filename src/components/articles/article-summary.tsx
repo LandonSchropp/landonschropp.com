@@ -4,9 +4,11 @@ import { Summary } from "../content/summary";
 
 type ArticleSummaryProps = {
   article: Article;
+  index: number;
+  count: number;
 };
 
-export function ArticleSummary({ article }: ArticleSummaryProps) {
+export function ArticleSummary({ article, index, count }: ArticleSummaryProps) {
   const href = "url" in article ? article.url : `/articles/${article.slug}`;
 
   const linkIcon =
@@ -27,6 +29,8 @@ export function ArticleSummary({ article }: ArticleSummaryProps) {
       }
       description={article.description}
       url={href}
+      index={index}
+      count={count}
     />
   );
 }

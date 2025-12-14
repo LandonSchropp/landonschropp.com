@@ -32,8 +32,13 @@ function TodayILearnedPage() {
         subtitle="Language and framework tips and tricks I've learned while coding"
       />
       <section className="my-8">
-        {todayILearneds.map((todayILearned) => (
-          <TodayILearnedSummary key={todayILearned.slug} todayILearned={todayILearned} />
+        {todayILearneds.map((todayILearned, index) => (
+          <TodayILearnedSummary
+            key={todayILearned.slug}
+            todayILearned={todayILearned}
+            index={index}
+            count={todayILearneds.length}
+          />
         ))}
       </section>
     </>

@@ -29,8 +29,8 @@ function NotePage() {
         subtitle="My personal notes on books, articles, talks, podcasts and more."
       />
       <section className="my-8">
-        {notes.map((note) => (
-          <NoteSummary key={note.slug} note={note} />
+        {notes.map((note, index) => (
+          <NoteSummary key={note.slug} note={note} index={index} count={notes.length} />
         ))}
       </section>
     </>

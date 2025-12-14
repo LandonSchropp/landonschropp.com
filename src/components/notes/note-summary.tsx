@@ -51,9 +51,11 @@ function NoteByline({ note }: NoteBylineProps) {
 
 type NoteSummaryProps = {
   note: Note;
+  index: number;
+  count: number;
 };
 
-export function NoteSummary({ note }: NoteSummaryProps) {
+export function NoteSummary({ note, index, count }: NoteSummaryProps) {
   return (
     <Summary
       url={`/notes/${note.slug}`}
@@ -61,6 +63,8 @@ export function NoteSummary({ note }: NoteSummaryProps) {
       description={<NoteByline note={note} />}
       tags={note.tags}
       tagsIndexHref="/notes"
+      index={index}
+      count={count}
     />
   );
 }
