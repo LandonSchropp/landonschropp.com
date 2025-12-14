@@ -1,43 +1,90 @@
-/* This is my own custom Highlight.js theme based upon the ally-light theme. */
+/* This is my own custom Highlight.js theme. */
 
 @layer components {
+  /* Comments and quotes */
   .prose .hljs-comment,
   .prose .hljs-quote {
     @apply text-gray italic;
   }
 
-  .prose .hljs-variable,
-  .prose .hljs-template-variable,
-  .prose .hljs-tag,
-  .prose .hljs-name,
-  .prose .hljs-selector-id,
-  .prose .hljs-selector-class,
-  .prose .hljs-regexp,
-  .prose .hljs-deletion,
-  .prose .hljs-string,
-  .prose .hljs-symbol,
-  .prose .hljs-bullet,
-  .prose .hljs-addition,
-  .prose .hljs-number,
-  .prose .hljs-built_in,
-  .prose .hljs-builtin-name,
-  .prose .hljs-literal,
-  .prose .hljs-type,
-  .prose .hljs-params,
-  .prose .hljs-meta,
-  .prose .hljs-link,
-  .prose .hljs-attribute,
-  .prose .hljs-title,
-  .prose .hljs-section,
+  /* Keywords and variables */
   .prose .hljs-keyword,
-  .prose .hljs-selector-tag {
-    @apply text-cornflower text-theme-accent;
+  .prose .hljs-variable,
+  .prose .hljs-name {
+    @apply text-purple;
   }
 
+  /* Built-ins, doctag */
+  .prose .hljs-built_in,
+  .prose .hljs-builtin-name,
+  .prose .hljs-doctag {
+    @apply text-mulberry;
+  }
+
+  /* Types and classes */
+  .prose .hljs-type,
+  .prose .hljs-selector-tag {
+    @apply text-amethyst;
+  }
+
+  /* Strings, code, attributes */
+  .prose .hljs-string,
+  .prose .hljs-code,
+  .prose .hljs-attribute {
+    @apply text-bittersweet;
+  }
+
+  /* Numbers, literals, meta */
+  .prose .hljs-number,
+  .prose .hljs-literal,
+  .prose .hljs-meta {
+    @apply text-mulberry;
+  }
+
+  /* Functions, titles, sections, attr, selector-id */
+  .prose .hljs-title,
+  .prose .hljs-section,
+  .prose .hljs-attr,
+  .prose .hljs-selector-id {
+    @apply text-cornflower;
+  }
+
+  /* Properties, tags, bullets, selector-class, links */
+  .prose .hljs-property,
+  .prose .hljs-tag,
+  .prose .hljs-bullet,
+  .prose .hljs-selector-class,
+  .prose .hljs-link,
+  .prose .hljs-formula {
+    @apply text-cornflower;
+  }
+
+  /* Regex, symbols, template-tag, template-variable */
+  .prose .hljs-regexp,
+  .prose .hljs-symbol,
+  .prose .hljs-template-tag,
+  .prose .hljs-template-variable {
+    @apply text-mulberry;
+  }
+
+  /* Additions */
+  .prose .hljs-addition {
+    @apply text-mulberry;
+  }
+
+  /* Deletions, emphasis, strong */
+  .prose .hljs-deletion,
+  .prose .hljs-emphasis,
+  .prose .hljs-strong {
+    @apply text-bittersweet;
+  }
+
+  /* Emphasis */
   .prose .hljs-emphasis {
     font-style: italic;
   }
 
+  /* String */
   .prose .hljs-strong {
     font-weight: bold;
   }
