@@ -1,6 +1,7 @@
 import { Header } from "../../components/content/header";
 import { Tag } from "../../components/content/tag";
 import { TodayILearnedSummary } from "../../components/today-i-learned/today-i-learned-summary";
+import { filterContentsByTag } from "../../data/content";
 import { fetchTodayILearneds } from "../../data/today-i-learned";
 import { TagSearchSchema } from "../../schema";
 import { createFileRoute } from "@tanstack/react-router";
@@ -8,10 +9,7 @@ import { createFileRoute } from "@tanstack/react-router";
 export const Route = createFileRoute("/today-i-learned/")({
   validateSearch: TagSearchSchema,
   loaderDeps: ({ search }) => ({ tag: search.tag }),
-  loader: async ({ deps: { tag } }) => {
-    const todayILearneds = await fetchTodayILearneds();
-    return tag ? todayILearneds.filter(({ tags }) => tags.includes(tag)) : todayILearneds;
-  },
+  loader: async ({ deps: { tag } }) => filterContentsByTag(await fetchTodayILearneds(), tag),
   head: () => ({
     meta: [
       {

@@ -1,5 +1,5 @@
 import { parseContent } from "../schema";
-import { PassthroughContent } from "../types";
+import { Content, PassthroughContent } from "../types";
 import { parseFrontmatter } from "../utilities/frontmatter";
 import {
   renderMarkdown,
@@ -104,3 +104,16 @@ export const fetchContent = createServerOnlyFn(
     return content;
   },
 );
+
+/**
+ * Filters an array of contents by the provided tag.
+ * @param contents The contents to filter.
+ * @param tag The tag to filter by. If undefined, no filtering is applied.
+ * @returns The filtered contents.
+ */
+export function filterContentsByTag<T extends Content>(
+  contents: T[],
+  tag: string | undefined,
+): T[] {
+  return tag ? contents.filter((content) => content.tags.includes(tag)) : contents;
+}

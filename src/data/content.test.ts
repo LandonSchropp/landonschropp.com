@@ -1,6 +1,6 @@
 import { contentFactory } from "../../test/factories";
 import { parseContent } from "../schema";
-import { fetchContents, fetchContent } from "./content";
+import { fetchContents, fetchContent, filterContentsByTag } from "./content";
 import { mkdir, writeFile, rm } from "fs/promises";
 import { tmpdir } from "os";
 import { join } from "path";
@@ -353,6 +353,74 @@ describe("fetchAndParseContent", () => {
       const result = await fetchContent(testDir, "test-article", parseContent);
 
       expect(result.description).toBeUndefined();
+    });
+  });
+});
+
+describe("filterContentsByTag", () => {
+  describe("when the tag is undefined", () => {
+    it("returns all contents", () => {
+      const contents = [
+        contentFactory.build({ tags: ["javascript", "typescript"] }),
+        contentFactory.build({ tags: ["react"] }),
+        contentFactory.build({ tags: [] }),
+      ];
+
+      const result = filterContentsByTag(contents, undefined);
+
+      expect(result).toEqual(contents);
+    });
+  });
+
+  describe("when the tag is provided", () => {
+    describe("when some contents have the tag", () => {
+      it("returns only the contents with the tag", () => {
+        const matchingContent1 = contentFactory.build({ tags: ["javascript", "typescript"] });
+        const nonMatchingContent = contentFactory.build({ tags: ["react"] });
+        const matchingContent2 = contentFactory.build({ tags: ["javascript", "node"] });
+
+        const contents = [matchingContent1, nonMatchingContent, matchingContent2];
+
+        const result = filterContentsByTag(contents, "javascript");
+
+        expect(result).toEqual([matchingContent1, matchingContent2]);
+      });
+    });
+
+    describe("when no contents have the tag", () => {
+      it("returns an empty array", () => {
+        const contents = [
+          contentFactory.build({ tags: ["react"] }),
+          contentFactory.build({ tags: ["vue"] }),
+          contentFactory.build({ tags: [] }),
+        ];
+
+        const result = filterContentsByTag(contents, "javascript");
+
+        expect(result).toEqual([]);
+      });
+    });
+
+    describe("when all contents have the tag", () => {
+      it("returns all contents", () => {
+        const contents = [
+          contentFactory.build({ tags: ["javascript", "typescript"] }),
+          contentFactory.build({ tags: ["javascript", "react"] }),
+          contentFactory.build({ tags: ["javascript"] }),
+        ];
+
+        const result = filterContentsByTag(contents, "javascript");
+
+        expect(result).toEqual(contents);
+      });
+    });
+
+    describe("when the contents array is empty", () => {
+      it("returns an empty array", () => {
+        const result = filterContentsByTag([], "javascript");
+
+        expect(result).toEqual([]);
+      });
     });
   });
 });
