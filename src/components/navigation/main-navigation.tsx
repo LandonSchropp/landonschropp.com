@@ -1,6 +1,6 @@
 import { NAME } from "../../constants";
 import { Icon } from "../base/icon";
-import { useLocation } from "@tanstack/react-router";
+import { Link as RouterLink, useLocation } from "@tanstack/react-router";
 
 const ICON_CLASS_NAME = "h-[--spacing(3.6)]";
 
@@ -18,6 +18,10 @@ function isCurrent(pathname: string, href: string): boolean {
   return pathname.startsWith(href);
 }
 
+function isExternalLink(href: string): boolean {
+  return href.startsWith("http") || href.startsWith("mailto:");
+}
+
 function Link({ href, children, icon = false }: LinkProps) {
   const { pathname } = useLocation();
 
@@ -27,14 +31,24 @@ function Link({ href, children, icon = false }: LinkProps) {
     ? "shocus:shadow-[0_3px] shadow-theme-accent shocus:text-theme-accent"
     : "";
 
+  const baseClassName = `mx-2 block text-inherit transition-all duration-75 ease-in ${className} ${shocusClassName}`;
+
+  if (isExternalLink(href)) {
+    return (
+      <a className={baseClassName} href={href}>
+        {children}
+      </a>
+    );
+  }
+
   return (
-    <a
-      className={`mx-2 block text-inherit transition-all duration-75 ease-in ${className} ${shocusClassName}`}
-      href={href}
+    <RouterLink
+      className={baseClassName}
+      to={href}
       {...(isCurrent(pathname, href) && { "aria-current": "page" })}
     >
       {children}
-    </a>
+    </RouterLink>
   );
 }
 

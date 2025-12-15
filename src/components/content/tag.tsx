@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
 export type TagProps = {
@@ -17,11 +18,11 @@ export function Tag({ name, href, selected }: TagProps) {
   const selectedClassNames = selected ? SELECTED_CLASS_NAMES : UNSELECTED_CLASS_NAMES;
 
   return (
-    <a
-      href={href}
+    <Link
+      to={href}
       className={`text-theme-extraLightText relative z-10 -mx-0.5 inline-block rounded-full px-0.5 text-sm leading-none transition-all duration-75 ease-in ${selectedClassNames}`}
     >
       #{name}
-    </a>
+    </Link>
   );
 }

@@ -9,16 +9,16 @@ type ArticleSummaryProps = {
 };
 
 export function ArticleSummary({ article, index, count }: ArticleSummaryProps) {
-  const href = "url" in article ? article.url : `/articles/${article.slug}`;
+  const external = "url" in article;
+  const href = external ? article.url : `/articles/${article.slug}`;
 
-  const linkIcon =
-    "publisher" in article ? (
-      <Icon
-        className="relative top-[-0.1em] h-[0.85em] w-[0.85em] align-baseline"
-        name="externalLink"
-        alt={`Published on ${article.publisher}`}
-      />
-    ) : null;
+  const linkIcon = external ? (
+    <Icon
+      className="relative top-[-0.1em] h-[0.85em] w-[0.85em] align-baseline"
+      name="externalLink"
+      alt={`Published on ${article.publisher}`}
+    />
+  ) : null;
 
   return (
     <Summary
@@ -29,6 +29,7 @@ export function ArticleSummary({ article, index, count }: ArticleSummaryProps) {
       }
       description={article.description}
       url={href}
+      external={external}
       index={index}
       count={count}
     />
