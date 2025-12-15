@@ -9,7 +9,7 @@ const MARKDOWN_IMAGE_REGEX = /!\[([^\]]*)\]\(([^)]+)\)/g;
  * A markdown-it plugin that wraps tables in a responsive container.
  * @param markdownit The markdown-it instance.
  */
-export default function tableWrapper(markdownit: createMarkdownIt): void {
+function tableWrapper(markdownit: createMarkdownIt): void {
   markdownit.renderer.rules.table_open = function () {
     return '<div class="overflow-x-auto my-4"><table>';
   };
