@@ -9,7 +9,18 @@ import {
   APP_MEDIA,
   VIDEO_PLAYLIST_MEDIA,
 } from "../../constants";
-import { Note } from "../../types";
+import {
+  AppNote,
+  ArticleNote,
+  BookNote,
+  CourseNote,
+  LiveTalkNote,
+  Note,
+  PodcastNote,
+  RecordedTalkNote,
+  VideoNote,
+  VideoPlaylistNote,
+} from "../../types";
 import { baseURL } from "../../utilities/url";
 import { Listify } from "../base/listify";
 import { Header } from "../content/header";
@@ -39,7 +50,7 @@ function NoteSource({ note }: { note: Note & { source: string } }) {
   return <a href={baseURL(note.url)}>{note.source}</a>;
 }
 
-type ArticleNoteSubheadProps = { note: Extract<Note, { media: typeof ARTICLE_MEDIA }> };
+type ArticleNoteSubheadProps = { note: ArticleNote };
 
 function ArticleNoteSubheadText({ note }: ArticleNoteSubheadProps) {
   if (shouldSkipAuthors(note)) {
@@ -51,7 +62,7 @@ function ArticleNoteSubheadText({ note }: ArticleNoteSubheadProps) {
   return <>An article by <NoteAuthors note={note} /> from <NoteSource note={note} /></>;
 }
 
-type AppNoteSubheadProps = { note: Extract<Note, { media: typeof APP_MEDIA }> };
+type AppNoteSubheadProps = { note: AppNote };
 
 function AppNoteSubheadText({ note }: AppNoteSubheadProps) {
   if (shouldSkipAuthors(note)) {
@@ -63,7 +74,7 @@ function AppNoteSubheadText({ note }: AppNoteSubheadProps) {
   return <>By <NoteAuthors note={note} /> from the app <NoteSource note={note} /></>;
 }
 
-type BookNoteSubheadProps = { note: Extract<Note, { media: typeof BOOK_MEDIA }> };
+type BookNoteSubheadProps = { note: BookNote };
 
 function BookNoteSubheadText({ note }: BookNoteSubheadProps) {
   if (note.authors.length === 0) {
@@ -74,7 +85,7 @@ function BookNoteSubheadText({ note }: BookNoteSubheadProps) {
   return <>A book by <NoteAuthors note={note} /></>;
 }
 
-type CourseNoteSubheadProps = { note: Extract<Note, { media: typeof COURSE_MEDIA }> };
+type CourseNoteSubheadProps = { note: CourseNote };
 
 function CourseNoteSubheadText({ note }: CourseNoteSubheadProps) {
   if (shouldSkipAuthors(note)) {
@@ -86,7 +97,7 @@ function CourseNoteSubheadText({ note }: CourseNoteSubheadProps) {
   return <>A course by <NoteAuthors note={note} /> from <NoteSource note={note} /></>;
 }
 
-type LiveTalkNoteSubheadProps = { note: Extract<Note, { media: typeof LIVE_TALK_MEDIA }> };
+type LiveTalkNoteSubheadProps = { note: LiveTalkNote };
 
 function LiveTalkNoteSubheadText({ note }: LiveTalkNoteSubheadProps) {
   if (note.authors.length === 0) {
@@ -97,7 +108,7 @@ function LiveTalkNoteSubheadText({ note }: LiveTalkNoteSubheadProps) {
   return <>A talk by <NoteAuthors note={note} /> I attended at {note.event}</>;
 }
 
-type PodcastNoteSubheadProps = { note: Extract<Note, { media: typeof PODCAST_MEDIA }> };
+type PodcastNoteSubheadProps = { note: PodcastNote };
 
 function PodcastNoteSubheadText({ note }: PodcastNoteSubheadProps) {
   if (shouldSkipAuthors(note)) {
@@ -109,7 +120,7 @@ function PodcastNoteSubheadText({ note }: PodcastNoteSubheadProps) {
   return <>From <NoteSource note={note} />, a podcast by <NoteAuthors note={note} /></>;
 }
 
-type RecordedTalkNoteSubheadProps = { note: Extract<Note, { media: typeof RECORDED_TALK_MEDIA }> };
+type RecordedTalkNoteSubheadProps = { note: RecordedTalkNote };
 
 function RecordedTalkNoteSubheadText({ note }: RecordedTalkNoteSubheadProps) {
   if (shouldSkipAuthors(note)) {
@@ -121,7 +132,7 @@ function RecordedTalkNoteSubheadText({ note }: RecordedTalkNoteSubheadProps) {
   return <>A talk by <NoteAuthors note={note} /> from {note.source}</>;
 }
 
-type VideoNoteSubheadProps = { note: Extract<Note, { media: typeof VIDEO_MEDIA }> };
+type VideoNoteSubheadProps = { note: VideoNote };
 
 function VideoNoteSubheadText({ note }: VideoNoteSubheadProps) {
   if (shouldSkipAuthors(note)) {
@@ -134,7 +145,7 @@ function VideoNoteSubheadText({ note }: VideoNoteSubheadProps) {
 }
 
 type VideoPlaylistNoteSubheadProps = {
-  note: Extract<Note, { media: typeof VIDEO_PLAYLIST_MEDIA }>;
+  note: VideoPlaylistNote;
 };
 
 function VideoPlaylistNoteSubheadText({ note }: VideoPlaylistNoteSubheadProps) {
