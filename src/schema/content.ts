@@ -4,6 +4,8 @@ import { z } from "zod";
 
 const H1_TAG_REGEX = /<h1[^>]*>/i;
 
+const LowerKebabCase = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
+
 export const ContentSchema = z.object({
   title: z.string(),
   date: z.string().date(),
@@ -13,8 +15,8 @@ export const ContentSchema = z.object({
   }),
   images: z.array(z.string()),
   filePath: z.string(),
-  slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
-  tags: z.array(z.string()),
+  slug: LowerKebabCase,
+  tags: z.array(LowerKebabCase),
 });
 
 /**
