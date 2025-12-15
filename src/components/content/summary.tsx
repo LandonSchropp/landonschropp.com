@@ -46,12 +46,13 @@ export function Summary({
   const colorMixPercentage = count === 1 ? 0 : 100 - (index / (count - 1)) * 100;
 
   return (
-    <a
-      className="text-theme-text hocus:bg-theme-backgroundHighlight hocus:ring-[length:--spacing(2)] hocus:ring-theme-backgroundHighlight my-4 block border-l-[3px] border-l-[color-mix(in_oklab,var(--color-bittersweet)_var(--color-mix-percentage),var(--color-cornflower))] pl-[calc(--spacing(3)-3px)] transition-all duration-75 ease-in outline-none"
-      href={url}
+    <div
+      className="text-theme-text hover:[&:not(:has(h3~div_a:hover))]:bg-theme-backgroundHighlight hover:[&:not(:has(h3~div_a:hover))]:ring-theme-backgroundHighlight focus:bg-theme-backgroundHighlight focus:ring-theme-backgroundHighlight relative my-4 block border-l-[3px] border-l-[color-mix(in_oklab,var(--color-bittersweet)_var(--color-mix-percentage),var(--color-cornflower))] pl-[calc(--spacing(3)-3px)] transition-all duration-75 ease-in outline-none focus:ring-[length:--spacing(2)] hover:[&:not(:has(h3~div_a:hover))]:ring-[length:--spacing(2)]"
       style={{ "--color-mix-percentage": `${colorMixPercentage}%` } as CSSProperties}
     >
-      <h3 className="my-0 text-base" {...titleAttributes} />
+      <h3 className="my-0 text-base">
+        <a href={url} className="outline-none after:absolute after:inset-0" {...titleAttributes} />
+      </h3>
       <p className="my-0 italic" {...descriptionAttributes} />
       {tags && (
         <Tags
@@ -61,6 +62,6 @@ export function Summary({
           ))}
         />
       )}
-    </a>
+    </div>
   );
 }

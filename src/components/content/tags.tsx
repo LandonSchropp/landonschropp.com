@@ -13,5 +13,12 @@ export function Tags({ tags, className }: TagsProps) {
     return null;
   }
 
-  return <div className={`flex flex-wrap justify-center gap-2 ${className}`}>{tags}</div>;
+  // NOTE: The height is explicitly set to match the line height of the regular text.
+  return (
+    <div
+      className={`flex h-[calc(var(--text-base)*var(--text-base--line-height))] flex-wrap items-center justify-center gap-2 ${className}`}
+    >
+      {tags}
+    </div>
+  );
 }

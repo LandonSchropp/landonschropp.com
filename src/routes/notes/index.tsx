@@ -35,7 +35,7 @@ function NotePage() {
       <Header
         title="Notes"
         subtitle="My personal notes on books, articles, talks, podcasts and more."
-        tags={tag ? [<Tag key={tag} name={tag} href="/notes" />] : undefined}
+        tags={tag ? [<Tag key={tag} name={tag} href="/notes" selected />] : undefined}
       />
       <section className="my-8">
         {notes.map((note, index) => (
