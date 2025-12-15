@@ -43,7 +43,11 @@ export function Summary({
       ? { dangerouslySetInnerHTML: { __html: description } }
       : { children: description };
 
-  const colorMixPercentage = count === 1 ? 0 : 100 - (index / (count - 1)) * 100;
+  // Ensure that there are at least 5 steps in the color gradient
+  count = count < 5 ? 5 : count;
+
+  // Calculate the color mix percentage based on the index
+  const colorMixPercentage = 100 - (index / (count - 1)) * 100;
 
   return (
     <div
