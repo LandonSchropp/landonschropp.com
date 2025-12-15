@@ -1,17 +1,10 @@
 import { TodayILearnedHeader } from "../../components/today-i-learned/today-i-learned-header";
 import { NAME } from "../../constants";
-import { fetchContent } from "../../data/content";
-import { fetchEnvironmentVariable } from "../../env";
-import { parseTodayILearned } from "../../schema";
+import { fetchTodayILearned } from "../../data/today-i-learned";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/today-i-learned/$slug")({
-  loader: async ({ params }) =>
-    await fetchContent(
-      fetchEnvironmentVariable("TODAY_I_LEARNED_PATH"),
-      params.slug,
-      parseTodayILearned,
-    ),
+  loader: async ({ params }) => await fetchTodayILearned({ data: { slug: params.slug } }),
   head: ({ loaderData }) => {
     if (!loaderData) return {};
 
