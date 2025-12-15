@@ -1,5 +1,5 @@
-import { MainNavigation } from "../components/navigation/main-navigation";
-import { Outlet, createFileRoute } from "@tanstack/react-router";
+import { ContentLayout } from "./-layout";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/articles")({
   component: ArticlesLayout,
@@ -7,11 +7,8 @@ export const Route = createFileRoute("/articles")({
 
 function ArticlesLayout() {
   return (
-    <>
-      <MainNavigation />
-      <main className="prose mx-auto w-[70ch] max-w-full px-2 md:px-4">
-        <Outlet />
-      </main>
-    </>
+    <ContentLayout>
+      <Outlet />
+    </ContentLayout>
   );
 }
