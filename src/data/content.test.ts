@@ -236,16 +236,16 @@ describe("fetchAndParseContent", () => {
         tags: []
         ---
 
-        Here's an image: ![alt](./image1.jpg)
+        Here's an image: ![alt](image1.jpg)
 
-        And another: ![alt2](./image2.png)
+        And another: ![alt2](image2.png)
       `;
       const filePath = join(testDir, "test-article.md");
       await writeFile(filePath, markdown);
 
       const result = await fetchContent(testDir, "test-article", parseContent);
 
-      expect(result.images).toEqual(["test-article/image1.jpg", "test-article/image2.png"]);
+      expect(result.images).toEqual(["image1.jpg", "image2.png"]);
     });
 
     it("prefixes image paths with slug in content", async () => {
@@ -258,7 +258,7 @@ describe("fetchAndParseContent", () => {
         tags: []
         ---
 
-        ![alt](./image.jpg)
+        ![alt](image.jpg)
       `;
       const filePath = join(testDir, "test-article.md");
       await writeFile(filePath, markdown);
