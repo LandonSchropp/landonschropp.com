@@ -1,8 +1,8 @@
 import {
   renderMarkdown,
   renderInlineMarkdown,
-  getMarkdownImageSourcePaths,
-  prefixMarkdownImageSourcePaths,
+  getMarkdownImages,
+  replaceMarkdownImages,
 } from "./markdown";
 import { dedent } from "ts-dedent";
 
@@ -92,75 +92,56 @@ describe("renderInlineMarkdown", () => {
   });
 });
 
-describe("prefixMarkdownImageSourcePaths", () => {
+describe("replaceMarkdownImages", () => {
   describe("when the markdown has no images", () => {
     it("returns the markdown unchanged", () => {
       const markdown = "This is just text.";
-      expect(prefixMarkdownImageSourcePaths(markdown, "/prefix")).toBe(markdown);
+      expect(replaceMarkdownImages(markdown, [])).toBe(markdown);
     });
   });
 
   describe("when the markdown contain an image", () => {
-    it("prepends the prefix to image path", () => {
+    it("replaces image path with URL derived from hash", () => {
       const markdown = "![alt text](image.png)";
-      expect(prefixMarkdownImageSourcePaths(markdown, "/prefix")).toBe(
-        "![alt text](/prefix/image.png)",
-      );
+      const images = [
+        {
+          source: "image.png",
+          filePath: "/path/to/image.png",
+          hash: "abc123",
+        },
+      ];
+      expect(replaceMarkdownImages(markdown, images)).toBe("![alt text](/images/abc123.png)");
     });
   });
 
   describe("when the markdown contains multiple images", () => {
-    it("prepends the prefix to the image paths", () => {
+    it("replaces all image paths with their URLs", () => {
       const markdown = "![alt1](image1.png) ![alt2](image2.png)";
-      const result = prefixMarkdownImageSourcePaths(markdown, "/prefix");
+      const images = [
+        {
+          source: "image1.png",
+          filePath: "/path/to/image1.png",
+          hash: "abc123",
+        },
+        {
+          source: "image2.png",
+          filePath: "/path/to/image2.png",
+          hash: "def456",
+        },
+      ];
+      const result = replaceMarkdownImages(markdown, images);
 
-      expect(result).toBe("![alt1](/prefix/image1.png) ![alt2](/prefix/image2.png)");
-    });
-  });
-
-  describe("when given a null prefix", () => {
-    it("returns the markdown unchanged", () => {
-      const markdown = "![alt text](image.png)";
-      expect(prefixMarkdownImageSourcePaths(markdown, null)).toBe(markdown);
-    });
-  });
-
-  describe("when the image path starts with ./", () => {
-    it("strips the ./ prefix before prepending", () => {
-      const markdown = "![alt text](./image.png)";
-      expect(prefixMarkdownImageSourcePaths(markdown, "prefix")).toBe(
-        "![alt text](prefix/image.png)",
-      );
+      expect(result).toBe("![alt1](/images/abc123.png) ![alt2](/images/def456.png)");
     });
   });
 });
 
-describe("getMarkdownImageSourcePaths", () => {
+describe("getMarkdownImages", () => {
   describe("when the markdown has no images", () => {
-    it("returns an empty array", () => {
+    it("returns an empty array", async () => {
       const markdown = "This is just text.";
-      expect(getMarkdownImageSourcePaths(markdown)).toEqual([]);
-    });
-  });
-
-  describe("when the markdown contains a single image", () => {
-    it("extracts the image path", () => {
-      const markdown = "![alt text](image.png)";
-      expect(getMarkdownImageSourcePaths(markdown)).toEqual(["image.png"]);
-    });
-  });
-
-  describe("when the markdown contains multiple images", () => {
-    it("extracts all image paths", () => {
-      const markdown = "![alt1](image1.png) ![alt2](image2.png)";
-      expect(getMarkdownImageSourcePaths(markdown)).toEqual(["image1.png", "image2.png"]);
-    });
-  });
-
-  describe("when the markdown contains a URL in an image path", () => {
-    it("extracts the URL", () => {
-      const markdown = "![alt](https://example.com/image.png)";
-      expect(getMarkdownImageSourcePaths(markdown)).toEqual(["https://example.com/image.png"]);
+      const result = await getMarkdownImages(markdown, "/base/dir/test-slug.md");
+      expect(result).toEqual([]);
     });
   });
 });

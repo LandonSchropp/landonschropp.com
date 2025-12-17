@@ -1,5 +1,5 @@
 import { contentFactory } from "../../test/factories";
-import { downloadImage } from "./image";
+import { downloadImage, generateImageHash } from "./image";
 import { mkdir, writeFile, rm } from "fs/promises";
 import { tmpdir } from "os";
 import { join } from "path";
@@ -149,6 +149,70 @@ describe("downloadImage", () => {
       await expect(downloadImage(content, "test.unknown")).rejects.toThrow(
         "Could not determine content type for image 'test.unknown'",
       );
+    });
+  });
+});
+
+describe("generateImageHash", () => {
+  const hashTestDir = join(tmpdir(), `hash-test-${Date.now()}`);
+
+  beforeEach(async () => {
+    await mkdir(hashTestDir, { recursive: true });
+  });
+
+  afterEach(async () => {
+    await rm(hashTestDir, { recursive: true, force: true });
+  });
+
+  describe("when given a valid image file", () => {
+    it("returns a 32-character hexadecimal hash", async () => {
+      const imagePath = join(hashTestDir, "test-image.png");
+      await writeFile(imagePath, Buffer.from("fake image content"));
+
+      const hash = await generateImageHash(imagePath);
+
+      expect(hash).toMatch(/^[a-f0-9]{32}$/);
+    });
+  });
+
+  describe("when the same file is hashed multiple times", () => {
+    it("returns the same hash", async () => {
+      const imagePath = join(hashTestDir, "test-image.png");
+      await writeFile(imagePath, Buffer.from("fake image content"));
+
+      const hash1 = await generateImageHash(imagePath);
+      const hash2 = await generateImageHash(imagePath);
+
+      expect(hash1).toBe(hash2);
+    });
+  });
+
+  describe("when the file content changes", () => {
+    it("returns a different hash", async () => {
+      const imagePath = join(hashTestDir, "test-image.png");
+      await writeFile(imagePath, Buffer.from("original content"));
+
+      const hash1 = await generateImageHash(imagePath);
+
+      await writeFile(imagePath, Buffer.from("modified content"));
+      const hash2 = await generateImageHash(imagePath);
+
+      expect(hash1).not.toBe(hash2);
+    });
+  });
+
+  describe("when different files have different content", () => {
+    it("returns different hashes", async () => {
+      const image1Path = join(hashTestDir, "image1.png");
+      const image2Path = join(hashTestDir, "image2.png");
+
+      await writeFile(image1Path, Buffer.from("content A"));
+      await writeFile(image2Path, Buffer.from("content B"));
+
+      const hash1 = await generateImageHash(image1Path);
+      const hash2 = await generateImageHash(image2Path);
+
+      expect(hash1).not.toBe(hash2);
     });
   });
 });

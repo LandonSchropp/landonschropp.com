@@ -1,7 +1,9 @@
+import { generateImageHash } from "../data/image";
+import type { Image } from "../types";
 import highlightJs from "highlight.js/lib/common";
 import createMarkdownIt from "markdown-it";
 import markdownItCallouts from "markdown-it-callouts";
-import { posix } from "path";
+import { dirname, extname, join } from "path";
 
 const MARKDOWN_IMAGE_REGEX = /!\[([^\]]*)\]\(([^)]+)\)/g;
 
@@ -54,25 +56,51 @@ export function renderInlineMarkdown(markdown: string): string {
 }
 
 /**
- * Prepend a prefix to all image source paths in the provided markdown.
+ * Replace image source paths in markdown with their hashed URLs.
  * @param markdown The markdown to process.
- * @param prefix The prefix to add to the image source paths.
- * @returns The markdown with the image source paths prepended with the provided prefix.
+ * @param images Array of Image objects containing source and hash.
+ * @returns The markdown with image source paths replaced with hashed URLs.
  */
-export function prefixMarkdownImageSourcePaths(markdown: string, prefix: string | null): string {
-  if (prefix === null) {
-    return markdown;
-  }
+export function replaceMarkdownImages(markdown: string, images: Image[]): string {
+  // Create a map from source to hash for quick lookup
+  const sourceToHash = new Map(images.map((img) => [img.source, img.hash]));
 
   return markdown.replace(MARKDOWN_IMAGE_REGEX, (_match, alt, src) => {
-    return `![${alt}](${posix.join(prefix, src)})`;
+    const hash = sourceToHash.get(src);
+
+    if (!hash) {
+      console.warn(`Image not found in images array: ${src}`);
+      return `![${alt}](${src})`; // Return original if not found
+    }
+
+    const extension = extname(src);
+    const url = `/images/${hash}${extension}`;
+
+    return `![${alt}](${url})`;
   });
 }
 
 /**
+ * Extracts image information from markdown and generates Image objects with content-based hashes.
  * @param markdown The markdown to search.
- * @returns The image source paths in the provided markdown.
+ * @param filePath The path to the markdown file.
+ * @returns Array of Image objects with source, filePath, and hash.
  */
-export function getMarkdownImageSourcePaths(markdown: string): string[] {
-  return Array.from(markdown.matchAll(MARKDOWN_IMAGE_REGEX)).map((match) => match[2]);
+export async function getMarkdownImages(markdown: string, filePath: string): Promise<Image[]> {
+  const baseDirectory = dirname(filePath);
+  const matches = Array.from(markdown.matchAll(MARKDOWN_IMAGE_REGEX));
+
+  return Promise.all(
+    matches.map(async (match) => {
+      const source = match[2];
+      const imageFilePath = join(baseDirectory, source);
+      const hash = await generateImageHash(imageFilePath);
+
+      return {
+        source,
+        filePath: imageFilePath,
+        hash,
+      };
+    }),
+  );
 }

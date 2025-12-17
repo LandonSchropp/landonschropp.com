@@ -1,7 +1,19 @@
 import { Content } from "../types";
+import { createHash } from "crypto";
 import { openAsBlob } from "fs";
+import { readFile } from "fs/promises";
 import mime from "mime";
 import { join, dirname, extname } from "path";
+
+/**
+ * Generates a hash for an image based on its file contents.
+ * @param filePath The path to the image file.
+ * @returns A hexadecimal hash string.
+ */
+export async function generateImageHash(filePath: string): Promise<string> {
+  const contents = await readFile(filePath);
+  return createHash("md5").update(contents).digest("hex");
+}
 
 /**
  * Downloads the image relative to the provided content.
