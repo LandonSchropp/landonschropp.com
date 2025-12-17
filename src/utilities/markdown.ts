@@ -1,9 +1,9 @@
-import { generateImageHash } from "../data/image";
+import { generateImageHash, getImagePath } from "../data/image";
 import type { Image } from "../types";
 import highlightJs from "highlight.js/lib/common";
 import createMarkdownIt from "markdown-it";
 import markdownItCallouts from "markdown-it-callouts";
-import { dirname, extname, join } from "path";
+import { dirname, join } from "path";
 
 const MARKDOWN_IMAGE_REGEX = /!\[([^\]]*)\]\(([^)]+)\)/g;
 
@@ -62,21 +62,9 @@ export function renderInlineMarkdown(markdown: string): string {
  * @returns The markdown with image source paths replaced with hashed URLs.
  */
 export function replaceMarkdownImages(markdown: string, images: Image[]): string {
-  // Create a map from source to hash for quick lookup
-  const sourceToHash = new Map(images.map((img) => [img.source, img.hash]));
-
   return markdown.replace(MARKDOWN_IMAGE_REGEX, (_match, alt, src) => {
-    const hash = sourceToHash.get(src);
-
-    if (!hash) {
-      console.warn(`Image not found in images array: ${src}`);
-      return `![${alt}](${src})`; // Return original if not found
-    }
-
-    const extension = extname(src);
-    const url = `/images/${hash}${extension}`;
-
-    return `![${alt}](${url})`;
+    const image = images.find((image) => image.source === src)!;
+    return `![${alt}](${getImagePath(image)})`;
   });
 }
 

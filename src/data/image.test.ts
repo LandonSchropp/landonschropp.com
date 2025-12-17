@@ -1,5 +1,5 @@
-import { contentFactory } from "../../test/factories";
-import { downloadImage, generateImageHash } from "./image";
+import { contentFactory, imageFactory } from "../../test/factories";
+import { downloadImage, generateImageHash, getImagePath } from "./image";
 import { mkdir, writeFile, rm } from "fs/promises";
 import { tmpdir } from "os";
 import { join } from "path";
@@ -214,5 +214,12 @@ describe("generateImageHash", () => {
 
       expect(hash1).not.toBe(hash2);
     });
+  });
+});
+
+describe("getImagePath", () => {
+  it("returns a URL path with the hash and extension", () => {
+    const image = imageFactory.build({ hash: "abc123def456", filePath: "/path/to/image.png" });
+    expect(getImagePath(image)).toBe("/images/abc123def456.png");
   });
 });

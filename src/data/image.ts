@@ -1,4 +1,4 @@
-import { Content } from "../types";
+import { Content, Image } from "../types";
 import { createHash } from "crypto";
 import { openAsBlob } from "fs";
 import { readFile } from "fs/promises";
@@ -13,6 +13,15 @@ import { join, dirname, extname } from "path";
 export async function generateImageHash(filePath: string): Promise<string> {
   const contents = await readFile(filePath);
   return createHash("md5").update(contents).digest("hex");
+}
+
+/**
+ * Gets the URL path for an image.
+ * @param image The image object.
+ * @returns The URL path for the image (e.g., "/images/abc123.jpg").
+ */
+export function getImagePath(image: Image): string {
+  return `/images/${image.hash}${extname(image.filePath)}`;
 }
 
 /**
