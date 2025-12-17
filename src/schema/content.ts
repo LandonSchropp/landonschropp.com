@@ -1,4 +1,5 @@
 import { STATUSES } from "../constants";
+import { ImageSchema } from "./image";
 import { parseSchema } from "./parse";
 import { z } from "zod";
 
@@ -13,7 +14,7 @@ export const ContentSchema = z.object({
   content: z.string().refine((html) => !H1_TAG_REGEX.test(html), {
     message: "Should not include an H1 tag",
   }),
-  images: z.array(z.string()),
+  images: z.array(ImageSchema),
   filePath: z.string(),
   slug: LowerKebabCase,
   tags: z.array(LowerKebabCase),

@@ -6,6 +6,7 @@ import {
   WILL_NOT_PUBLISH_STATUS,
 } from "../../src/constants";
 import type { Content } from "../../src/types";
+import { imageFactory } from "./image.factory";
 import { DeepPartial, Factory } from "fishery";
 
 type Status = (typeof STATUSES)[number];
@@ -39,8 +40,8 @@ export const contentFactory = ContentFactory.define<
   date: "2024-01-15",
   status: PUBLISHED_STATUS,
   content: "<p>This is test content.</p>",
-  images: [],
+  images: [imageFactory.build()],
   filePath: `/test/content-${sequence}.md`,
   slug: `test-content-${sequence}`,
-  tags: [],
+  tags: ["tag"],
 }));
