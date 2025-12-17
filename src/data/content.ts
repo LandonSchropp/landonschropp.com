@@ -3,8 +3,8 @@ import { Content, PassthroughContent } from "../types";
 import { parseFrontmatter } from "../utilities/frontmatter";
 import {
   renderMarkdown,
-  getMarkdownImageSourcePaths,
-  prefixMarkdownImageSourcePaths,
+  getMarkdownImages,
+  replaceMarkdownImages,
   renderInlineMarkdown,
 } from "../utilities/markdown";
 import { createServerOnlyFn } from "@tanstack/react-start";
@@ -38,12 +38,12 @@ async function fetchAndParseContent(filePath: string): Promise<PassthroughConten
 
   const [frontMatter, markdown] = parseFrontmatter(filePath, fileContent);
 
-  // Extract image paths from the original markdown (before prefixing).
-  const images = getMarkdownImageSourcePaths(markdown);
+  // Extract image paths from the original markdown (before replacing).
+  const images = await getMarkdownImages(markdown, filePath);
 
-  // Prefix image paths for rendering and render the markdown to HTML.
-  const prefixedMarkdown = prefixMarkdownImageSourcePaths(markdown, frontMatter.slug ?? null);
-  const content = renderMarkdown(prefixedMarkdown).trim();
+  // Replace image paths for rendering and render the markdown to HTML.
+  const replacedMarkdown = replaceMarkdownImages(markdown, images);
+  const content = renderMarkdown(replacedMarkdown).trim();
 
   // Render the title and description properties.
   const title = renderInlineMarkdown(frontMatter.title ?? basename(filePath, ".md"));

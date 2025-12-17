@@ -243,12 +243,15 @@ describe("fetchAndParseContent", () => {
       const filePath = join(testDir, "test-article.md");
       await writeFile(filePath, markdown);
 
+      await writeFile(join(testDir, "image1.jpg"), Buffer.from("fake image 1"));
+      await writeFile(join(testDir, "image2.png"), Buffer.from("fake image 2"));
+
       const result = await fetchContent(testDir, "test-article", parseContent);
 
-      expect(result.images).toEqual(["image1.jpg", "image2.png"]);
+      expect(result.images).toHaveLength(2);
     });
 
-    it("prefixes image paths with slug in content", async () => {
+    it("replaces image paths with hashed URLs in content", async () => {
       const markdown = dedent`
         ---
         title: Test Article
@@ -263,9 +266,12 @@ describe("fetchAndParseContent", () => {
       const filePath = join(testDir, "test-article.md");
       await writeFile(filePath, markdown);
 
+      await writeFile(join(testDir, "image.jpg"), Buffer.from("fake image"));
+
       const result = await fetchContent(testDir, "test-article", parseContent);
 
-      expect(result.content).toContain('src="test-article/image.jpg"');
+      expect(result.content).toContain('src="/images/');
+      expect(result.content).toContain('.jpg"');
     });
   });
 
