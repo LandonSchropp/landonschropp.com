@@ -1,11 +1,11 @@
 import { NoteEmbed } from "../../components/notes/note-embed";
 import { NoteHeader } from "../../components/notes/note-header";
 import { NAME } from "../../constants";
-import { fetchNote } from "../../data/notes";
+import { fetchNoteServerFn } from "../../data/notes";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/notes/$slug")({
-  loader: async ({ params }) => await fetchNote({ data: { slug: params.slug } }),
+  loader: async ({ params }) => await fetchNoteServerFn({ data: { slug: params.slug } }),
   head: ({ loaderData }) => {
     if (!loaderData) return {};
 

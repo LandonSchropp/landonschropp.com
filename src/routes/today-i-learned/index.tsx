@@ -2,14 +2,15 @@ import { Header } from "../../components/content/header";
 import { Tag } from "../../components/content/tag";
 import { TodayILearnedSummary } from "../../components/today-i-learned/today-i-learned-summary";
 import { filterContentsByTag } from "../../data/content";
-import { fetchTodayILearneds } from "../../data/today-i-learned";
+import { fetchTodayILearnedsServerFn } from "../../data/today-i-learned";
 import { TagSearchSchema } from "../../schema";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/today-i-learned/")({
   validateSearch: TagSearchSchema,
   loaderDeps: ({ search }) => ({ tag: search.tag }),
-  loader: async ({ deps: { tag } }) => filterContentsByTag(await fetchTodayILearneds(), tag),
+  loader: async ({ deps: { tag } }) =>
+    filterContentsByTag(await fetchTodayILearnedsServerFn(), tag),
   head: () => ({
     meta: [
       {

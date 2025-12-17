@@ -1,5 +1,5 @@
-import { fetchNote, fetchNotes } from "./notes";
-import { describe, it, expect } from "vitest";
+import { fetchNote, fetchNotes, fetchNotesServerFn, fetchNoteServerFn } from "./notes";
+import { describe, it, expect, beforeEach } from "vitest";
 
 describe("fetchNotes", () => {
   it("returns notes sorted by date descending", async () => {
@@ -22,6 +22,13 @@ describe("fetchNotes", () => {
   });
 });
 
+describe("fetchNotesServerFn", () => {
+  it("returns notes", async () => {
+    const notes = await fetchNotesServerFn();
+    expect(notes.length).toBeGreaterThan(0);
+  });
+});
+
 describe("fetchNote", () => {
   let slug: string;
 
@@ -31,7 +38,7 @@ describe("fetchNote", () => {
 
   describe("when a note with the slug exists", () => {
     it("returns the note with correct slug", async () => {
-      const result = await fetchNote({ data: { slug } });
+      const result = await fetchNote(slug);
 
       expect(result.slug).toBe(slug);
       expect(result.title).not.toEqual("");
@@ -41,9 +48,17 @@ describe("fetchNote", () => {
 
   describe("when a note with the slug does not exist", () => {
     it("throws an error", async () => {
-      await expect(fetchNote({ data: { slug: "nonexistent-slug" } })).rejects.toThrow(
+      await expect(fetchNote("nonexistent-slug")).rejects.toThrow(
         "Content with slug 'nonexistent-slug' not found.",
       );
     });
+  });
+});
+
+describe("fetchNoteServerFn", () => {
+  it("returns the note corresponding to the slug", async () => {
+    const slug = (await fetchNotes())[0].slug;
+    const note = await fetchNoteServerFn({ data: { slug } });
+    expect(note.slug).toBe(slug);
   });
 });

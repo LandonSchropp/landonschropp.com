@@ -1,10 +1,10 @@
 import { TodayILearnedHeader } from "../../components/today-i-learned/today-i-learned-header";
 import { NAME } from "../../constants";
-import { fetchTodayILearned } from "../../data/today-i-learned";
+import { fetchTodayILearnedServerFn } from "../../data/today-i-learned";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/today-i-learned/$slug")({
-  loader: async ({ params }) => await fetchTodayILearned({ data: { slug: params.slug } }),
+  loader: async ({ params }) => await fetchTodayILearnedServerFn({ data: { slug: params.slug } }),
   head: ({ loaderData }) => {
     if (!loaderData) return {};
 

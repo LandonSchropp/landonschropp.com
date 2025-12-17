@@ -1,4 +1,9 @@
-import { fetchTodayILearneds, fetchTodayILearned } from "./today-i-learned";
+import {
+  fetchTodayILearneds,
+  fetchTodayILearned,
+  fetchTodayILearnedsServerFn,
+  fetchTodayILearnedServerFn,
+} from "./today-i-learned";
 import { describe, it, expect, beforeEach } from "vitest";
 
 describe("fetchTodayILearneds", () => {
@@ -22,6 +27,13 @@ describe("fetchTodayILearneds", () => {
   });
 });
 
+describe("fetchTodayILearnedsServerFn", () => {
+  it("returns today I learneds", async () => {
+    const tils = await fetchTodayILearnedsServerFn();
+    expect(tils.length).toBeGreaterThan(0);
+  });
+});
+
 describe("fetchTodayILearned", () => {
   let slug: string;
 
@@ -31,7 +43,7 @@ describe("fetchTodayILearned", () => {
 
   describe("when a today I learned with the slug exists", () => {
     it("returns the today I learned with correct slug", async () => {
-      const result = await fetchTodayILearned({ data: { slug } });
+      const result = await fetchTodayILearned(slug);
 
       expect(result.slug).toBe(slug);
       expect(result.title).not.toEqual("");
@@ -41,9 +53,17 @@ describe("fetchTodayILearned", () => {
 
   describe("when a today I learned with the slug does not exist", () => {
     it("throws an error", async () => {
-      await expect(
-        fetchTodayILearned({ data: { slug: "nonexistent-til-slug-xyz" } }),
-      ).rejects.toThrow("Content with slug 'nonexistent-til-slug-xyz' not found");
+      await expect(fetchTodayILearned("nonexistent-til-slug-xyz")).rejects.toThrow(
+        "Content with slug 'nonexistent-til-slug-xyz' not found",
+      );
     });
+  });
+});
+
+describe("fetchTodayILearnedServerFn", () => {
+  it("returns the today I learned corresponding to the slug", async () => {
+    const slug = (await fetchTodayILearneds())[0].slug;
+    const til = await fetchTodayILearnedServerFn({ data: { slug } });
+    expect(til.slug).toBe(slug);
   });
 });

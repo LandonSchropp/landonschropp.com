@@ -1,4 +1,9 @@
-import { fetchArticles, fetchArticle } from "./articles";
+import {
+  fetchArticles,
+  fetchArticle,
+  fetchArticlesServerFn,
+  fetchArticleServerFn,
+} from "./articles";
 import { describe, it, expect, beforeEach } from "vitest";
 
 describe("fetchArticles", () => {
@@ -22,6 +27,13 @@ describe("fetchArticles", () => {
   });
 });
 
+describe("fetchArticlesServerFn", () => {
+  it("returns articles", async () => {
+    const articles = await fetchArticlesServerFn();
+    expect(articles.length).toBeGreaterThan(0);
+  });
+});
+
 describe("fetchArticle", () => {
   let slug: string;
 
@@ -31,7 +43,7 @@ describe("fetchArticle", () => {
 
   describe("when an article with the slug exists", () => {
     it("returns the article with correct slug", async () => {
-      const result = await fetchArticle({ data: { slug } });
+      const result = await fetchArticle(slug);
 
       expect(result.slug).toBe(slug);
       expect(result.title).not.toEqual("");
@@ -41,9 +53,17 @@ describe("fetchArticle", () => {
 
   describe("when an article with the slug does not exist", () => {
     it("throws an error", async () => {
-      await expect(
-        fetchArticle({ data: { slug: "nonexistent-article-slug-xyz" } }),
-      ).rejects.toThrow("Content with slug 'nonexistent-article-slug-xyz' not found");
+      await expect(fetchArticle("nonexistent-article-slug-xyz")).rejects.toThrow(
+        "Content with slug 'nonexistent-article-slug-xyz' not found",
+      );
     });
+  });
+});
+
+describe("fetchArticleServerFn", () => {
+  it("returns the article corresponding to the slug", async () => {
+    const slug = (await fetchArticles())[0].slug;
+    const article = await fetchArticleServerFn({ data: { slug } });
+    expect(article.slug).toBe(slug);
   });
 });

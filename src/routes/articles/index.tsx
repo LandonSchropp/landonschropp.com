@@ -1,7 +1,7 @@
 import { ArticleSummary } from "../../components/articles/article-summary";
 import { Header } from "../../components/content/header";
 import { Tag } from "../../components/content/tag";
-import { fetchArticles } from "../../data/articles";
+import { fetchArticlesServerFn } from "../../data/articles";
 import { filterContentsByTag } from "../../data/content";
 import { TagSearchSchema } from "../../schema";
 import { createFileRoute } from "@tanstack/react-router";
@@ -9,7 +9,7 @@ import { createFileRoute } from "@tanstack/react-router";
 export const Route = createFileRoute("/articles/")({
   validateSearch: TagSearchSchema,
   loaderDeps: ({ search }) => ({ tag: search.tag }),
-  loader: async ({ deps: { tag } }) => filterContentsByTag(await fetchArticles(), tag),
+  loader: async ({ deps: { tag } }) => filterContentsByTag(await fetchArticlesServerFn(), tag),
   head: () => ({
     meta: [
       {
