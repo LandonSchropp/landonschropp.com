@@ -1,3 +1,4 @@
+import markdownImages from "./vite/plugin-markdown-images";
 import tailwindcss from "@tailwindcss/vite";
 import { devtools } from "@tanstack/devtools-vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
@@ -12,6 +13,7 @@ export default defineConfig({
     viteTsConfigPaths({
       projects: ["./tsconfig.json"],
     }),
+    markdownImages(),
     tanstackStart({
       prerender: {
         enabled: true,
