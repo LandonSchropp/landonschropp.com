@@ -20,7 +20,7 @@ export async function generateImageHash(filePath: string): Promise<string> {
  * @param image The image object.
  * @returns The URL path for the image (e.g., "/images/abc123.jpg").
  */
-export function getImagePath(image: Image): string {
+export function getImageHref(image: Image): string {
   return `/images/${image.hash}${extname(image.filePath)}`;
 }
 

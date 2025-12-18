@@ -1,4 +1,4 @@
-import { generateImageHash, getImagePath } from "../data/image";
+import { generateImageHash, getImageHref } from "../data/image";
 import type { Image } from "../types";
 import highlightJs from "highlight.js/lib/common";
 import createMarkdownIt from "markdown-it";
@@ -64,7 +64,7 @@ export function renderInlineMarkdown(markdown: string): string {
 export function replaceMarkdownImages(markdown: string, images: Image[]): string {
   return markdown.replace(MARKDOWN_IMAGE_REGEX, (_match, alt, src) => {
     const image = images.find((image) => image.source === src)!;
-    return `![${alt}](${getImagePath(image)})`;
+    return `![${alt}](${getImageHref(image)})`;
   });
 }
 

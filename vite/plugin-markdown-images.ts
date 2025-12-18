@@ -1,5 +1,5 @@
 import { fetchArticles } from "../src/data/articles";
-import { getImagePath } from "../src/data/image";
+import { getImageHref } from "../src/data/image";
 import { fetchNotes } from "../src/data/notes";
 import { fetchTodayILearneds } from "../src/data/today-i-learned";
 import { fetchEnvironmentVariable } from "../src/env";
@@ -35,7 +35,7 @@ export default function markdownImages(): Plugin {
       // Emit images as Vite assets
       for (const image of images) {
         const source = await readFile(image.filePath);
-        const fileName = posix.relative("/", getImagePath(image));
+        const fileName = posix.relative("/", getImageHref(image));
 
         this.emitFile({
           type: "asset",
@@ -96,7 +96,7 @@ export default function markdownImages(): Plugin {
           })
           .catch((error) => {
             console.error(
-              `Failed to serve image ${getImagePath(image)} from ${image.filePath}:`,
+              `Failed to serve image ${getImageHref(image)} from ${image.filePath}:`,
               error,
             );
             res.statusCode = 500;
