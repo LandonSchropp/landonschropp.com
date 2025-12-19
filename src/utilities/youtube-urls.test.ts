@@ -1,4 +1,6 @@
 import {
+  extractYouTubePlaylistId,
+  extractYouTubeVideoId,
   isValidYouTubeUrl,
   isYouTubePlaylistUrl,
   isYouTubeUrl,
@@ -191,6 +193,42 @@ describe("isValidYouTubeUrl", () => {
   describe("when the URL is not a YouTube URL", () => {
     it("returns false", () => {
       expect(isValidYouTubeUrl("https://example.com/video")).toBe(false);
+    });
+  });
+});
+
+describe("extractYouTubeVideoId", () => {
+  describe("when the URL is a video URL", () => {
+    it("returns the video ID", () => {
+      expect(extractYouTubeVideoId("https://www.youtube.com/watch?v=abc123")).toBe("abc123");
+    });
+  });
+
+  describe("when the URL is a short video URL", () => {
+    it("returns the video ID", () => {
+      expect(extractYouTubeVideoId("https://youtu.be/xyz789")).toBe("xyz789");
+    });
+  });
+
+  describe("when the URL is not a YouTube video URL", () => {
+    it("returns null", () => {
+      expect(extractYouTubeVideoId("https://example.com/video")).toBeNull();
+    });
+  });
+});
+
+describe("extractYouTubePlaylistId", () => {
+  describe("when the URL is a playlist URL", () => {
+    it("returns the playlist ID", () => {
+      expect(extractYouTubePlaylistId("https://www.youtube.com/playlist?list=PLabc123")).toBe(
+        "PLabc123",
+      );
+    });
+  });
+
+  describe("when the URL is not a YouTube playlist URL", () => {
+    it("returns null", () => {
+      expect(extractYouTubePlaylistId("https://example.com/video")).toBeNull();
     });
   });
 });

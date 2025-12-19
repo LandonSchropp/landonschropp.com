@@ -40,3 +40,23 @@ export function isYouTubePlaylistUrl(url: string): boolean {
 export function isValidYouTubeUrl(url: string): boolean {
   return isYouTubeVideoUrl(url) || isYouTubePlaylistUrl(url);
 }
+
+/**
+ * Extracts the YouTube video ID from a YouTube video URL.
+ * @param url The YouTube video URL.
+ * @returns The video ID if found, null otherwise.
+ */
+export function extractYouTubeVideoId(url: string): string | null {
+  const match = url.match(YOUTUBE_VIDEO_URL_REGEX) ?? url.match(SHORT_YOUTUBE_VIDEO_URL_REGEX);
+  return match ? match[1] : null;
+}
+
+/**
+ * Extracts the YouTube playlist ID from a YouTube playlist URL.
+ * @param url The YouTube playlist URL.
+ * @returns The playlist ID if found, null otherwise.
+ */
+export function extractYouTubePlaylistId(url: string): string | null {
+  const match = url.match(YOUTUBE_PLAYLIST_URL_REGEX);
+  return match ? match[1] : null;
+}
