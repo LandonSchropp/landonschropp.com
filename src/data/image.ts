@@ -30,7 +30,7 @@ export function getImageHref(image: Image): string {
  * @param image The image to download.
  * @returns A Response that contains the image.
  */
-export async function downloadImage(content: Content, image: string): Promise<Response> {
+export async function downloadContentImage(content: Content, image: string): Promise<Response> {
   const path = join(dirname(content.filePath), image);
   const contentType = mime.getType(extname(image));
 

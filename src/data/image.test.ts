@@ -1,5 +1,5 @@
 import { contentFactory, imageFactory } from "../../test/factories";
-import { downloadImage, generateImageHash, getImageHref } from "./image";
+import { downloadContentImage, generateImageHash, getImageHref } from "./image";
 import { mkdir, writeFile, rm } from "fs/promises";
 import { tmpdir } from "os";
 import { join } from "path";
@@ -7,7 +7,7 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
 const testDir = join(tmpdir(), `image-test-${Date.now()}`);
 
-describe("downloadImage", () => {
+describe("downloadContentImage", () => {
   let result: Response;
 
   beforeEach(async () => {
@@ -24,7 +24,7 @@ describe("downloadImage", () => {
       await writeFile(imagePath, "fake image data");
 
       const content = contentFactory.build({ filePath: join(testDir, "content.md") });
-      result = await downloadImage(content, "test.png");
+      result = await downloadContentImage(content, "test.png");
     });
 
     it("returns a Response", () => {
@@ -53,7 +53,7 @@ describe("downloadImage", () => {
       await writeFile(imagePath, minimalPng);
 
       const content = contentFactory.build({ filePath: join(testDir, "content.md") });
-      result = await downloadImage(content, "test.png");
+      result = await downloadContentImage(content, "test.png");
     });
 
     it("returns an image/png content type", async () => {
@@ -81,7 +81,7 @@ describe("downloadImage", () => {
       await writeFile(imagePath, minimalJpeg);
 
       const content = contentFactory.build({ filePath: join(testDir, "content.md") });
-      result = await downloadImage(content, "test.jpg");
+      result = await downloadContentImage(content, "test.jpg");
     });
 
     it("returns an image/jpeg content type", async () => {
@@ -103,7 +103,7 @@ describe("downloadImage", () => {
       await writeFile(imagePath, minimalGif);
 
       const content = contentFactory.build({ filePath: join(testDir, "content.md") });
-      result = await downloadImage(content, "test.gif");
+      result = await downloadContentImage(content, "test.gif");
     });
 
     it("returns an image/gif content type", async () => {
@@ -122,7 +122,7 @@ describe("downloadImage", () => {
       await writeFile(imagePath, "fake image data");
 
       const content = contentFactory.build({ filePath: join(subdir, "content.md") });
-      result = await downloadImage(content, "test.png");
+      result = await downloadContentImage(content, "test.png");
     });
 
     it("resolves the image path relative to the content file", async () => {
@@ -134,7 +134,7 @@ describe("downloadImage", () => {
   describe("when the image does not exist", () => {
     it("throws an error", async () => {
       const content = contentFactory.build({ filePath: join(testDir, "content.md") });
-      await expect(downloadImage(content, "nonexistent.png")).rejects.toThrow();
+      await expect(downloadContentImage(content, "nonexistent.png")).rejects.toThrow();
     });
   });
 
@@ -146,7 +146,7 @@ describe("downloadImage", () => {
 
     it("throws an error", async () => {
       const content = contentFactory.build({ filePath: join(testDir, "content.md") });
-      await expect(downloadImage(content, "test.unknown")).rejects.toThrow(
+      await expect(downloadContentImage(content, "test.unknown")).rejects.toThrow(
         "Could not determine content type for image 'test.unknown'",
       );
     });

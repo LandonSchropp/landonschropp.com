@@ -1,5 +1,5 @@
 import { fetchContent } from "../../../data/content";
-import { downloadImage } from "../../../data/image";
+import { downloadContentImage } from "../../../data/image";
 import { fetchEnvironmentVariable } from "../../../env";
 import { parseArticle } from "../../../schema";
 import { createFileRoute } from "@tanstack/react-router";
@@ -13,7 +13,7 @@ export const Route = createFileRoute("/articles/$slug/$image")({
           params.slug,
           parseArticle,
         );
-        return downloadImage(article, params.image);
+        return downloadContentImage(article, params.image);
       },
     },
   },
