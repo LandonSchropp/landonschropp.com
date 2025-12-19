@@ -1,6 +1,5 @@
-import { BOOK_MEDIA } from "../src/constants";
 import { getBookCoverHref } from "../src/data/book-covers";
-import { fetchNotes } from "../src/data/notes";
+import { fetchContents } from "../src/data/content";
 import { fetchEnvironmentVariable } from "../src/env";
 import { existsSync } from "fs";
 import { readFile, mkdir, writeFile } from "fs/promises";
@@ -10,14 +9,20 @@ import type { Plugin } from "vite";
 
 const ISBN_ROUTE_REGEX = /^\/images\/isbn\/(\d+)\.jpg$/;
 const CACHE_DIR = "dist/cache/book-covers";
+const VIRTUAL_MODULE_ID = "virtual:book-covers";
+const RESOLVED_VIRTUAL_MODULE_ID = "\0" + VIRTUAL_MODULE_ID;
 
 export default function bookCovers(): Plugin {
   let isbns: number[] = [];
 
   async function loadISBNs(): Promise<number[]> {
-    return (await fetchNotes())
-      .filter((note) => note.media === BOOK_MEDIA)
-      .map((note) => note.isbn);
+    // NOTE: It'd be simpler to import the nodes using fetchNotes. However, we can't do that since
+    // fetchNotes relies on the virtual module provided by this plugin, which creates a circular
+    // dependency. Instead, we directly fetch the contents here, and filter the properties to get
+    // the ISBNs
+    return (await fetchContents(fetchEnvironmentVariable("NOTES_PATH")))
+      .map((content) => content.isbn)
+      .filter((isbn) => typeof isbn === "number");
   }
 
   async function downloadCover(isbn: number): Promise<string> {
@@ -48,6 +53,18 @@ export default function bookCovers(): Plugin {
 
   return {
     name: "book-covers",
+
+    resolveId(id) {
+      if (id === VIRTUAL_MODULE_ID) {
+        return RESOLVED_VIRTUAL_MODULE_ID;
+      }
+    },
+
+    load(id) {
+      if (id === RESOLVED_VIRTUAL_MODULE_ID) {
+        return `export const availableIsbns = new Set(${JSON.stringify(isbns)});`;
+      }
+    },
 
     async buildStart() {
       isbns = await loadISBNs();

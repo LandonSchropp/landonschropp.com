@@ -6,7 +6,7 @@ type NoteBookCoverProps = {
 };
 
 export function NoteBookCover({ note }: NoteBookCoverProps) {
-  if (note.media !== BOOK_MEDIA) {
+  if (note.media !== BOOK_MEDIA || !note.hasBookCoverImage) {
     return null;
   }
 

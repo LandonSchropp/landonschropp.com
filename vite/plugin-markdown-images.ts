@@ -1,7 +1,5 @@
-import { fetchArticles } from "../src/data/articles";
+import { fetchContents } from "../src/data/content";
 import { getImageHref } from "../src/data/image";
-import { fetchNotes } from "../src/data/notes";
-import { fetchTodayILearneds } from "../src/data/today-i-learned";
 import { fetchEnvironmentVariable } from "../src/env";
 import type { Image } from "../src/types";
 import { readFile } from "fs/promises";
@@ -15,10 +13,13 @@ export default function markdownImages(): Plugin {
   let images: Image[] = [];
 
   async function loadImages(): Promise<Image[]> {
+    // NOTE: We fetch contents directly instead of using fetchArticles, fetchNotes, etc.
+    // because those functions depend on virtual modules, which creates issues during
+    // config loading. We just need the images, so we can work with raw content.
     const [articles, notes, tils] = await Promise.all([
-      fetchArticles(),
-      fetchNotes(),
-      fetchTodayILearneds(),
+      fetchContents(fetchEnvironmentVariable("ARTICLES_PATH")),
+      fetchContents(fetchEnvironmentVariable("NOTES_PATH")),
+      fetchContents(fetchEnvironmentVariable("TODAY_I_LEARNED_PATH")),
     ]);
 
     return [articles, notes, tils].flat().flatMap((content) => content.images);

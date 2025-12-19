@@ -36,6 +36,7 @@ const BookNoteSchema = NoteSchemaBase.extend({
   authors: NoteSchemaBase.shape.authors.min(1),
   media: z.literal(BOOK_MEDIA),
   isbn: z.number(),
+  hasBookCoverImage: z.boolean(),
 });
 
 const CourseNoteSchema = ArticleNoteSchema.extend({
