@@ -10,16 +10,23 @@ import {
   VIDEO_PLAYLIST_MEDIA,
 } from "../constants";
 import { MEDIAS } from "../constants";
+import { isYouTubeUrl, isValidYouTubeUrl } from "../utilities/youtube-urls";
 import { ContentSchema } from "./content";
 import { parseSchema } from "./parse";
 import { z } from "zod";
+
+/**
+ * A schema that ensures that if the URL is a YouTube URL, it must be a valid YouTube video or
+ * playlist URL.
+ */
+const UrlSchema = z.string().refine((url) => !isYouTubeUrl(url) || isValidYouTubeUrl(url));
 
 export const MediaSchema = z.enum(MEDIAS);
 
 const NoteSchemaBase = ContentSchema.extend({
   authors: z.array(z.string()),
   media: MediaSchema,
-  url: z.string().url(),
+  url: UrlSchema,
 });
 
 const ArticleNoteSchema = NoteSchemaBase.extend({

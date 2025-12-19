@@ -19,6 +19,7 @@ export const MEDIAS = [
   PODCAST_MEDIA,
   RECORDED_TALK_MEDIA,
   VIDEO_MEDIA,
+  VIDEO_PLAYLIST_MEDIA,
 ] as const;
 
 export const IDEA_STATUS = "Idea";
@@ -71,3 +72,17 @@ export const SVG_DATA_KEYS = [
   WRITING_SVG_DATA_KEY,
   NOT_FOUND_SVG_DATA_KEY,
 ] as const;
+
+/** Regular expression to match basic YouTube URLs. */
+export const BASIC_YOUTUBE_URL_REGEX = /youtu\.?be/;
+
+/** Regular expression to match YouTube video URLs. */
+export const YOUTUBE_VIDEO_URL_REGEX =
+  /^https:\/\/(?:www\.)?youtube\.com\/watch.*(?:[&?]v=)([\w-]+)/i;
+
+/** Regular expression to match short YouTube video URLs. */
+export const SHORT_YOUTUBE_VIDEO_URL_REGEX = /^https:\/\/?youtu\.be\/([\w-]+)/;
+
+/** Regular expression to match YouTube playlist URLs. */
+export const YOUTUBE_PLAYLIST_URL_REGEX =
+  /^https:\/\/(?:www\.)?youtube\.com\/playlist?.*list=([\w-]+)/;
