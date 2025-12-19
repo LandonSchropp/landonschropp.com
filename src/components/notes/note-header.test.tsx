@@ -1,15 +1,16 @@
 import { noteFactory } from "../../../test/factories";
+import { renderWithRouter } from "../../../test/render";
 import { Note } from "../../types";
 import { NoteHeader } from "./note-header";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 
 describe("NoteHeader", () => {
   describe("when the note is any type", () => {
     let note: Note;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       note = noteFactory.article().build({ title: "Title" });
-      render(<NoteHeader note={note} />);
+      await renderWithRouter(<NoteHeader note={note} />);
     });
 
     it("sets the title", () => {
@@ -21,9 +22,9 @@ describe("NoteHeader", () => {
     let note: Note;
 
     describe("when the note's source and title are the same", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory.article().build({ title: "Example", source: "Example" });
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("does not render a subheader", () => {
@@ -32,9 +33,9 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note does not have any authors", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory.article().build({ title: "Title", source: "Source", authors: [] });
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the source", () => {
@@ -43,12 +44,12 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note's source and author are the same", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory
           .article()
           .build({ title: "Title", source: "Source", authors: ["Source"] });
 
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the source", () => {
@@ -57,12 +58,12 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note's source and authors are different", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory
           .article()
           .build({ title: "Title", source: "Source", authors: ["Author"] });
 
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the media, authors and the source", () => {
@@ -77,9 +78,9 @@ describe("NoteHeader", () => {
     let note: Note;
 
     describe("when the note's source and title are the same", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory.app().build({ title: "Example", source: "Example" });
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("does not render a subheader", () => {
@@ -88,9 +89,9 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note does not have any authors", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory.app().build({ title: "Title", source: "Source", authors: [] });
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the source", () => {
@@ -99,9 +100,9 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note's source and author are the same", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory.app().build({ title: "Title", source: "Source", authors: ["Source"] });
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the source", () => {
@@ -110,9 +111,9 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note's source and authors are different", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory.app().build({ title: "Title", source: "Source", authors: ["Author"] });
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the media, authors and the source", () => {
@@ -125,10 +126,10 @@ describe("NoteHeader", () => {
     let note: Note;
 
     describe("when the note does not have any authors", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         // Override the authors to be empty - this violates the schema but tests the component behavior
         note = { ...noteFactory.book().build({ title: "Title" }), authors: [] };
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("does not render a subheader", () => {
@@ -137,9 +138,9 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note has authors", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory.book().build({ title: "Title", authors: ["Author"] });
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the media, authors and the source", () => {
@@ -152,9 +153,9 @@ describe("NoteHeader", () => {
     let note: Note;
 
     describe("when the note's source and title are the same", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory.course().build({ title: "Example", source: "Example" });
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("does not render a subheader", () => {
@@ -163,9 +164,9 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note does not have any authors", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory.course().build({ title: "Title", source: "Source", authors: [] });
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the source", () => {
@@ -174,12 +175,12 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note's source and author are the same", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory
           .course()
           .build({ title: "Title", source: "Source", authors: ["Source"] });
 
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the source", () => {
@@ -188,12 +189,12 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note's source and authors are different", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory
           .course()
           .build({ title: "Title", source: "Source", authors: ["Author"] });
 
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the media, authors and the source", () => {
@@ -206,10 +207,10 @@ describe("NoteHeader", () => {
     let note: Note;
 
     describe("when the note does not have any authors", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         // Override authors to be empty - this violates the schema but tests the component behavior
         note = { ...noteFactory.liveTalk().build({ title: "Title", event: "Event" }), authors: [] };
-        render(<NoteHeader note={{ ...note }} />);
+        await renderWithRouter(<NoteHeader note={{ ...note }} />);
       });
 
       it("renders the source", () => {
@@ -218,12 +219,12 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note's source and authors are different", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory
           .liveTalk()
           .build({ title: "Title", event: "Event", authors: ["Author"] });
 
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the media, authors and the source", () => {
@@ -238,9 +239,9 @@ describe("NoteHeader", () => {
     let note: Note;
 
     describe("when the note's source and title are the same", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory.podcast().build({ title: "Example", source: "Example" });
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("does not render a subheader", () => {
@@ -249,9 +250,9 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note does not have any authors", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory.podcast().build({ title: "Title", source: "Source", authors: [] });
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the source", () => {
@@ -260,12 +261,12 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note's source and author are the same", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory
           .podcast()
           .build({ title: "Title", source: "Source", authors: ["Source"] });
 
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the source", () => {
@@ -274,12 +275,12 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note's source and authors are different", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory
           .podcast()
           .build({ title: "Title", source: "Source", authors: ["Author"] });
 
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the media, authors and the source", () => {
@@ -294,9 +295,9 @@ describe("NoteHeader", () => {
     let note: Note;
 
     describe("when the note's source and title are the same", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory.recordedTalk().build({ title: "Example", source: "Example" });
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("does not render a subheader", () => {
@@ -305,9 +306,9 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note does not have any authors", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory.recordedTalk().build({ title: "Title", source: "Source", authors: [] });
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the source", () => {
@@ -316,12 +317,12 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note's source and author are the same", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory
           .recordedTalk()
           .build({ title: "Title", source: "Source", authors: ["Source"] });
 
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the source", () => {
@@ -330,12 +331,12 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note's source and authors are different", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory
           .recordedTalk()
           .build({ title: "Title", source: "Source", authors: ["Author"] });
 
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the media, authors and the source", () => {
@@ -348,9 +349,9 @@ describe("NoteHeader", () => {
     let note: Note;
 
     describe("when the note's source and title are the same", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory.video().build({ title: "Example", source: "Example" });
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("does not render a subheader", () => {
@@ -359,9 +360,9 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note does not have any authors", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory.video().build({ title: "Title", source: "Source", authors: [] });
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the media and source", () => {
@@ -370,9 +371,9 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note's source and author are the same", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory.video().build({ title: "Title", source: "Source", authors: ["Source"] });
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the media and source", () => {
@@ -381,9 +382,9 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note's source and authors are different", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory.video().build({ title: "Title", source: "Source", authors: ["Author"] });
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the media, authors and the source", () => {
@@ -396,9 +397,9 @@ describe("NoteHeader", () => {
     let note: Note;
 
     describe("when the note's source and title are the same", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory.videoPlaylist().build({ title: "Example", source: "Example" });
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("does not render a subheader", () => {
@@ -407,9 +408,9 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note does not have any authors", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory.videoPlaylist().build({ title: "Title", source: "Source", authors: [] });
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the media and source", () => {
@@ -418,12 +419,12 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note's source and author are the same", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory
           .videoPlaylist()
           .build({ title: "Title", source: "Source", authors: ["Source"] });
 
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the media and source", () => {
@@ -432,12 +433,12 @@ describe("NoteHeader", () => {
     });
 
     describe("when the note's source and authors are different", () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         note = noteFactory
           .videoPlaylist()
           .build({ title: "Title", source: "Source", authors: ["Author"] });
 
-        render(<NoteHeader note={note} />);
+        await renderWithRouter(<NoteHeader note={note} />);
       });
 
       it("renders the media, authors and the source", () => {
