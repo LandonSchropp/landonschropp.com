@@ -5,11 +5,11 @@ import { Note } from "../../types";
 const YOUTUBE_URL_REGEX =
   /(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)&?/;
 
-type NoteYouTubeEmbedProps = {
+type NoteYouTubeVideoProps = {
   note: Note;
 };
 
-export function NoteYouTubeEmbed({ note }: NoteYouTubeEmbedProps) {
+export function NoteYouTubeVideo({ note }: NoteYouTubeVideoProps) {
   const match = note.url.match(YOUTUBE_URL_REGEX);
 
   if (!match) {
