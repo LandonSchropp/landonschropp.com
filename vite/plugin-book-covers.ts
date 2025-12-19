@@ -45,7 +45,6 @@ export default function bookCovers(): Plugin {
     // Open Library returns a 1×1 pixel image instead of 404 for missing covers. Reject images
     // smaller than 1KB as they're likely placeholders.
     if (buffer.length < 1000) {
-      console.warn(`Book cover for ISBN ${isbn} is likely a placeholder`);
       return null;
     }
 
