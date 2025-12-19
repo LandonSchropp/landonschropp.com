@@ -1,5 +1,5 @@
 @layer components {
   .prose a {
-    @apply text-theme-accent text-inherit;
+    @apply text-theme-accent;
   }
 }
