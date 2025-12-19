@@ -1,18 +1,28 @@
 import { dedent } from "ts-dedent";
 import z from "zod";
 
+const valueHasProperty = <T, P extends string>(
+  value: unknown,
+  property: P,
+): value is T & Record<P, string> => {
+  return typeof value === "object" && value !== null && property in value;
+};
+
 /**
  * Custom error class for schema parsing errors.
  */
 export class SchemaParseError extends Error {
   constructor(error: z.ZodError, value: unknown) {
-    const target =
-      typeof value === "object" &&
-      value !== null &&
-      "filePath" in value &&
-      typeof value.filePath === "string"
-        ? `'${value.filePath}'`
-        : "schema";
+    // If we have a filePath property, use it as the target.
+    const target = valueHasProperty(value, "filePath") ? `'${value.filePath}'` : "schema";
+
+    // If we have a content property, truncate it.
+    value = valueHasProperty(value, "content")
+      ? {
+          ...value,
+          content: `${value.content.slice(0, 60).replace(/\s+\S+$/, "")}... (truncated)`,
+        }
+      : value;
 
     const message = dedent`
       Error parsing ${target}: ${error.message}
