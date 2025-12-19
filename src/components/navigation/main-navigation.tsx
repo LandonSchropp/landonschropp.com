@@ -1,5 +1,6 @@
 import { NAME } from "../../constants";
 import { Icon } from "../base/icon";
+import { Tooltip } from "../base/tooltip";
 import { Link as RouterLink, useLocation } from "@tanstack/react-router";
 
 const ICON_CLASS_NAME = "h-[--spacing(3.6)]";
@@ -31,7 +32,7 @@ function Link({ href, children, icon = false }: LinkProps) {
     ? "shocus:shadow-[0_3px] shadow-theme-accent shocus:text-theme-accent"
     : "";
 
-  const baseClassName = `mx-2 block text-inherit transition-all duration-75 ease-in ${className} ${shocusClassName}`;
+  const baseClassName = `text-inherit transition-all duration-75 ease-in ${className} ${shocusClassName}`;
 
   if (isExternalLink(href)) {
     return (
@@ -54,8 +55,8 @@ function Link({ href, children, icon = false }: LinkProps) {
 
 export function MainNavigation() {
   return (
-    <nav className="text-theme-extraLightText my-3 flex gap-3 px-2 text-sm max-lg:flex-col lg:justify-between">
-      <div className="flex justify-center">
+    <nav className="text-theme-extraLightText my-3 flex gap-4 px-4 text-sm max-lg:flex-col lg:justify-between">
+      <div className="flex justify-center gap-4">
         <Link href="/">
           <span className="max-md:hidden">{NAME}</span>
           <span className="md:hidden">Home</span>
@@ -70,22 +71,30 @@ export function MainNavigation() {
           <span className="max-lg:hidden">Today I Learned</span>
         </Link>
       </div>
-      <div className="flex justify-center">
-        <Link href="https://github.com/LandonSchropp" icon>
-          <Icon className={ICON_CLASS_NAME} name="github" alt="GitHub" />
-        </Link>
+      <div className="flex justify-center gap-4">
+        <Tooltip content="GitHub">
+          <Link href="https://github.com/LandonSchropp" icon>
+            <Icon className={ICON_CLASS_NAME} name="github" alt="GitHub" />
+          </Link>
+        </Tooltip>
 
-        <Link href="https://www.chess.com/member/landon" icon>
-          <Icon className={ICON_CLASS_NAME} name="chessCom" alt="Chess.com" />
-        </Link>
+        <Tooltip content="Chess.com">
+          <Link href="https://www.chess.com/member/landon" icon>
+            <Icon className={ICON_CLASS_NAME} name="chessCom" alt="Chess.com" />
+          </Link>
+        </Tooltip>
 
-        <Link href="https://www.linkedin.com/in/landonschropp" icon>
-          <Icon className={ICON_CLASS_NAME} name="linkedin" alt="LinkedIn" />
-        </Link>
+        <Tooltip content="LinkedIn">
+          <Link href="https://www.linkedin.com/in/landonschropp" icon>
+            <Icon className={ICON_CLASS_NAME} name="linkedin" alt="LinkedIn" />
+          </Link>
+        </Tooltip>
 
-        <Link href="mailto:schroppl@gmail.com" icon>
-          <Icon className={ICON_CLASS_NAME} name="email" alt="Email" />
-        </Link>
+        <Tooltip content="Email">
+          <Link href="mailto:schroppl@gmail.com" icon>
+            <Icon className={ICON_CLASS_NAME} name="email" alt="Email" />
+          </Link>
+        </Tooltip>
       </div>
     </nav>
   );
