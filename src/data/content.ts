@@ -12,24 +12,6 @@ import { glob, readFile } from "fs/promises";
 import { basename, join } from "path";
 
 /**
- * Parses the provided content using the given parser as a base method.
- * @param value The content to parse.
- * @param parser The parser function to use.
- * @returns The parsed content.
- * @throws If parsing fails.
- */
-function parseContentWithParser<T extends PassthroughContent>(
-  value: PassthroughContent,
-  parser: Parser<T>,
-): T {
-  try {
-    return parser(value);
-  } catch (error) {
-    throw new Error(`Failed to parse content at '${value.filePath}': ${(error as Error).message}`);
-  }
-}
-
-/**
  * Fetches the content of a file and parses it.
  * @param filePath The path to the file to fetch.
  */
@@ -60,16 +42,13 @@ async function fetchAndParseContent(filePath: string): Promise<PassthroughConten
   });
 }
 
-type Parser<T extends PassthroughContent> = (value: unknown) => T;
-
 /**
  * Fetches all of the content files.
  * @param directory The directory path from which the content files should be fetched.
- * @param parser A parser function to convert the unknown content to the desired type.
  * @returns An array of contents.
  */
 export const fetchContents = createServerOnlyFn(
-  async <T extends PassthroughContent>(directory: string, parser: Parser<T>): Promise<T[]> => {
+  async (directory: string): Promise<PassthroughContent[]> => {
     // Find all of the markdown files in the provided path.
     const files = await Array.fromAsync(glob(join(directory, "**/*.md")));
 
@@ -77,8 +56,7 @@ export const fetchContents = createServerOnlyFn(
     // sort the contents by date in descending order.
     return (await Promise.all(files.map((filePath) => fetchAndParseContent(filePath))))
       .filter((content) => content.status === "Published")
-      .toSorted((first, second) => second.date.localeCompare(first.date))
-      .map((content) => parseContentWithParser(content, parser));
+      .toSorted((first, second) => second.date.localeCompare(first.date));
   },
 );
 
@@ -90,12 +68,8 @@ export const fetchContents = createServerOnlyFn(
  * @throws An error if the content could not be fetched.
  */
 export const fetchContent = createServerOnlyFn(
-  async <T extends PassthroughContent>(
-    path: string,
-    slug: string,
-    parser: Parser<T>,
-  ): Promise<T> => {
-    const content = (await fetchContents(path, parser)).find((content) => content.slug === slug);
+  async (path: string, slug: string): Promise<PassthroughContent> => {
+    const content = (await fetchContents(path)).find((content) => content.slug === slug);
 
     if (!content) {
       throw new Error(`Content with slug '${slug}' not found.`);

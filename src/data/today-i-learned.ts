@@ -11,7 +11,9 @@ import z from "zod";
  * @returns An array of today I learneds (TILs).
  */
 export async function fetchTodayILearneds(): Promise<TodayILearned[]> {
-  return await fetchContents(fetchEnvironmentVariable("TODAY_I_LEARNED_PATH"), parseTodayILearned);
+  return (await fetchContents(fetchEnvironmentVariable("TODAY_I_LEARNED_PATH"))).map(
+    parseTodayILearned,
+  );
 }
 
 /**
@@ -28,10 +30,8 @@ export const fetchTodayILearnedsServerFn = createServerFn({ method: "GET" })
  * @returns The today I learned (TIL) with the provided slug.
  */
 export async function fetchTodayILearned(slug: string): Promise<TodayILearned> {
-  return await fetchContent(
-    fetchEnvironmentVariable("TODAY_I_LEARNED_PATH"),
-    slug,
-    parseTodayILearned,
+  return parseTodayILearned(
+    await fetchContent(fetchEnvironmentVariable("TODAY_I_LEARNED_PATH"), slug),
   );
 }
 

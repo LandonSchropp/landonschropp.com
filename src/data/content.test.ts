@@ -1,5 +1,4 @@
 import { contentFactory } from "../../test/factories";
-import { parseContent } from "../schema";
 import { fetchContents, fetchContent, filterContentsByTag } from "./content";
 import { mkdir, writeFile, rm } from "fs/promises";
 import { tmpdir } from "os";
@@ -49,7 +48,7 @@ describe("fetchContents", () => {
     });
 
     it("returns an empty array", async () => {
-      const result = await fetchContents(testDir, parseContent);
+      const result = await fetchContents(testDir);
       expect(result).toEqual([]);
     });
   });
@@ -86,7 +85,7 @@ describe("fetchContents", () => {
     });
 
     it("returns the parsed published markdown files sorted by date", async () => {
-      const result = await fetchContents(testDir, parseContent);
+      const result = await fetchContents(testDir);
       expect(result).toHaveLength(3);
       expect(result[0].slug).toBe("item-b");
       expect(result[1].slug).toBe("item-c");
@@ -133,7 +132,7 @@ describe("fetchContents", () => {
     });
 
     it("returns the parsed published markdown files sorted by date", async () => {
-      const result = await fetchContents(testDir, parseContent);
+      const result = await fetchContents(testDir);
       expect(result).toHaveLength(2);
       expect(result[0].slug).toBe("published-b");
       expect(result[1].slug).toBe("published-a");
@@ -174,7 +173,7 @@ describe("fetchContent", () => {
 
   describe("when the content with the slug exists", () => {
     it("returns the content", async () => {
-      const result = await fetchContent(testDir, "item-b", parseContent);
+      const result = await fetchContent(testDir, "item-b");
       expect(result.slug).toBe("item-b");
       expect(result.title).toBe("Article B");
     });
@@ -182,7 +181,7 @@ describe("fetchContent", () => {
 
   describe("when the content with the slug does not exist", () => {
     it("throws an error", async () => {
-      await expect(fetchContent(testDir, "nonexistent", parseContent)).rejects.toThrow(
+      await expect(fetchContent(testDir, "nonexistent")).rejects.toThrow(
         "Content with slug 'nonexistent' not found",
       );
     });
@@ -216,7 +215,7 @@ describe("fetchAndParseContent", () => {
       const filePath = join(testDir, "test-article.md");
       await writeFile(filePath, markdown);
 
-      const result = await fetchContent(testDir, "test-article", parseContent);
+      const result = await fetchContent(testDir, "test-article");
 
       expect(result.content).toContain("<h2>Introduction</h2>");
       expect(result.content).toContain(
@@ -246,7 +245,7 @@ describe("fetchAndParseContent", () => {
       await writeFile(join(testDir, "image1.jpg"), Buffer.from("fake image 1"));
       await writeFile(join(testDir, "image2.png"), Buffer.from("fake image 2"));
 
-      const result = await fetchContent(testDir, "test-article", parseContent);
+      const result = await fetchContent(testDir, "test-article");
 
       expect(result.images).toHaveLength(2);
     });
@@ -268,7 +267,7 @@ describe("fetchAndParseContent", () => {
 
       await writeFile(join(testDir, "image.jpg"), Buffer.from("fake image"));
 
-      const result = await fetchContent(testDir, "test-article", parseContent);
+      const result = await fetchContent(testDir, "test-article");
 
       expect(result.content).toContain('src="/images/');
       expect(result.content).toContain('.jpg"');
@@ -291,7 +290,7 @@ describe("fetchAndParseContent", () => {
       const filePath = join(testDir, "test-article.md");
       await writeFile(filePath, markdown);
 
-      const result = await fetchContent(testDir, "test-article", parseContent);
+      const result = await fetchContent(testDir, "test-article");
 
       expect(result.title).toBe("Test <strong>Bold</strong> Title");
     });
@@ -311,7 +310,7 @@ describe("fetchAndParseContent", () => {
       const filePath = join(testDir, "test-article.md");
       await writeFile(filePath, markdown);
 
-      const result = await fetchContent(testDir, "test-article", parseContent);
+      const result = await fetchContent(testDir, "test-article");
 
       expect(result.title).toBe("Using <code>renderMarkdown</code> in Tests");
     });
@@ -334,7 +333,7 @@ describe("fetchAndParseContent", () => {
       const filePath = join(testDir, "test-article.md");
       await writeFile(filePath, markdown);
 
-      const result = await fetchContent(testDir, "test-article", parseContent);
+      const result = await fetchContent(testDir, "test-article");
 
       expect(result.description).toBe("This is a <em>description</em>");
     });
@@ -356,7 +355,7 @@ describe("fetchAndParseContent", () => {
       const filePath = join(testDir, "test-article.md");
       await writeFile(filePath, markdown);
 
-      const result = await fetchContent(testDir, "test-article", parseContent);
+      const result = await fetchContent(testDir, "test-article");
 
       expect(result.description).toBeUndefined();
     });

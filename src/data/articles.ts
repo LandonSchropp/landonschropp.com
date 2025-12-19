@@ -11,7 +11,7 @@ import z from "zod";
  * @returns An array of articles.
  */
 export async function fetchArticles(): Promise<Article[]> {
-  return await fetchContents(fetchEnvironmentVariable("ARTICLES_PATH"), parseArticle);
+  return (await fetchContents(fetchEnvironmentVariable("ARTICLES_PATH"))).map(parseArticle);
 }
 
 /**
@@ -29,7 +29,7 @@ export const fetchArticlesServerFn = createServerFn({ method: "GET" })
  * @returns The article with the provided slug.
  */
 export async function fetchArticle(slug: string): Promise<Article> {
-  return await fetchContent(fetchEnvironmentVariable("ARTICLES_PATH"), slug, parseArticle);
+  return parseArticle(await fetchContent(fetchEnvironmentVariable("ARTICLES_PATH"), slug));
 }
 
 /**

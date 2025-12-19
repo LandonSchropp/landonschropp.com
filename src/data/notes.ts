@@ -11,7 +11,7 @@ import z from "zod";
  * @returns An array of notes.
  */
 export async function fetchNotes(): Promise<Note[]> {
-  return await fetchContents(fetchEnvironmentVariable("NOTES_PATH"), parseNote);
+  return (await fetchContents(fetchEnvironmentVariable("NOTES_PATH"))).map(parseNote);
 }
 
 /**
@@ -29,7 +29,7 @@ export const fetchNotesServerFn = createServerFn({ method: "GET" })
  * @returns The note with the provided slug.
  */
 export async function fetchNote(slug: string): Promise<Note> {
-  return await fetchContent(fetchEnvironmentVariable("NOTES_PATH"), slug, parseNote);
+  return parseNote(await fetchContent(fetchEnvironmentVariable("NOTES_PATH"), slug));
 }
 
 /**
