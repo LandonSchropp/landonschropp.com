@@ -1,3 +1,4 @@
+import bookCovers from "./vite/plugin-book-covers";
 import markdownImages from "./vite/plugin-markdown-images";
 import tailwindcss from "@tailwindcss/vite";
 import { devtools } from "@tanstack/devtools-vite";
@@ -14,6 +15,7 @@ export default defineConfig({
       projects: ["./tsconfig.json"],
     }),
     markdownImages(),
+    bookCovers(),
     tanstackStart({
       prerender: {
         enabled: true,

@@ -12,7 +12,11 @@ export function NoteBookCover({ note }: NoteBookCoverProps) {
 
   return (
     <figure className="mx-auto my-6 max-w-[25ch]">
-      <img className="shadow-lg" src={`/isbn/${note.isbn}`} alt={`${note.title} book cover`} />
+      <img
+        className="shadow-lg"
+        src={`/images/isbn/${note.isbn}.jpg`}
+        alt={`${note.title} book cover`}
+      />
       <figcaption className="text-theme-extraLightText mt-1 text-center text-xs italic">
         Cover image courtesy of{" "}
         <a className="text-theme-extraLightText underline" href="https://openlibrary.org/">
