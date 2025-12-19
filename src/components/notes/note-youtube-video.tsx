@@ -1,25 +1,21 @@
 import { Note } from "../../types";
-
-// A relatively simple regex to match YouTube URLs. Taken from here:
-// https://gist.github.com/brunodles/927fd8feaaccdbb9d02b
-const YOUTUBE_URL_REGEX =
-  /(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)&?/;
+import { extractYouTubeVideoId } from "../../utilities/youtube-urls";
 
 type NoteYouTubeVideoProps = {
   note: Note;
 };
 
 export function NoteYouTubeVideo({ note }: NoteYouTubeVideoProps) {
-  const match = note.url.match(YOUTUBE_URL_REGEX);
+  const videoId = extractYouTubeVideoId(note.url);
 
-  if (!match) {
+  if (!videoId) {
     return null;
   }
 
   return (
     <iframe
       className="aspect-video w-full shadow-lg"
-      src={`https://www.youtube.com/embed/${match[1]}?enablejsapi=1`}
+      src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1`}
     />
   );
 }
