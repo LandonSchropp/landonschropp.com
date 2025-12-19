@@ -14,7 +14,7 @@ export function NoteYouTubeVideo({ note }: NoteYouTubeVideoProps) {
 
   return (
     <iframe
-      className="aspect-video w-full shadow-lg"
+      className="my-8 aspect-video w-full shadow-lg"
       src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1`}
     />
   );

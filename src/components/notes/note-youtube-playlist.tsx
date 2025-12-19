@@ -14,7 +14,7 @@ export function NoteYouTubePlaylist({ note }: NoteYouTubePlaylistProps) {
 
   return (
     <iframe
-      className="aspect-video w-full shadow-lg"
+      className="my-8 aspect-video w-full shadow-lg"
       src={`https://www.youtube.com/embed/videoseries?list=${playlistId}`}
     />
   );
