@@ -1,10 +1,11 @@
 import { BOOK_MEDIA } from "../src/constants";
+import { getBookCoverHref } from "../src/data/book-covers";
 import { fetchNotes } from "../src/data/notes";
 import { fetchEnvironmentVariable } from "../src/env";
 import { existsSync } from "fs";
 import { readFile, mkdir, writeFile } from "fs/promises";
 import mime from "mime";
-import { join } from "path";
+import { join, posix } from "path";
 import type { Plugin } from "vite";
 
 const ISBN_ROUTE_REGEX = /^\/images\/isbn\/(\d+)\.jpg$/;
@@ -57,10 +58,11 @@ export default function bookCovers(): Plugin {
       for (const isbn of isbns) {
         const coverPath = await downloadCover(isbn);
         const source = await readFile(coverPath);
+        const fileName = posix.relative("/", getBookCoverHref(isbn));
 
         this.emitFile({
           type: "asset",
-          fileName: `images/isbn/${isbn}.jpg`,
+          fileName,
           source,
         });
       }
