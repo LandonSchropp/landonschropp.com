@@ -1,6 +1,6 @@
 @layer components {
   .prose .callout {
-    @apply bg-theme-backgroundHighlight relative flow-root rounded px-4 last:mb-0;
+    @apply bg-theme-backgroundHighlight relative my-4 flow-root rounded px-4 last:mb-0;
   }
 
   .prose .callout-title {
