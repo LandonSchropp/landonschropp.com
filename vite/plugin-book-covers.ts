@@ -25,12 +25,12 @@ export default function bookCovers(): Plugin {
       .filter((isbn) => typeof isbn === "number");
   }
 
-  async function downloadCover(isbn: number): Promise<string | null> {
+  async function downloadCover(isbn: number): Promise<void> {
     const coverPath = join(CACHE_DIR, `${isbn}.jpg`);
 
     // Check if the book cover is already cached
     if (existsSync(coverPath)) {
-      return coverPath;
+      return;
     }
 
     // Download from Open Library
@@ -45,13 +45,12 @@ export default function bookCovers(): Plugin {
     // Open Library returns a 1×1 pixel image instead of 404 for missing covers. Reject images
     // smaller than 1KB as they're likely placeholders.
     if (buffer.length < 1000) {
-      return null;
+      return;
     }
 
     // Write the file and returns its path.
     await mkdir(CACHE_DIR, { recursive: true });
     await writeFile(coverPath, buffer);
-    return coverPath;
   }
 
   async function downloadBookCoverFiles(): Promise<void> {
