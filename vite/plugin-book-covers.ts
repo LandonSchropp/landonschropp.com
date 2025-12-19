@@ -2,9 +2,9 @@ import { getBookCoverHref } from "../src/data/book-covers";
 import { fetchContents } from "../src/data/content";
 import { fetchEnvironmentVariable } from "../src/env";
 import { existsSync } from "fs";
-import { readFile, mkdir, writeFile } from "fs/promises";
+import { readFile, mkdir, writeFile, readdir } from "fs/promises";
 import mime from "mime";
-import { join, posix } from "path";
+import { join, posix, basename } from "path";
 import type { Plugin } from "vite";
 
 const ISBN_ROUTE_REGEX = /^\/images\/isbn\/(\d+)\.jpg$/;
@@ -25,7 +25,7 @@ export default function bookCovers(): Plugin {
       .filter((isbn) => typeof isbn === "number");
   }
 
-  async function downloadCover(isbn: number): Promise<string> {
+  async function downloadCover(isbn: number): Promise<string | null> {
     const coverPath = join(CACHE_DIR, `${isbn}.jpg`);
 
     // Check if the book cover is already cached
@@ -42,97 +42,119 @@ export default function bookCovers(): Plugin {
 
     const buffer = Buffer.from(await response.arrayBuffer());
 
-    // Ensure cache directory exists
+    // Open Library returns a 1×1 pixel image instead of 404 for missing covers. Reject images
+    // smaller than 1KB as they're likely placeholders.
+    if (buffer.length < 1000) {
+      console.warn(`Book cover for ISBN ${isbn} is likely a placeholder`);
+      return null;
+    }
+
+    // Write the file and returns its path.
     await mkdir(CACHE_DIR, { recursive: true });
-
-    // Write to cache
     await writeFile(coverPath, buffer);
-
     return coverPath;
+  }
+
+  async function downloadBookCoverFiles(): Promise<void> {
+    isbns = await loadISBNs();
+
+    for (const isbn of isbns) {
+      await downloadCover(isbn);
+    }
   }
 
   return {
     name: "book-covers",
 
+    // Virtual module to expose available ISBNs with covers
     resolveId(id) {
       if (id === VIRTUAL_MODULE_ID) {
         return RESOLVED_VIRTUAL_MODULE_ID;
       }
     },
 
-    load(id) {
+    // Provide the content of the virtual module
+    async load(id) {
       if (id === RESOLVED_VIRTUAL_MODULE_ID) {
-        return `export const availableIsbns = new Set(${JSON.stringify(isbns)});`;
+        // Compute available ISBNs based on which files exist in cache
+        const files = existsSync(CACHE_DIR) ? await readdir(CACHE_DIR) : [];
+        const cachedIsbns = files
+          .map((file) => parseInt(basename(file, ".jpg"), 10))
+          .filter((isbn) => !isNaN(isbn));
+
+        const availableIsbns = isbns.filter((isbn) => cachedIsbns.includes(isbn));
+
+        return `export const availableIsbns = new Set(${JSON.stringify(availableIsbns)});`;
       }
     },
 
     async buildStart() {
-      isbns = await loadISBNs();
+      await downloadBookCoverFiles();
     },
 
     async generateBundle() {
-      // Download and emit all book covers
+      // Emit all available book covers
       for (const isbn of isbns) {
-        const coverPath = await downloadCover(isbn);
+        const coverPath = join(CACHE_DIR, `${isbn}.jpg`);
+
+        if (!existsSync(coverPath)) {
+          continue;
+        }
+
         const source = await readFile(coverPath);
         const fileName = posix.relative("/", getBookCoverHref(isbn));
 
-        this.emitFile({
-          type: "asset",
-          fileName,
-          source,
-        });
+        this.emitFile({ type: "asset", fileName, source });
       }
     },
 
     async configureServer(server) {
-      // Load initial ISBNs
-      isbns = await loadISBNs();
+      // Download all book covers
+      await downloadBookCoverFiles();
 
       // Watch content directories for changes
       server.watcher.add(join(fetchEnvironmentVariable("NOTES_PATH"), "**", "*"));
 
       // Regenerate on changes
       server.watcher.on("change", () => {
-        void loadISBNs().then((newISBNs) => {
-          isbns = newISBNs;
+        void downloadBookCoverFiles().then(() => {
           server.ws.send({ type: "full-reload" });
         });
       });
 
       // Serve book covers in dev mode
-      server.middlewares.use((req, res, next) => {
-        const match = req.url?.match(ISBN_ROUTE_REGEX);
+      server.middlewares.use((request, response, next) => {
+        const match = request.url?.match(ISBN_ROUTE_REGEX);
 
         if (!match) {
           next();
           return;
         }
 
-        const [, isbnStr] = match;
-        const isbn = parseInt(isbnStr, 10);
+        const isbn = Number(match[1]);
 
         if (!isbns.includes(isbn)) {
-          res.statusCode = 404;
-          res.end();
+          response.statusCode = 404;
+          response.end();
           return;
         }
 
-        downloadCover(isbn)
-          .then((coverPath) => readFile(coverPath))
+        const coverPath = join(CACHE_DIR, `${isbn}.jpg`);
+
+        readFile(coverPath)
           .then((content) => {
             const mimeType = mime.getType(".jpg");
 
             if (mimeType) {
-              res.setHeader("Content-Type", mimeType);
+              response.setHeader("Content-Type", mimeType);
             }
 
-            res.end(content);
+            response.end(content);
           })
           .catch((error) => {
             console.error(`Failed to serve book cover for ISBN ${isbn}:`, error);
-            res.statusCode = 500;
-            res.end();
+            response.statusCode = 404;
+            response.end();
           });
       });
     },
