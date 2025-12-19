@@ -1,4 +1,3 @@
-import { VIDEO_MEDIA } from "../../constants";
 import { Note } from "../../types";
 
 // A relatively simple regex to match YouTube URLs. Taken from here:
@@ -11,10 +10,6 @@ type NoteYouTubeEmbedProps = {
 };
 
 export function NoteYouTubeEmbed({ note }: NoteYouTubeEmbedProps) {
-  if (note.media !== VIDEO_MEDIA) {
-    return null;
-  }
-
   const match = note.url.match(YOUTUBE_URL_REGEX);
 
   if (!match) {
