@@ -1,5 +1,6 @@
 import { Note } from "../../types";
 import { NoteBookCover } from "./note-book-cover";
+import { NoteYouTubePlaylist } from "./note-youtube-playlist";
 import { NoteYouTubeVideo } from "./note-youtube-video";
 
 type NoteEmbedProps = {
@@ -11,6 +12,7 @@ export function NoteEmbed({ note }: NoteEmbedProps) {
     <>
       <NoteBookCover note={note} />
       <NoteYouTubeVideo note={note} />
+      <NoteYouTubePlaylist note={note} />
     </>
   );
 }
