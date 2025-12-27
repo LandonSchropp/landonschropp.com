@@ -2,8 +2,8 @@
 set -euo pipefail
 
 # Configuration
-content_repository="https://github.com/LandonSchropp/resource-notes.git"
 content_directory="./content"
+content_repository="https://${GITHUB_TOKEN}@github.com/LandonSchropp/resource-notes.git"
 
 # Colors for output
 green='\033[0;32m'
