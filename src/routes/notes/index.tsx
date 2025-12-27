@@ -1,7 +1,7 @@
 import { Header } from "../../components/content/header";
-import { Tag } from "../../components/content/tag";
+import { TagDropdown } from "../../components/content/tag-dropdown";
 import { NoteSummary } from "../../components/notes/note-summary";
-import { filterContentsByTag } from "../../data/content";
+import { filterContentsByTag, getAllTags } from "../../data/content";
 import { fetchNotesServerFn } from "../../data/notes";
 import { TagSearchSchema } from "../../schema";
 import { createFileRoute } from "@tanstack/react-router";
@@ -9,7 +9,14 @@ import { createFileRoute } from "@tanstack/react-router";
 export const Route = createFileRoute("/notes/")({
   validateSearch: TagSearchSchema,
   loaderDeps: ({ search }) => ({ tag: search.tag }),
-  loader: async ({ deps: { tag } }) => filterContentsByTag(await fetchNotesServerFn(), tag),
+  loader: async ({ deps: { tag } }) => {
+    const notes = await fetchNotesServerFn();
+
+    return {
+      notes: filterContentsByTag(notes, tag),
+      allTags: getAllTags(notes),
+    };
+  },
   head: () => ({
     meta: [
       {
@@ -25,7 +32,7 @@ export const Route = createFileRoute("/notes/")({
 });
 
 function NotePage() {
-  const notes = Route.useLoaderData();
+  const { notes, allTags } = Route.useLoaderData();
   const { tag } = Route.useSearch();
 
   return (
@@ -33,7 +40,7 @@ function NotePage() {
       <Header
         title="Notes"
         subtitle="My personal notes on books, articles, talks, podcasts and more."
-        tags={tag ? [<Tag key={tag} name={tag} href="/notes" selected />] : undefined}
+        tags={[<TagDropdown key="tag-dropdown" tags={allTags} selectedTag={tag} />]}
       />
       <section className="my-8">
         {notes.map((note, index) => (

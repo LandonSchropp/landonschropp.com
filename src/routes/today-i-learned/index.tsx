@@ -1,7 +1,7 @@
 import { Header } from "../../components/content/header";
-import { Tag } from "../../components/content/tag";
+import { TagDropdown } from "../../components/content/tag-dropdown";
 import { TodayILearnedSummary } from "../../components/today-i-learned/today-i-learned-summary";
-import { filterContentsByTag } from "../../data/content";
+import { filterContentsByTag, getAllTags } from "../../data/content";
 import { fetchTodayILearnedsServerFn } from "../../data/today-i-learned";
 import { TagSearchSchema } from "../../schema";
 import { createFileRoute } from "@tanstack/react-router";
@@ -9,8 +9,14 @@ import { createFileRoute } from "@tanstack/react-router";
 export const Route = createFileRoute("/today-i-learned/")({
   validateSearch: TagSearchSchema,
   loaderDeps: ({ search }) => ({ tag: search.tag }),
-  loader: async ({ deps: { tag } }) =>
-    filterContentsByTag(await fetchTodayILearnedsServerFn(), tag),
+  loader: async ({ deps: { tag } }) => {
+    const todayILearneds = await fetchTodayILearnedsServerFn();
+
+    return {
+      todayILearneds: filterContentsByTag(todayILearneds, tag),
+      allTags: getAllTags(todayILearneds),
+    };
+  },
   head: () => ({
     meta: [
       {
@@ -26,7 +32,7 @@ export const Route = createFileRoute("/today-i-learned/")({
 });
 
 function TodayILearnedPage() {
-  const todayILearneds = Route.useLoaderData();
+  const { todayILearneds, allTags } = Route.useLoaderData();
   const { tag } = Route.useSearch();
 
   return (
@@ -34,7 +40,7 @@ function TodayILearnedPage() {
       <Header
         title="Today I Learned"
         subtitle="Language and framework tips and tricks I've learned while coding"
-        tags={tag ? [<Tag key={tag} name={tag} href="/today-i-learned" />] : undefined}
+        tags={[<TagDropdown key="tag-dropdown" tags={allTags} selectedTag={tag} />]}
       />
       <section className="my-8">
         {todayILearneds.map((todayILearned, index) => (
