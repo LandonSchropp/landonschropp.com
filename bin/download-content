@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
+
 set -euo pipefail
 
 # Configuration
 content_directory="./content"
-content_repository="https://${GITHUB_TOKEN}@github.com/LandonSchropp/resource-notes.git"
+content_repository="https://github.com/LandonSchropp/resource-notes.git"
 
 # Colors for output
 green='\033[0;32m'
@@ -16,8 +17,15 @@ if [ -d "$content_directory" ]; then
 	rm -rf "$content_directory"
 fi
 
-# Clone the repository (uses the default branch)
+# Pre-populate credentials using credential helper (set locally, not globally)
+git -c credential.helper=store credential approve <<EOF
+url=${content_repository}
+username=git
+password=${GITHUB_TOKEN}
+EOF
+
+# Clone the repository using credential helper (prevents token from being stored in git config)
 echo -e "${blue}🐑 Cloning content repository...${no_color}"
-git clone --depth 1 "$content_repository" "$content_directory"
+git -c credential.helper=store clone --depth 1 "$content_repository" "$content_directory"
 
 echo -e "${green}✅ Content fetched successfully to ${content_directory}${no_color}"
