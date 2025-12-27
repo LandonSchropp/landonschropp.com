@@ -10,9 +10,10 @@
   },
   "scripts": {
     "build": "vite build",
+    "build:production": "./bin/build-production",
     "check-types": "tsc --noEmit",
     "dev": "vite dev",
-    "deploy": "pnpm build && pnpm gh-pages",
+    "deploy": "pnpm build:production && pnpm gh-pages",
     "lint": "eslint --max-warnings=0 .",
     "preview": "vite preview",
     "test": "vitest --run --hideSkippedTests",

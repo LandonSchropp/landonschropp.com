@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Download content from GitHub
+./bin/download-content
+
+# Set environment variables for content paths
+export NOTES_PATH=./content/Learning\ Notes
+export ARTICLES_PATH=./content/Articles
+export TODAY_I_LEARNED_PATH=./content/Today\ I\ Learned
+
+# Build with production content paths
+vite build --mode production

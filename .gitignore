@@ -2,6 +2,7 @@
 /node_modules
 tsconfig.tsbuildinfo
 /.tanstack
+/content
 
 # The TanStack Start documentation says to commit this file to source control. However, it's doesn't
 # seem strictly necessary, and I don't like the idea of committing build artifacts to source control

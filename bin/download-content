@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Configuration
+content_repository="https://github.com/LandonSchropp/resource-notes.git"
+content_directory="./content"
+
+# Colors for output
+green='\033[0;32m'
+blue='\033[0;34m'
+no_color='\033[0m'
+
+# Remove existing content directory if it exists
+if [ -d "$content_directory" ]; then
+	echo -e "${blue}🗑️ Removing existing content directory...${no_color}"
+	rm -rf "$content_directory"
+fi
+
+# Clone the repository (uses the default branch)
+echo -e "${blue}🐑 Cloning content repository...${no_color}"
+git clone --depth 1 "$content_repository" "$content_directory"
+
+echo -e "${green}✅ Content fetched successfully to ${content_directory}${no_color}"
