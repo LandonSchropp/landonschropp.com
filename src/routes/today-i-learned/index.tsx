@@ -24,7 +24,7 @@ export const Route = createFileRoute("/today-i-learned/")({
       },
       {
         name: "description",
-        content: "Language and framework tips and tricks I've learned while coding",
+        content: "Language and framework tips and tricks",
       },
     ],
   }),
@@ -39,7 +39,7 @@ function TodayILearnedPage() {
     <>
       <Header
         title="Today I Learned"
-        subtitle="Language and framework tips and tricks I've learned while coding"
+        subtitle="Language and framework tips and tricks"
         tags={[<TagDropdown key="tag-dropdown" tags={allTags} selectedTag={tag} />]}
       />
       <section className="my-8">
