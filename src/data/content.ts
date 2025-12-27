@@ -98,11 +98,5 @@ export function filterContentsByTag<T extends Content>(
  * @returns An array of unique tag names, sorted alphabetically.
  */
 export function getAllTags<T extends Content>(contents: T[]): string[] {
-  const tagSet = new Set<string>();
-  for (const content of contents) {
-    for (const tag of content.tags) {
-      tagSet.add(tag);
-    }
-  }
-  return Array.from(tagSet).sort();
+  return Array.from(new Set<string>(contents.flatMap(({ tags }) => tags))).sort();
 }
