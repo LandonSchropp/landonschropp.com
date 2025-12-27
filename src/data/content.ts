@@ -91,3 +91,18 @@ export function filterContentsByTag<T extends Content>(
 ): T[] {
   return tag ? contents.filter((content) => content.tags.includes(tag)) : contents;
 }
+
+/**
+ * Gets all unique tags from an array of contents, sorted alphabetically.
+ * @param contents The contents to extract tags from.
+ * @returns An array of unique tag names, sorted alphabetically.
+ */
+export function getAllTags<T extends Content>(contents: T[]): string[] {
+  const tagSet = new Set<string>();
+  for (const content of contents) {
+    for (const tag of content.tags) {
+      tagSet.add(tag);
+    }
+  }
+  return Array.from(tagSet).sort();
+}

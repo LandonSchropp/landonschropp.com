@@ -1,5 +1,5 @@
 import { contentFactory } from "../../test/factories";
-import { fetchContents, fetchContent, filterContentsByTag } from "./content";
+import { fetchContents, fetchContent, filterContentsByTag, getAllTags } from "./content";
 import { mkdir, writeFile, rm } from "fs/promises";
 import { tmpdir } from "os";
 import { join } from "path";
@@ -426,6 +426,93 @@ describe("filterContentsByTag", () => {
 
         expect(result).toEqual([]);
       });
+    });
+  });
+});
+
+describe("getAllTags", () => {
+  describe("when the contents array is empty", () => {
+    it("returns an empty array", () => {
+      expect(getAllTags([])).toEqual([]);
+    });
+  });
+
+  describe("when the contents have tags", () => {
+    let contents: ReturnType<typeof contentFactory.build>[];
+
+    beforeEach(() => {
+      contents = [
+        contentFactory.build({ tags: ["typescript", "javascript"] }),
+        contentFactory.build({ tags: ["react", "javascript"] }),
+        contentFactory.build({ tags: ["css"] }),
+      ];
+    });
+
+    it("returns all unique tags sorted alphabetically", () => {
+      expect(getAllTags(contents)).toEqual(["css", "javascript", "react", "typescript"]);
+    });
+  });
+
+  describe("when the contents have duplicate tags", () => {
+    let contents: ReturnType<typeof contentFactory.build>[];
+
+    beforeEach(() => {
+      contents = [
+        contentFactory.build({ tags: ["javascript"] }),
+        contentFactory.build({ tags: ["javascript", "react"] }),
+        contentFactory.build({ tags: ["javascript"] }),
+      ];
+    });
+
+    it("returns unique tags only once", () => {
+      expect(getAllTags(contents)).toEqual(["javascript", "react"]);
+    });
+  });
+
+  describe("when some contents have no tags", () => {
+    let contents: ReturnType<typeof contentFactory.build>[];
+
+    beforeEach(() => {
+      contents = [
+        contentFactory.build({ tags: ["javascript"] }),
+        contentFactory.build({ tags: [] }),
+        contentFactory.build({ tags: ["react"] }),
+      ];
+    });
+
+    it("returns only the tags from the contents that have them", () => {
+      expect(getAllTags(contents)).toEqual(["javascript", "react"]);
+    });
+  });
+
+  describe("when all the contents have no tags", () => {
+    let contents: ReturnType<typeof contentFactory.build>[];
+
+    beforeEach(() => {
+      contents = [
+        contentFactory.build({ tags: [] }),
+        contentFactory.build({ tags: [] }),
+        contentFactory.build({ tags: [] }),
+      ];
+    });
+
+    it("returns an empty array", () => {
+      expect(getAllTags(contents)).toEqual([]);
+    });
+  });
+
+  describe("when the tags are not sorted in the input", () => {
+    let contents: ReturnType<typeof contentFactory.build>[];
+
+    beforeEach(() => {
+      contents = [
+        contentFactory.build({ tags: ["zulu", "alpha"] }),
+        contentFactory.build({ tags: ["charlie", "bravo"] }),
+      ];
+    });
+
+    it("returns the tags sorted alphabetically", () => {
+      expect(getAllTags(contents)).toEqual(["alpha", "bravo", "charlie", "zulu"]);
     });
   });
 });
