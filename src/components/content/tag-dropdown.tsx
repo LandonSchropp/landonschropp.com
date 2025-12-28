@@ -43,7 +43,7 @@ export function TagDropdown({ tags }: TagDropdownProps) {
         aria-expanded={isOpen}
       >
         <ChevronDown size={14} className="invisible" />
-        <span>{selectedTag ? `#${selectedTag}` : "All Tags"}</span>
+        <span suppressHydrationWarning>{selectedTag ? `#${selectedTag}` : "All Tags"}</span>
         <ChevronDown size={14} className="transition-transform duration-200" />
       </button>
 
