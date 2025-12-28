@@ -3,6 +3,13 @@ import { NAME, NOT_FOUND_SVG_DATA_KEY } from "../constants";
 import { fetchSvgData } from "../data/svg";
 import flannel from "../images/flannel.png";
 import stylesheetsIndex from "../styles/index.css?url";
+import gentiumBookPlusLatin400Italic from "@fontsource/gentium-book-plus/files/gentium-book-plus-latin-400-italic.woff2?url";
+import gentiumBookPlusLatin400 from "@fontsource/gentium-book-plus/files/gentium-book-plus-latin-400-normal.woff2?url";
+import gentiumBookPlusLatin700 from "@fontsource/gentium-book-plus/files/gentium-book-plus-latin-700-normal.woff2?url";
+import openSansLatin400 from "@fontsource/open-sans/files/open-sans-latin-400-normal.woff2?url";
+import openSansLatin800 from "@fontsource/open-sans/files/open-sans-latin-800-normal.woff2?url";
+import sourceCodeProLatin400 from "@fontsource/source-code-pro/files/source-code-pro-latin-400-normal.woff2?url";
+import sourceCodeProLatin700 from "@fontsource/source-code-pro/files/source-code-pro-latin-700-normal.woff2?url";
 import { HeadContent, Outlet, Scripts, createRootRoute } from "@tanstack/react-router";
 
 export const Route = createRootRoute({
@@ -31,6 +38,55 @@ export const Route = createRootRoute({
         rel: "shortcut icon",
         type: "image/png",
         href: flannel,
+      },
+      {
+        rel: "preload",
+        as: "font",
+        type: "font/woff2",
+        href: openSansLatin400,
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "preload",
+        as: "font",
+        type: "font/woff2",
+        href: gentiumBookPlusLatin400,
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "preload",
+        as: "font",
+        type: "font/woff2",
+        href: gentiumBookPlusLatin700,
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "preload",
+        as: "font",
+        type: "font/woff2",
+        href: openSansLatin800,
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "preload",
+        as: "font",
+        type: "font/woff2",
+        href: gentiumBookPlusLatin400Italic,
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "preload",
+        as: "font",
+        type: "font/woff2",
+        href: sourceCodeProLatin400,
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "preload",
+        as: "font",
+        type: "font/woff2",
+        href: sourceCodeProLatin700,
+        crossOrigin: "anonymous",
       },
       {
         rel: "stylesheet",
