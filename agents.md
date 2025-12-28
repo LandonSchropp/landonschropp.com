@@ -70,6 +70,8 @@ Content types:
 - **Setup**: `test/create-server-fn.ts` for TanStack Start server function mocking
 - Tests are co-located with source files using `.test.ts` or `.test.tsx` extensions
 - Run single test: `pnpm test [path]`
+- Do not run tests with `NODE_ENV=test`. It's set automatically. I REPEAT, DO NOT RUN TESTS WITH
+  `NODE_ENV=test`.
 
 ### Styling
 
