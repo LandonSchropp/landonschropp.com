@@ -14,7 +14,7 @@ function TagDropdownLink({ text, tag, isSelected, onClick }: TagDropdownLinkProp
   return (
     <Link
       to="."
-      search={tag ? { tag } : {}}
+      search={{ tag }}
       onClick={onClick}
       className={`text-theme-text hocus:bg-theme-backgroundHighlight block px-2 text-sm leading-6 transition-colors ${isSelected ? "bg-theme-backgroundHighlight" : ""}`}
     >
