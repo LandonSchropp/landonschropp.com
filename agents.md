@@ -28,6 +28,8 @@ Provides guidance to AI agents when working with code in this repository. First,
   });
   ```
 
+- Aim for atomic commits, with commits representing single, self-contained changes.
+
 ## Architecture Overview
 
 This is a static site built with **TanStack Start**, **React**, **Vite**, and **Tailwind CSS**. Content is authored in Markdown files using Obsidian and stored locally on the filesystem.
