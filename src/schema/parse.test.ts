@@ -22,7 +22,7 @@ describe("parseSchema", () => {
     it("includes the validation error message", () => {
       const schema = z.object({ name: z.string() });
       const input = { name: 123 };
-      expect(() => parseSchema(schema, input)).toThrow("Expected string");
+      expect(() => parseSchema(schema, input)).toThrow("expected string");
     });
 
     it("includes the invalid value in the error message", () => {
