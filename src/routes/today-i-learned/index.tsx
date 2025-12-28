@@ -33,14 +33,13 @@ export const Route = createFileRoute("/today-i-learned/")({
 
 function TodayILearnedPage() {
   const { todayILearneds, allTags } = Route.useLoaderData();
-  const { tag } = Route.useSearch();
 
   return (
     <>
       <Header
         title="Today I Learned"
         subtitle="Language and framework tips and tricks"
-        tags={[<TagDropdown key="tag-dropdown" tags={allTags} selectedTag={tag} />]}
+        tags={[<TagDropdown key="tag-dropdown" tags={allTags} />]}
       />
       <section className="my-8">
         {todayILearneds.map((todayILearned, index) => (

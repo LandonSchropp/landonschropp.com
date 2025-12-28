@@ -1,5 +1,5 @@
 import { useClickOutside } from "../../hooks/use-click-outside";
-import { Link } from "@tanstack/react-router";
+import { Link, useSearch } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
 import { useState, useRef } from "react";
 
@@ -25,13 +25,12 @@ function TagDropdownLink({ text, tag, isSelected, onClick }: TagDropdownLinkProp
 
 export type TagDropdownProps = {
   tags: string[];
-  selectedTag: string | undefined;
-  label?: string;
 };
 
-export function TagDropdown({ tags, selectedTag, label = "All Tags" }: TagDropdownProps) {
+export function TagDropdown({ tags }: TagDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { tag: selectedTag } = useSearch({ strict: false });
 
   useClickOutside(dropdownRef, () => setIsOpen(false));
 
@@ -44,7 +43,7 @@ export function TagDropdown({ tags, selectedTag, label = "All Tags" }: TagDropdo
         aria-expanded={isOpen}
       >
         <ChevronDown size={14} className="invisible" />
-        <span>{selectedTag ? `#${selectedTag}` : label}</span>
+        <span>{selectedTag ? `#${selectedTag}` : "All Tags"}</span>
         <ChevronDown size={14} className="transition-transform duration-200" />
       </button>
 

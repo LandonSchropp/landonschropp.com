@@ -33,14 +33,13 @@ export const Route = createFileRoute("/notes/")({
 
 function NotePage() {
   const { notes, allTags } = Route.useLoaderData();
-  const { tag } = Route.useSearch();
 
   return (
     <>
       <Header
         title="Notes"
         subtitle="My personal notes on books, articles, talks, podcasts and more."
-        tags={[<TagDropdown key="tag-dropdown" tags={allTags} selectedTag={tag} />]}
+        tags={[<TagDropdown key="tag-dropdown" tags={allTags} />]}
       />
       <section className="my-8">
         {notes.map((note, index) => (
