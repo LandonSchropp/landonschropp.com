@@ -5,6 +5,9 @@ set -euo pipefail
 # Download content from GitHub
 ./bin/download-content
 
+# Set NODE_ENV to production
+export NODE_ENV=production
+
 # Set environment variables for content paths
 export NOTES_PATH=./content/Learning\ Notes
 export ARTICLES_PATH=./content/Articles
