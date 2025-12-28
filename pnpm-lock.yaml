@@ -74,6 +74,9 @@ importers:
       mime:
         specifier: ^4.1.0
         version: 4.1.0
+      netlify-plugin-cache:
+        specifier: ^1.0.3
+        version: 1.0.3
       react:
         specifier: 19.2.3
         version: 19.2.3
@@ -1260,9 +1263,6 @@ packages:
 
   '@types/react-dom@18.2.18':
     resolution: {integrity: sha512-TJxDm6OfAX2KJWJdMEVTwWke5Sc/E/RlnPGvGfS0W7+6ocy2xhDVQVh/KvC2Uf7kACs+gDytdusDSdWfWkaNzw==}
-
-  '@types/react@19.2.5':
-    resolution: {integrity: sha512-keKxkZMqnDicuvFoJbzrhbtdLSPhj/rZThDlKWCDbgXmUg0rEUFtRssDXKYmtXluZlIqiC5VqkCgRwzuyLHKHw==}
 
   '@types/react@19.2.7':
     resolution: {integrity: sha512-MWtvHrGZLFttgeEj28VXHxpmwYbor/ATPYbBfSFZEIRK0ecCFLl2Qo55z52Hss+UV9CRN7trSeq1zbgx7YDWWg==}
@@ -2489,6 +2489,9 @@ packages:
 
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
+
+  netlify-plugin-cache@1.0.3:
+    resolution: {integrity: sha512-CTOwNWrTOP59T6y6unxQNnp1WX702v2R/faR5peSH94ebrYfyY4zT5IsRcIiHKq57jXeyCrhy0GLuTN8ktzuQg==}
 
   no-case@3.0.4:
     resolution: {integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==}
@@ -4333,12 +4336,7 @@ snapshots:
 
   '@types/react-dom@18.2.18':
     dependencies:
-      '@types/react': 19.2.5
-    optional: true
-
-  '@types/react@19.2.5':
-    dependencies:
-      csstype: 3.2.3
+      '@types/react': 19.2.7
     optional: true
 
   '@types/react@19.2.7':
@@ -5758,6 +5756,8 @@ snapshots:
   nanoid@3.3.11: {}
 
   natural-compare@1.4.0: {}
+
+  netlify-plugin-cache@1.0.3: {}
 
   no-case@3.0.4:
     dependencies:

@@ -1,0 +1,6 @@
+# Cache the book covers directory between builds to avoid re-downloading
+[[plugins]]
+package = "netlify-plugin-cache"
+
+[plugins.inputs]
+paths = ["dist/cache/book-covers"]

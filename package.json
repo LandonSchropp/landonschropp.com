@@ -42,6 +42,7 @@
     "markdown-it": "^14.1.0",
     "markdown-it-callouts": "^1.1.0",
     "mime": "^4.1.0",
+    "netlify-plugin-cache": "^1.0.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "sharp": "^0.34.5",
