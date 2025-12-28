@@ -19,7 +19,7 @@ export function TodayILearnedHeader({ todayILearned }: TodayILearnedHeaderProps)
         </>
       }
       tags={todayILearned.tags.map((tag) => (
-        <Tag key={tag} name={tag} href={`/today-i-learned?tag=${tag}`} />
+        <Tag key={tag} name={tag} href={`/today-i-learned/tags/${tag}`} />
       ))}
     />
   );

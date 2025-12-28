@@ -71,7 +71,7 @@ export function Summary({
         <Tags
           className="justify-start"
           tags={tags.map((tag) => (
-            <Tag key={tag} name={tag} href={`${tagsIndexHref}?tag=${tag}`} />
+            <Tag key={tag} name={tag} href={`${tagsIndexHref}/tags/${tag}`} />
           ))}
         />
       )}

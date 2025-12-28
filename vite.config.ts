@@ -21,7 +21,6 @@ export default defineConfig({
       prerender: {
         enabled: true,
         crawlLinks: true,
-        filter: ({ path }) => !path.includes("?"),
       },
       sitemap: {
         enabled: true,

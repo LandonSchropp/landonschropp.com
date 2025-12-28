@@ -1,20 +1,19 @@
 import { useClickOutside } from "../../hooks/use-click-outside";
-import { Link, useSearch } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
 import { useState, useRef } from "react";
 
 type TagDropdownLinkProps = {
   text: string;
-  tag?: string;
+  to: string;
   isSelected: boolean;
   onClick: () => void;
 };
 
-function TagDropdownLink({ text, tag, isSelected, onClick }: TagDropdownLinkProps) {
+function TagDropdownLink({ text, to, isSelected, onClick }: TagDropdownLinkProps) {
   return (
     <Link
-      to="."
-      search={{ tag }}
+      to={to}
       onClick={onClick}
       className={`text-theme-text hocus:bg-theme-backgroundHighlight block px-2 text-sm leading-6 transition-colors ${isSelected ? "bg-theme-backgroundHighlight" : ""}`}
     >
@@ -25,12 +24,13 @@ function TagDropdownLink({ text, tag, isSelected, onClick }: TagDropdownLinkProp
 
 export type TagDropdownProps = {
   tags: string[];
+  selectedTag?: string;
+  basePath: string;
 };
 
-export function TagDropdown({ tags }: TagDropdownProps) {
+export function TagDropdown({ tags, selectedTag, basePath }: TagDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { tag: selectedTag } = useSearch({ strict: false });
 
   useClickOutside(dropdownRef, () => setIsOpen(false));
 
@@ -43,7 +43,7 @@ export function TagDropdown({ tags }: TagDropdownProps) {
         aria-expanded={isOpen}
       >
         <ChevronDown size={14} className="invisible" />
-        <span suppressHydrationWarning>{selectedTag ? `#${selectedTag}` : "All Tags"}</span>
+        <span>{selectedTag ? `#${selectedTag}` : "All Tags"}</span>
         <ChevronDown size={14} className="transition-transform duration-200" />
       </button>
 
@@ -51,6 +51,7 @@ export function TagDropdown({ tags }: TagDropdownProps) {
         <div className="bg-theme-background border-theme-backgroundHighlight absolute left-1/2 z-50 mt-2 max-h-46 w-max min-w-32 -translate-x-1/2 overflow-hidden overflow-y-auto rounded-lg border shadow-lg">
           <TagDropdownLink
             text="All Tags"
+            to={basePath}
             isSelected={!selectedTag}
             onClick={() => setIsOpen(false)}
           />
@@ -59,7 +60,7 @@ export function TagDropdown({ tags }: TagDropdownProps) {
             <TagDropdownLink
               key={tag}
               text={`#${tag}`}
-              tag={tag}
+              to={`${basePath}/tags/${tag}`}
               isSelected={selectedTag === tag}
               onClick={() => setIsOpen(false)}
             />

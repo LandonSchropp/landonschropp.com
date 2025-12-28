@@ -195,7 +195,7 @@ export function NoteHeader({ note }: NoteProps) {
       titleHref={note.url}
       subtitle={<NoteSubheadText note={note} />}
       tags={note.tags.map((tag) => (
-        <Tag key={tag} name={tag} href={`/notes?tag=${tag}`} />
+        <Tag key={tag} name={tag} href={`/notes/tags/${tag}`} />
       ))}
     />
   );
