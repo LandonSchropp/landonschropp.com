@@ -4,6 +4,7 @@ import { fetchEnvironmentVariable } from "../src/env";
 import { existsSync } from "fs";
 import { readFile, mkdir, writeFile, readdir } from "fs/promises";
 import mime from "mime";
+import pRetry from "p-retry";
 import { join, posix, basename } from "path";
 import type { Plugin } from "vite";
 
@@ -33,24 +34,40 @@ export default function bookCovers(): Plugin {
       return;
     }
 
-    // Download from Open Library
-    const response = await fetch(`https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`);
+    await pRetry(
+      async () => {
+        // Download from Open Library with 30 second timeout
+        const response = await fetch(`https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`, {
+          signal: AbortSignal.timeout(30000),
+        });
 
-    if (!response.ok) {
-      throw new Error(`Failed to download cover for ISBN ${isbn}: ${response.statusText}`);
-    }
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
 
-    const buffer = Buffer.from(await response.arrayBuffer());
+        const buffer = Buffer.from(await response.arrayBuffer());
 
-    // Open Library returns a 1×1 pixel image instead of 404 for missing covers. Reject images
-    // smaller than 1KB as they're likely placeholders.
-    if (buffer.length < 1000) {
-      return;
-    }
+        // Open Library returns a 1×1 pixel image instead of 404 for missing covers. Reject images
+        // smaller than 1KB as they're likely placeholders.
+        if (buffer.length < 1000) {
+          return;
+        }
 
-    // Write the file and returns its path.
-    await mkdir(CACHE_DIR, { recursive: true });
-    await writeFile(coverPath, buffer);
+        // Write the file
+        await mkdir(CACHE_DIR, { recursive: true });
+        await writeFile(coverPath, buffer);
+      },
+      {
+        retries: 3,
+        onFailedAttempt: ({ error, attemptNumber, retriesLeft }) => {
+          const totalAttempts = attemptNumber + retriesLeft;
+
+          console.warn(
+            `Failed to download cover ${isbn} (${attemptNumber}/${totalAttempts}): ${error.message}`,
+          );
+        },
+      },
+    );
   }
 
   async function downloadBookCoverFiles(): Promise<void> {
