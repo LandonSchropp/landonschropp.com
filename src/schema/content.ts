@@ -9,7 +9,7 @@ const LowerKebabCase = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 
 export const ContentSchema = z.object({
   title: z.string(),
-  date: z.string().date(),
+  date: z.iso.date(),
   status: z.enum(STATUSES),
   content: z.string().refine((html) => !H1_TAG_REGEX.test(html), {
     message: "Should not include an H1 tag",
@@ -20,14 +20,14 @@ export const ContentSchema = z.object({
   tags: z.array(LowerKebabCase),
 });
 
+export const LooseContentSchema = z.looseObject(ContentSchema.shape);
+
 /**
  * Parses the provided value as content, passing through unknown properties.
  * @param value The value to parse.
  * @returns The parsed content.
  * @throws If the value does not match the schema.
  */
-export function parseContent(
-  value: unknown,
-): z.infer<typeof ContentSchema> & z.PassthroughType<"passthrough"> {
-  return parseSchema(ContentSchema.passthrough(), value);
+export function parseContent(value: unknown): z.infer<typeof LooseContentSchema> {
+  return parseSchema(LooseContentSchema, value);
 }

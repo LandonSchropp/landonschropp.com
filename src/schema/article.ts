@@ -10,7 +10,7 @@ export const ArticleSchema = z.union([
   ContentSchema.extend({
     description: z.string(),
     publisher: z.string(),
-    url: z.string().url(),
+    url: z.url(),
     content: z.string().max(0),
   }),
 ]);
