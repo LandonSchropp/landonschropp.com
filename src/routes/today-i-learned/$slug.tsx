@@ -1,6 +1,7 @@
 import { TodayILearnedHeader } from "../../components/today-i-learned/today-i-learned-header";
 import { NAME } from "../../constants";
 import { fetchTodayILearnedServerFn } from "../../data/today-i-learned";
+import { stripHtmlTags } from "../../utilities/markdown";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/today-i-learned/$slug")({
@@ -11,11 +12,11 @@ export const Route = createFileRoute("/today-i-learned/$slug")({
     return {
       meta: [
         {
-          title: loaderData.title,
+          title: stripHtmlTags(loaderData.title),
         },
         {
           name: "description",
-          content: `${NAME}'s TIL on ${loaderData.title}`,
+          content: `${NAME}'s TIL on ${stripHtmlTags(loaderData.title)}`,
         },
         {
           name: "author",

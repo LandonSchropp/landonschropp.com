@@ -3,6 +3,7 @@ import { Header } from "../../components/content/header";
 import { Tag } from "../../components/content/tag";
 import { NAME } from "../../constants";
 import { fetchArticleServerFn } from "../../data/articles";
+import { stripHtmlTags } from "../../utilities/markdown";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/articles/$slug")({
@@ -13,11 +14,11 @@ export const Route = createFileRoute("/articles/$slug")({
     return {
       meta: [
         {
-          title: loaderData.title,
+          title: stripHtmlTags(loaderData.title),
         },
         {
           name: "description",
-          content: loaderData.description,
+          content: stripHtmlTags(loaderData.description),
         },
         {
           name: "author",
