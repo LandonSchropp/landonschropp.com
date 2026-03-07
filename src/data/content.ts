@@ -1,3 +1,4 @@
+import { DRAFT_STATUS, PUBLISHED_STATUS } from "../constants";
 import { parseContent } from "../schema";
 import { Content, PassthroughContent } from "../types";
 import { parseFrontmatter } from "../utilities/frontmatter";
@@ -11,14 +12,24 @@ import { createServerOnlyFn } from "@tanstack/react-start";
 import { glob, readFile } from "fs/promises";
 import { basename, join } from "path";
 
+const isDevelopment = process.env.NODE_ENV === "development";
+
 /**
  * Fetches the content of a file and parses it.
  * @param filePath The path to the file to fetch.
  */
-async function fetchAndParseContent(filePath: string): Promise<PassthroughContent> {
+async function fetchAndParseContent(filePath: string): Promise<PassthroughContent | null> {
   const fileContent = await readFile(filePath, "utf8");
 
   const [frontMatter, markdown] = parseFrontmatter(filePath, fileContent);
+
+  // In development, include Draft and Published content. Otherwise, only include Published.
+  if (
+    frontMatter.status !== PUBLISHED_STATUS &&
+    !(isDevelopment && frontMatter.status === DRAFT_STATUS)
+  ) {
+    return null;
+  }
 
   // Extract image paths from the original markdown (before replacing).
   const images = await getMarkdownImages(markdown, filePath);
@@ -55,7 +66,7 @@ export const fetchContents = createServerOnlyFn(
     // Fetch and parse all of the contents in the given directory, filter out unpublished content, and
     // sort the contents by date in descending order.
     return (await Promise.all(files.map((filePath) => fetchAndParseContent(filePath))))
-      .filter((content) => content.status === "Published")
+      .filter((content) => content !== null)
       .toSorted((first, second) => second.date.localeCompare(first.date));
   },
 );

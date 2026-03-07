@@ -93,11 +93,46 @@ describe("fetchContents", () => {
     });
   });
 
-  describe("when the directory contains unpublished markdown files", () => {
+  describe("when the directory contains an ignored status file without a slug or tags", () => {
     beforeEach(async () => {
       await mkdir(testDir, { recursive: true });
 
-      // Create in different order with mix of published and unpublished
+      await writeFile(
+        join(testDir, "idea-article.md"),
+        dedent`
+          ---
+          title: My Idea
+          date: 2024-01-15
+          status: Idea
+          ---
+
+          Some content.
+        `,
+      );
+
+      await writeContent(testDir, {
+        title: "Published A",
+        date: "2024-01-10",
+        status: "Published",
+        slug: "published-a",
+      });
+    });
+
+    afterEach(async () => {
+      await rm(testDir, { recursive: true, force: true });
+    });
+
+    it("excludes the Idea article and returns only the published one", async () => {
+      const result = await fetchContents(testDir);
+      expect(result).toHaveLength(1);
+      expect(result[0].slug).toBe("published-a");
+    });
+  });
+
+  describe("when the directory contains Draft and Published markdown files", () => {
+    beforeEach(async () => {
+      await mkdir(testDir, { recursive: true });
+
       await writeContent(testDir, {
         title: "Draft B",
         date: "2024-01-20",
@@ -131,7 +166,7 @@ describe("fetchContents", () => {
       await rm(testDir, { recursive: true, force: true });
     });
 
-    it("returns the parsed published markdown files sorted by date", async () => {
+    it("returns only the Published content sorted by date", async () => {
       const result = await fetchContents(testDir);
       expect(result).toHaveLength(2);
       expect(result[0].slug).toBe("published-b");
