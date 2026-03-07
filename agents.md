@@ -66,7 +66,7 @@ Content types:
 
 ### Testing
 
-- **Standards**: Fetch the test standards from the `ls` MCP server's `doc://test` resource.
+- **Standards**: Use the `ls:testing-typescript` skill.
 - **Framework**: Vitest with React Testing Library
 - **Config**: `vitest.config.ts` with jsdom environment
 - **Setup**: `test/create-server-fn.ts` for TanStack Start server function mocking
