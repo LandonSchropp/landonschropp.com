@@ -6,12 +6,17 @@ import {
   WILL_NOT_PUBLISH_STATUS,
 } from "../../src/constants";
 import type { Content } from "../../src/types";
+import { createContentFile } from "../content";
 import { imageFactory } from "./image.factory";
 import { DeepPartial, Factory } from "fishery";
 
 type Status = (typeof STATUSES)[number];
 
-export class ContentFactory<T extends Content> extends Factory<T> {
+export type ContentTransientParams = {
+  directory: string;
+};
+
+export class ContentFactory<T extends Content> extends Factory<T, ContentTransientParams> {
   idea() {
     return this.params({ status: IDEA_STATUS as Status } as DeepPartial<T>);
   }
@@ -31,17 +36,21 @@ export class ContentFactory<T extends Content> extends Factory<T> {
 
 export const contentFactory = ContentFactory.define<
   Content,
-  any,
+  ContentTransientParams,
   Content,
   Partial<Pick<Content, "status">>,
   ContentFactory<Content>
->(({ sequence }) => ({
-  title: `Test Content ${sequence}`,
-  date: "2024-01-15",
-  status: PUBLISHED_STATUS,
-  content: "<p>This is test content.</p>",
-  images: [imageFactory.build()],
-  filePath: `/test/content-${sequence}.md`,
-  slug: `test-content-${sequence}`,
-  tags: ["tag"],
-}));
+>(({ sequence, onCreate, transientParams }) => {
+  onCreate((content) => createContentFile(transientParams.directory, content));
+
+  return {
+    title: `Test Content ${sequence}`,
+    date: "2024-01-15",
+    status: PUBLISHED_STATUS,
+    content: "<p>This is test content.</p>",
+    images: [imageFactory.build()],
+    filePath: `content/Test Content ${sequence}.md`,
+    slug: `test-content-${sequence}`,
+    tags: ["tag"],
+  };
+});

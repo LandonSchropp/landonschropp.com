@@ -1,4 +1,5 @@
 import type { Article } from "../../src/types";
+import { createContentFile } from "../content";
 import { ContentFactory, contentFactory } from "./content.factory";
 
 export class ArticleFactory extends ContentFactory<Article> {
@@ -17,7 +18,12 @@ export class ArticleFactory extends ContentFactory<Article> {
 }
 
 // Default to most common variant
-export const articleFactory = ArticleFactory.define(({ sequence }) => ({
-  ...contentFactory.build(),
-  description: `A test article ${sequence}.`,
-}));
+export const articleFactory = ArticleFactory.define(({ sequence, onCreate, transientParams }) => {
+  onCreate((content) => createContentFile(transientParams.directory, content));
+
+  return {
+    ...contentFactory.build(),
+    filePath: `articles/Test Article ${sequence}.md`,
+    description: `A test article ${sequence}.`,
+  };
+});

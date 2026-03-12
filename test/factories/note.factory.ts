@@ -10,6 +10,7 @@ import {
   VIDEO_PLAYLIST_MEDIA,
 } from "../../src/constants";
 import type { Note } from "../../src/types";
+import { createContentFile } from "../content";
 import { ContentFactory, contentFactory } from "./content.factory";
 import { DeepPartial } from "fishery";
 
@@ -80,13 +81,16 @@ export class NoteFactory extends ContentFactory<Note> {
 
 // Default to most common variant
 export const noteFactory = NoteFactory.define<Note, any, Note, Partial<Note>, NoteFactory>(
-  ({ sequence }) => {
+  ({ sequence, onCreate, transientParams }) => {
+    onCreate((content) => createContentFile(transientParams.directory, content));
+
     const content = contentFactory.build();
 
     return {
       ...content,
+      filePath: `notes/Test Note ${sequence}.md`,
       authors: ["Author"],
-      url: `https://example.com/content-${sequence}`,
+      url: `https://example.com/note-${sequence}`,
       media: ARTICLE_MEDIA,
       source: "Example Source",
     };
