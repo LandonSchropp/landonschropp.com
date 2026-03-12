@@ -50,6 +50,7 @@ export const LINKED_IN_SVG_DATA_KEY = "linkedIn";
 export const NOT_FOUND_SVG_DATA_KEY = "notFound";
 export const NOTES_SVG_DATA_KEY = "notes";
 export const SCHROPP_SVG_DATA_KEY = "schropp";
+export const SUBSTACK_SVG_DATA_KEY = "substack";
 export const TIL_SVG_DATA_KEY = "til";
 export const WRITING_SVG_DATA_KEY = "writing";
 
@@ -68,6 +69,7 @@ export const SVG_DATA_KEYS = [
   NOT_FOUND_SVG_DATA_KEY,
   NOTES_SVG_DATA_KEY,
   SCHROPP_SVG_DATA_KEY,
+  SUBSTACK_SVG_DATA_KEY,
   TIL_SVG_DATA_KEY,
   WRITING_SVG_DATA_KEY,
   NOT_FOUND_SVG_DATA_KEY,

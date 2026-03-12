@@ -15,6 +15,7 @@ import {
   NOT_FOUND_SVG_DATA_KEY,
   NOTES_SVG_DATA_KEY,
   SCHROPP_SVG_DATA_KEY,
+  SUBSTACK_SVG_DATA_KEY,
   TIL_SVG_DATA_KEY,
   WRITING_SVG_DATA_KEY,
 } from "../constants";
@@ -40,6 +41,7 @@ export const Route = createFileRoute("/")({
       [NOT_FOUND_SVG_DATA_KEY]: await fetchSvgData({ data: { key: NOT_FOUND_SVG_DATA_KEY } }),
       [NOTES_SVG_DATA_KEY]: await fetchSvgData({ data: { key: NOTES_SVG_DATA_KEY } }),
       [SCHROPP_SVG_DATA_KEY]: await fetchSvgData({ data: { key: SCHROPP_SVG_DATA_KEY } }),
+      [SUBSTACK_SVG_DATA_KEY]: await fetchSvgData({ data: { key: SUBSTACK_SVG_DATA_KEY } }),
       [TIL_SVG_DATA_KEY]: await fetchSvgData({ data: { key: TIL_SVG_DATA_KEY } }),
       [WRITING_SVG_DATA_KEY]: await fetchSvgData({ data: { key: WRITING_SVG_DATA_KEY } }),
     };
@@ -85,6 +87,12 @@ export function IndexPage() {
   const til = (
     <DynamicSVG.Link href="/today-i-learned" title="Today I Learned" key="til">
       <DynamicSVG.Shape key="til" {...svgData.til} />
+    </DynamicSVG.Link>
+  );
+
+  const substack = (
+    <DynamicSVG.Link href="https://prismatic.to" title="Substack" key="substack">
+      <DynamicSVG.Shape key="substack" {...svgData.substack} />
     </DynamicSVG.Link>
   );
 
@@ -140,6 +148,7 @@ export function IndexPage() {
           {notes}
           {til}
           {gitHub}
+          {substack}
           {chessCom}
           {linkedIn}
           {email}
@@ -180,6 +189,7 @@ export function IndexPage() {
           {notes}
           {til}
           {gitHub}
+          {substack}
           {chessCom}
           {linkedIn}
           {email}
@@ -220,6 +230,7 @@ export function IndexPage() {
           {notes}
           {til}
           {gitHub}
+          {substack}
           {chessCom}
           {linkedIn}
           {email}
@@ -258,6 +269,7 @@ export function IndexPage() {
           {notes}
           {til}
           {gitHub}
+          {substack}
           {chessCom}
           {linkedIn}
           {email}
@@ -300,6 +312,7 @@ export function IndexPage() {
         </DynamicSVG.Row>
         <DynamicSVG.Row key="external-navigation" align="top" spacing={EXTRA_WIDE_SPACING}>
           {gitHub}
+          {substack}
           {chessCom}
           {linkedIn}
           {email}

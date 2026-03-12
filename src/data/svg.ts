@@ -13,6 +13,7 @@ import {
   NOT_FOUND_SVG_DATA_KEY,
   NOTES_SVG_DATA_KEY,
   SCHROPP_SVG_DATA_KEY,
+  SUBSTACK_SVG_DATA_KEY,
   SVG_DATA_KEYS,
   TIL_SVG_DATA_KEY,
   WRITING_SVG_DATA_KEY,
@@ -31,6 +32,7 @@ import linkedInRaw from "../images/data/linkedin.svg?raw";
 import notFoundRaw from "../images/data/not-found.svg?raw";
 import notesRaw from "../images/data/notes.svg?raw";
 import schroppRaw from "../images/data/schropp.svg?raw";
+import substackRaw from "../images/data/substack.svg?raw";
 import tilRaw from "../images/data/til.svg?raw";
 import writingRaw from "../images/data/writing.svg?raw";
 import { DynamicSVGShape, SvgDataKey } from "../types";
@@ -57,6 +59,7 @@ const RAW_DATA = {
   [NOT_FOUND_SVG_DATA_KEY]: notFoundRaw,
   [NOTES_SVG_DATA_KEY]: notesRaw,
   [SCHROPP_SVG_DATA_KEY]: schroppRaw,
+  [SUBSTACK_SVG_DATA_KEY]: substackRaw,
   [TIL_SVG_DATA_KEY]: tilRaw,
   [WRITING_SVG_DATA_KEY]: writingRaw,
 } as const;
