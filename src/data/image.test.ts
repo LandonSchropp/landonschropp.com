@@ -1,29 +1,28 @@
+import { createContentDirectory, removeContentDirectory } from "../../test/content";
 import { contentFactory, imageFactory } from "../../test/factories";
 import { downloadContentImage, generateImageHash, getImageHref } from "./image";
-import { mkdir, writeFile, rm } from "fs/promises";
-import { tmpdir } from "os";
+import { mkdir, writeFile } from "fs/promises";
 import { join } from "path";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
-const testDir = join(tmpdir(), `image-test-${Date.now()}`);
-
 describe("downloadContentImage", () => {
+  let directory: string;
   let result: Response;
 
   beforeEach(async () => {
-    await mkdir(testDir, { recursive: true });
+    directory = await createContentDirectory();
   });
 
   afterEach(async () => {
-    await rm(testDir, { recursive: true, force: true });
+    await removeContentDirectory(directory);
   });
 
   describe("when the image exists", () => {
     beforeEach(async () => {
-      const imagePath = join(testDir, "test.png");
+      const imagePath = join(directory, "test.png");
       await writeFile(imagePath, "fake image data");
 
-      const content = contentFactory.build({ filePath: join(testDir, "content.md") });
+      const content = contentFactory.build({ filePath: join(directory, "content.md") });
       result = await downloadContentImage(content, "test.png");
     });
 
@@ -49,10 +48,10 @@ describe("downloadContentImage", () => {
     );
 
     beforeEach(async () => {
-      const imagePath = join(testDir, "test.png");
+      const imagePath = join(directory, "test.png");
       await writeFile(imagePath, minimalPng);
 
-      const content = contentFactory.build({ filePath: join(testDir, "content.md") });
+      const content = contentFactory.build({ filePath: join(directory, "content.md") });
       result = await downloadContentImage(content, "test.png");
     });
 
@@ -77,10 +76,10 @@ describe("downloadContentImage", () => {
     );
 
     beforeEach(async () => {
-      const imagePath = join(testDir, "test.jpg");
+      const imagePath = join(directory, "test.jpg");
       await writeFile(imagePath, minimalJpeg);
 
-      const content = contentFactory.build({ filePath: join(testDir, "content.md") });
+      const content = contentFactory.build({ filePath: join(directory, "content.md") });
       result = await downloadContentImage(content, "test.jpg");
     });
 
@@ -99,10 +98,10 @@ describe("downloadContentImage", () => {
     );
 
     beforeEach(async () => {
-      const imagePath = join(testDir, "test.gif");
+      const imagePath = join(directory, "test.gif");
       await writeFile(imagePath, minimalGif);
 
-      const content = contentFactory.build({ filePath: join(testDir, "content.md") });
+      const content = contentFactory.build({ filePath: join(directory, "content.md") });
       result = await downloadContentImage(content, "test.gif");
     });
 
@@ -115,7 +114,7 @@ describe("downloadContentImage", () => {
 
   describe("when the image is in a subdirectory", () => {
     beforeEach(async () => {
-      const subdir = join(testDir, "subdir");
+      const subdir = join(directory, "subdir");
       await mkdir(subdir, { recursive: true });
 
       const imagePath = join(subdir, "test.png");
@@ -133,19 +132,19 @@ describe("downloadContentImage", () => {
 
   describe("when the image does not exist", () => {
     it("throws an error", async () => {
-      const content = contentFactory.build({ filePath: join(testDir, "content.md") });
+      const content = contentFactory.build({ filePath: join(directory, "content.md") });
       await expect(downloadContentImage(content, "nonexistent.png")).rejects.toThrow();
     });
   });
 
   describe("when the image has an unknown extension", () => {
     beforeEach(async () => {
-      const imagePath = join(testDir, "test.unknown");
+      const imagePath = join(directory, "test.unknown");
       await writeFile(imagePath, "fake data");
     });
 
     it("throws an error", async () => {
-      const content = contentFactory.build({ filePath: join(testDir, "content.md") });
+      const content = contentFactory.build({ filePath: join(directory, "content.md") });
       await expect(downloadContentImage(content, "test.unknown")).rejects.toThrow(
         "Could not determine content type for image 'test.unknown'",
       );
@@ -154,19 +153,19 @@ describe("downloadContentImage", () => {
 });
 
 describe("generateImageHash", () => {
-  const hashTestDir = join(tmpdir(), `hash-test-${Date.now()}`);
+  let directory: string;
 
   beforeEach(async () => {
-    await mkdir(hashTestDir, { recursive: true });
+    directory = await createContentDirectory();
   });
 
   afterEach(async () => {
-    await rm(hashTestDir, { recursive: true, force: true });
+    await removeContentDirectory(directory);
   });
 
   describe("when given a valid image file", () => {
     it("returns a 32-character hexadecimal hash", async () => {
-      const imagePath = join(hashTestDir, "test-image.png");
+      const imagePath = join(directory, "test-image.png");
       await writeFile(imagePath, Buffer.from("fake image content"));
 
       const hash = await generateImageHash(imagePath);
@@ -177,7 +176,7 @@ describe("generateImageHash", () => {
 
   describe("when the same file is hashed multiple times", () => {
     it("returns the same hash", async () => {
-      const imagePath = join(hashTestDir, "test-image.png");
+      const imagePath = join(directory, "test-image.png");
       await writeFile(imagePath, Buffer.from("fake image content"));
 
       const hash1 = await generateImageHash(imagePath);
@@ -189,7 +188,7 @@ describe("generateImageHash", () => {
 
   describe("when the file content changes", () => {
     it("returns a different hash", async () => {
-      const imagePath = join(hashTestDir, "test-image.png");
+      const imagePath = join(directory, "test-image.png");
       await writeFile(imagePath, Buffer.from("original content"));
 
       const hash1 = await generateImageHash(imagePath);
@@ -203,8 +202,8 @@ describe("generateImageHash", () => {
 
   describe("when different files have different content", () => {
     it("returns different hashes", async () => {
-      const image1Path = join(hashTestDir, "image1.png");
-      const image2Path = join(hashTestDir, "image2.png");
+      const image1Path = join(directory, "image1.png");
+      const image2Path = join(directory, "image2.png");
 
       await writeFile(image1Path, Buffer.from("content A"));
       await writeFile(image2Path, Buffer.from("content B"));
