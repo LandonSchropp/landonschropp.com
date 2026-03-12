@@ -28,17 +28,17 @@ describe("fetchContents", () => {
     beforeEach(async () => {
       // Create in different order (c, a, b) than expected return (b, c, a)
       await contentFactory.create(
-        { title: "Article C", date: "2024-01-15", slug: "item-c" },
+        { title: "Article C", date: "2024-01-15", status: "Published", slug: "item-c" },
         { transient: { directory } },
       );
 
       await contentFactory.create(
-        { title: "Article A", date: "2024-01-10", slug: "item-a" },
+        { title: "Article A", date: "2024-01-10", status: "Published", slug: "item-a" },
         { transient: { directory } },
       );
 
       await contentFactory.create(
-        { title: "Article B", date: "2024-01-20", slug: "item-b" },
+        { title: "Article B", date: "2024-01-20", status: "Published", slug: "item-b" },
         { transient: { directory } },
       );
     });
@@ -68,7 +68,7 @@ describe("fetchContents", () => {
       );
 
       await contentFactory.create(
-        { title: "Published A", date: "2024-01-10", slug: "published-a" },
+        { title: "Published A", date: "2024-01-10", status: "Published", slug: "published-a" },
         { transient: { directory } },
       );
     });

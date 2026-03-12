@@ -1,53 +1,114 @@
+import { createContentDirectory, removeContentDirectory } from "../../test/content";
+import { articleFactory } from "../../test/factories";
 import {
   fetchArticles,
   fetchArticle,
   fetchArticlesServerFn,
   fetchArticleServerFn,
 } from "./articles";
-import { describe, it, expect, beforeEach } from "vitest";
+import { join } from "path";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+
+let directory: string;
+const originalArticlesPath = process.env.ARTICLES_PATH;
+
+beforeEach(async () => {
+  directory = await createContentDirectory();
+  process.env.ARTICLES_PATH = join(directory, "articles");
+});
+
+afterEach(async () => {
+  process.env.ARTICLES_PATH = originalArticlesPath;
+  await removeContentDirectory(directory);
+});
 
 describe("fetchArticles", () => {
-  it("returns articles sorted by date descending", async () => {
-    const articles = await fetchArticles();
+  describe("when there are published articles", () => {
+    beforeEach(async () => {
+      await articleFactory.create(
+        {
+          title: "Article C",
+          date: "2024-01-15",
+          status: "Published",
+          slug: "article-c",
+          description: "Third",
+        },
+        { transient: { directory } },
+      );
 
-    // Verify we have articles
-    expect(articles.length).toBeGreaterThan(0);
+      await articleFactory.create(
+        {
+          title: "Article A",
+          date: "2024-01-10",
+          status: "Published",
+          slug: "article-a",
+          description: "First",
+        },
+        { transient: { directory } },
+      );
 
-    // Verify all articles are published
-    articles.forEach((article) => {
-      expect(article.status).toBe("Published");
+      await articleFactory.create(
+        {
+          title: "Article B",
+          date: "2024-01-20",
+          status: "Published",
+          slug: "article-b",
+          description: "Second",
+        },
+        { transient: { directory } },
+      );
     });
 
-    // Verify articles are sorted by date in descending order
-    for (let i = 0; i < articles.length - 1; i++) {
-      const currentDate = articles[i].date;
-      const nextDate = articles[i + 1].date;
-      expect(currentDate >= nextDate).toBe(true);
-    }
+    it("returns articles sorted by date descending", async () => {
+      const articles = await fetchArticles();
+
+      expect(articles).toHaveLength(3);
+      expect(articles[0].slug).toBe("article-b");
+      expect(articles[1].slug).toBe("article-c");
+      expect(articles[2].slug).toBe("article-a");
+    });
+
+    it("returns articles with the Published status", async () => {
+      const articles = await fetchArticles();
+      articles.forEach((article) => {
+        expect(article.status).toBe("Published");
+      });
+    });
   });
 });
 
 describe("fetchArticlesServerFn", () => {
+  beforeEach(async () => {
+    await articleFactory.create(
+      { title: "Server Fn Article", slug: "server-fn-article", description: "Test" },
+      { transient: { directory } },
+    );
+  });
+
   it("returns articles", async () => {
     const articles = await fetchArticlesServerFn();
-    expect(articles.length).toBeGreaterThan(0);
+    expect(articles).toHaveLength(1);
   });
 });
 
 describe("fetchArticle", () => {
-  let slug: string;
-
   beforeEach(async () => {
-    slug = (await fetchArticles())[0].slug;
+    await articleFactory.create(
+      { title: "Target Article", slug: "target-article", description: "Found it" },
+      { transient: { directory } },
+    );
+
+    await articleFactory.create(
+      { title: "Other Article", slug: "other-article", description: "Not this one" },
+      { transient: { directory } },
+    );
   });
 
   describe("when an article with the slug exists", () => {
-    it("returns the article with correct slug", async () => {
-      const result = await fetchArticle(slug);
-
-      expect(result.slug).toBe(slug);
-      expect(result.title).not.toEqual("");
-      expect(result.status).toBe("Published");
+    it("returns the article with the correct slug", async () => {
+      const result = await fetchArticle("target-article");
+      expect(result.slug).toBe("target-article");
+      expect(result.title).toBe("Target Article");
     });
   });
 
@@ -61,9 +122,15 @@ describe("fetchArticle", () => {
 });
 
 describe("fetchArticleServerFn", () => {
+  beforeEach(async () => {
+    await articleFactory.create(
+      { title: "Server Fn Article", slug: "server-fn-article", description: "Test" },
+      { transient: { directory } },
+    );
+  });
+
   it("returns the article corresponding to the slug", async () => {
-    const slug = (await fetchArticles())[0].slug;
-    const article = await fetchArticleServerFn({ data: { slug } });
-    expect(article.slug).toBe(slug);
+    const article = await fetchArticleServerFn({ data: { slug: "server-fn-article" } });
+    expect(article.slug).toBe("server-fn-article");
   });
 });
