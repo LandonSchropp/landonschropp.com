@@ -11,14 +11,17 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
 let directory: string;
 const originalArticlesPath = process.env.ARTICLES_PATH;
+const originalArticlesArchivePath = process.env.ARTICLES_ARCHIVE_PATH;
 
 beforeEach(async () => {
   directory = await createContentDirectory();
   process.env.ARTICLES_PATH = join(directory, "articles");
+  process.env.ARTICLES_ARCHIVE_PATH = join(directory, "articles-archive");
 });
 
 afterEach(async () => {
   process.env.ARTICLES_PATH = originalArticlesPath;
+  process.env.ARTICLES_ARCHIVE_PATH = originalArticlesArchivePath;
   await removeContentDirectory(directory);
 });
 
@@ -32,6 +35,7 @@ describe("fetchArticles", () => {
           status: "Published",
           slug: "article-c",
           description: "Third",
+          filePath: "articles/article-c.md",
         },
         { transient: { directory } },
       );
@@ -43,6 +47,7 @@ describe("fetchArticles", () => {
           status: "Published",
           slug: "article-a",
           description: "First",
+          filePath: "articles/article-a.md",
         },
         { transient: { directory } },
       );
@@ -54,6 +59,7 @@ describe("fetchArticles", () => {
           status: "Published",
           slug: "article-b",
           description: "Second",
+          filePath: "articles-archive/article-a.md",
         },
         { transient: { directory } },
       );

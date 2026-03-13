@@ -1,17 +1,22 @@
 import { fetchEnvironmentVariable } from "../env";
 import { parseArticle } from "../schema";
 import { Article } from "../types";
-import { fetchContent, fetchContents } from "./content";
+import { fetchContents } from "./content";
 import { createServerFn } from "@tanstack/react-start";
 import { staticFunctionMiddleware } from "@tanstack/start-static-server-functions";
 import z from "zod";
 
 /**
- * Fetches all articles.
+ * Fetches all articles from both the active and archive directories.
  * @returns An array of articles.
  */
 export async function fetchArticles(): Promise<Article[]> {
-  return (await fetchContents(fetchEnvironmentVariable("ARTICLES_PATH"))).map(parseArticle);
+  const [active, archive] = await Promise.all([
+    fetchContents(fetchEnvironmentVariable("ARTICLES_PATH")),
+    fetchContents(fetchEnvironmentVariable("ARTICLES_ARCHIVE_PATH")),
+  ]);
+
+  return [...active, ...archive].toSorted((a, b) => b.date.localeCompare(a.date)).map(parseArticle);
 }
 
 /**
@@ -24,12 +29,19 @@ export const fetchArticlesServerFn = createServerFn({ method: "GET" })
   .handler(() => fetchArticles());
 
 /**
- * Fetches a single article.
+ * Fetches a single article from either the active or archive directory.
  * @param slug The slug of the article.
  * @returns The article with the provided slug.
  */
 export async function fetchArticle(slug: string): Promise<Article> {
-  return parseArticle(await fetchContent(fetchEnvironmentVariable("ARTICLES_PATH"), slug));
+  const articles = await fetchArticles();
+  const article = articles.find((article) => article.slug === slug);
+
+  if (!article) {
+    throw new Error(`Content with slug '${slug}' not found.`);
+  }
+
+  return article;
 }
 
 /**
