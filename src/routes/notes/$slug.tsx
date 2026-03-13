@@ -2,7 +2,7 @@ import { NoteEmbed } from "../../components/notes/note-embed";
 import { NoteHeader } from "../../components/notes/note-header";
 import { NAME } from "../../constants";
 import { fetchNoteServerFn } from "../../data/notes";
-import { stripHtmlTags } from "../../utilities/markdown";
+import { stripHtmlTags } from "../../utilities/html";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/notes/$slug")({

@@ -3,7 +3,7 @@ import { Header } from "../../components/content/header";
 import { Tag } from "../../components/content/tag";
 import { NAME } from "../../constants";
 import { fetchArticleServerFn } from "../../data/articles";
-import { stripHtmlTags } from "../../utilities/markdown";
+import { stripHtmlTags } from "../../utilities/html";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/articles/$slug")({

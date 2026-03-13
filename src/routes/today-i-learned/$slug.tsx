@@ -1,7 +1,7 @@
 import { TodayILearnedHeader } from "../../components/today-i-learned/today-i-learned-header";
 import { NAME } from "../../constants";
 import { fetchTodayILearnedServerFn } from "../../data/today-i-learned";
-import { stripHtmlTags } from "../../utilities/markdown";
+import { stripHtmlTags } from "../../utilities/html";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/today-i-learned/$slug")({
