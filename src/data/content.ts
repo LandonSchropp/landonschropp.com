@@ -12,7 +12,7 @@ import { createServerOnlyFn } from "@tanstack/react-start";
 import { glob, readFile } from "fs/promises";
 import { basename, join } from "path";
 
-const isDevelopment = process.env.NODE_ENV === "development";
+const isDevelopment = import.meta.env?.MODE === "development";
 
 /**
  * Fetches the content of a file and parses it.

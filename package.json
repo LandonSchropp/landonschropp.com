@@ -9,7 +9,7 @@
     "@LandonSchropp:registry": "https://npm.pkg.github.com"
   },
   "scripts": {
-    "build": "vite build",
+    "build": "vite build --mode development",
     "build:production": "./bin/build-production",
     "check-types": "tsc --noEmit",
     "dev": "vite dev",
