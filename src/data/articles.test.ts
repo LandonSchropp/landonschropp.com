@@ -10,18 +10,14 @@ import { join } from "path";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
 let directory: string;
-const originalArticlesPath = process.env.ARTICLES_PATH;
-const originalArticlesArchivePath = process.env.ARTICLES_ARCHIVE_PATH;
 
 beforeEach(async () => {
   directory = await createContentDirectory();
-  process.env.ARTICLES_PATH = join(directory, "articles");
-  process.env.ARTICLES_ARCHIVE_PATH = join(directory, "articles-archive");
+  vi.stubEnv("ARTICLES_PATH", join(directory, "articles"));
+  vi.stubEnv("ARTICLES_ARCHIVE_PATH", join(directory, "articles-archive"));
 });
 
 afterEach(async () => {
-  process.env.ARTICLES_PATH = originalArticlesPath;
-  process.env.ARTICLES_ARCHIVE_PATH = originalArticlesArchivePath;
   await removeContentDirectory(directory);
 });
 

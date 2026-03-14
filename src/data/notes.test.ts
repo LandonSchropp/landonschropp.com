@@ -5,15 +5,13 @@ import { join } from "path";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
 let directory: string;
-const originalNotesPath = process.env.NOTES_PATH;
 
 beforeEach(async () => {
   directory = await createContentDirectory();
-  process.env.NOTES_PATH = join(directory, "notes");
+  vi.stubEnv("NOTES_PATH", join(directory, "notes"));
 });
 
 afterEach(async () => {
-  process.env.NOTES_PATH = originalNotesPath;
   await removeContentDirectory(directory);
 });
 

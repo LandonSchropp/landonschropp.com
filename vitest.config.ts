@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [react(), tsconfigPaths(), bookCovers()] as any,
   test: {
     clearMocks: true,
+    unstubEnvs: true,
     environment: "jsdom",
     globals: true,
     setupFiles: ["./test/create-server-fn.ts"],
