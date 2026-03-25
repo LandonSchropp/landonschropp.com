@@ -9,3 +9,6 @@ tsconfig.tsbuildinfo
 # seem strictly necessary, and I don't like the idea of committing build artifacts to source control
 # unnecessarily.
 /src/routeTree.gen.ts
+
+# Local Netlify folder
+.netlify
