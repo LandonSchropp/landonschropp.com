@@ -9,7 +9,7 @@ type ArticleSummaryProps = {
 };
 
 export function ArticleSummary({ article, index, count }: ArticleSummaryProps) {
-  const external = "url" in article && article.url !== undefined;
+  const external = typeof article.url === "string";
   const href = external ? article.url : `/articles/${article.slug}`;
 
   const linkIcon = external ? (

@@ -20,6 +20,14 @@ describe("parseArticle", () => {
     });
   });
 
+  describe("when given an internal article with null publisher and url", () => {
+    it("returns the parsed article", () => {
+      const input = articleFactory.internal().build({ publisher: null, url: null });
+      const result = parseArticle(input);
+      expect(result).toEqual(input);
+    });
+  });
+
   describe("when given an internal article with a url", () => {
     it("throws SchemaParseError", () => {
       const input = articleFactory.internal().build({ url: "https://example.com" });

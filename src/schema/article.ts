@@ -10,8 +10,8 @@ const ExternalArticleSchema = ContentSchema.extend({
 
 const InternalArticleSchema = ContentSchema.extend({
   description: z.string(),
-  publisher: z.never().optional(),
-  url: z.never().optional(),
+  publisher: z.null().optional(),
+  url: z.null().optional(),
 });
 
 export const ArticleSchema = z.union([ExternalArticleSchema, InternalArticleSchema]);
