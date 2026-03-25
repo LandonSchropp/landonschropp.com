@@ -13,7 +13,7 @@ import z from "zod";
 export async function fetchArticles(): Promise<Article[]> {
   const [active, archive] = await Promise.all([
     fetchContents(fetchEnvironmentVariable("PRISMATIC_PATH")),
-    fetchContents(fetchEnvironmentVariable("ARTICLES_ARCHIVE_PATH")),
+    fetchContents(fetchEnvironmentVariable("ARTICLES_PATH")),
   ]);
 
   return [...active, ...archive].toSorted((a, b) => b.date.localeCompare(a.date)).map(parseArticle);

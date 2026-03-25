@@ -18,7 +18,7 @@ export default function markdownImages(): Plugin {
     // config loading. We just need the images, so we can work with raw content.
     const [articles, archivedArticles, notes, tils] = await Promise.all([
       fetchContents(fetchEnvironmentVariable("PRISMATIC_PATH")),
-      fetchContents(fetchEnvironmentVariable("ARTICLES_ARCHIVE_PATH")),
+      fetchContents(fetchEnvironmentVariable("ARTICLES_PATH")),
       fetchContents(fetchEnvironmentVariable("NOTES_PATH")),
       fetchContents(fetchEnvironmentVariable("TODAY_I_LEARNED_PATH")),
     ]);
@@ -55,7 +55,7 @@ export default function markdownImages(): Plugin {
       server.watcher.add(
         [
           fetchEnvironmentVariable("PRISMATIC_PATH"),
-          fetchEnvironmentVariable("ARTICLES_ARCHIVE_PATH"),
+          fetchEnvironmentVariable("ARTICLES_PATH"),
           fetchEnvironmentVariable("NOTES_PATH"),
           fetchEnvironmentVariable("TODAY_I_LEARNED_PATH"),
         ].map((path) => join(path, "**", "*")),
