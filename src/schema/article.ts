@@ -2,18 +2,19 @@ import { ContentSchema } from "./content";
 import { parseSchema } from "./parse";
 import { z } from "zod";
 
-export const ArticleSchema = z.union([
-  ContentSchema.extend({
-    description: z.string(),
-    content: z.string().min(1),
-  }),
-  ContentSchema.extend({
-    description: z.string(),
-    publisher: z.string(),
-    url: z.url(),
-    content: z.string().max(0),
-  }),
-]);
+const ExternalArticleSchema = ContentSchema.extend({
+  description: z.string(),
+  publisher: z.string(),
+  url: z.url(),
+});
+
+const InternalArticleSchema = ContentSchema.extend({
+  description: z.string(),
+  publisher: z.never().optional(),
+  url: z.never().optional(),
+});
+
+export const ArticleSchema = z.union([ExternalArticleSchema, InternalArticleSchema]);
 
 /**
  * Parses the provided value as a note.

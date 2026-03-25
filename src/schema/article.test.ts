@@ -4,11 +4,26 @@ import { SchemaParseError } from "./parse";
 import { describe, it, expect } from "vitest";
 
 describe("parseArticle", () => {
-  describe("when given valid input", () => {
+  describe("when given a valid internal article", () => {
     it("returns the parsed article", () => {
       const input = articleFactory.internal().build();
       const result = parseArticle(input);
       expect(result).toEqual(input);
+    });
+  });
+
+  describe("when given a valid external article with content", () => {
+    it("returns the parsed article with url and publisher", () => {
+      const input = articleFactory.external().build();
+      const result = parseArticle(input);
+      expect(result).toEqual(input);
+    });
+  });
+
+  describe("when given an internal article with a url", () => {
+    it("throws SchemaParseError", () => {
+      const input = articleFactory.internal().build({ url: "https://example.com" });
+      expect(() => parseArticle(input)).toThrow(SchemaParseError);
     });
   });
 
