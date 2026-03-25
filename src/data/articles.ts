@@ -12,7 +12,7 @@ import z from "zod";
  */
 export async function fetchArticles(): Promise<Article[]> {
   const [active, archive] = await Promise.all([
-    fetchContents(fetchEnvironmentVariable("ARTICLES_PATH")),
+    fetchContents(fetchEnvironmentVariable("PRISMATIC_PATH")),
     fetchContents(fetchEnvironmentVariable("ARTICLES_ARCHIVE_PATH")),
   ]);
 

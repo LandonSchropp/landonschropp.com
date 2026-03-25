@@ -13,7 +13,7 @@ let directory: string;
 
 beforeEach(async () => {
   directory = await createContentDirectory();
-  vi.stubEnv("ARTICLES_PATH", join(directory, "articles"));
+  vi.stubEnv("PRISMATIC_PATH", join(directory, "articles"));
   vi.stubEnv("ARTICLES_ARCHIVE_PATH", join(directory, "articles-archive"));
 });
 

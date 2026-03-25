@@ -10,7 +10,7 @@ This project requires specific environment variables to locate content files dur
 
 - `NOTES_PATH`: The directory containing learning notes.
 - `TODAY_I_LEARNED_PATH`: The directory containing Today I Learned (TIL) notes.
-- `ARTICLES_PATH`: The directory containing articles.
+- `PRISMATIC_PATH`: The directory containing Prismatic articles.
 - `GITHUB_TOKEN`: GitHub personal access token for production builds.
 
 ## Development

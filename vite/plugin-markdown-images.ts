@@ -17,7 +17,7 @@ export default function markdownImages(): Plugin {
     // because those functions depend on virtual modules, which creates issues during
     // config loading. We just need the images, so we can work with raw content.
     const [articles, archivedArticles, notes, tils] = await Promise.all([
-      fetchContents(fetchEnvironmentVariable("ARTICLES_PATH")),
+      fetchContents(fetchEnvironmentVariable("PRISMATIC_PATH")),
       fetchContents(fetchEnvironmentVariable("ARTICLES_ARCHIVE_PATH")),
       fetchContents(fetchEnvironmentVariable("NOTES_PATH")),
       fetchContents(fetchEnvironmentVariable("TODAY_I_LEARNED_PATH")),
@@ -54,7 +54,7 @@ export default function markdownImages(): Plugin {
       // Watch content directories for changes
       server.watcher.add(
         [
-          fetchEnvironmentVariable("ARTICLES_PATH"),
+          fetchEnvironmentVariable("PRISMATIC_PATH"),
           fetchEnvironmentVariable("ARTICLES_ARCHIVE_PATH"),
           fetchEnvironmentVariable("NOTES_PATH"),
           fetchEnvironmentVariable("TODAY_I_LEARNED_PATH"),
